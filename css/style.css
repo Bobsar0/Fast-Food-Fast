@@ -1,16 +1,32 @@
 body{
-    width: 100%;
+    /* width: 100%; */
+    height:100%;
     font: 15px/1.5 Arial, Helvetica, sans-serif;
     padding: 0;
     margin:0;
-    background-color: #f4f4f4;
+    position:relative;
+    background-color: white;
 }
+/*  #c #body {
+    padding:10px;
+    padding-bottom:60px;   /* Height of the footer */
+
+ /* #footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+    /* background:#6cf; */
 
 .container{
     width: 90%;
+    min-height:100%;
     margin: auto;
+    /* position:relative; */
+
     overflow: hidden;
 }
+
 ul{
     margin: 0;
     padding: 0;
@@ -18,12 +34,14 @@ ul{
 
 /* header*/
 header{
+    padding-top: 30px;
+}
+header#index{
     min-height: 1000px;
-    width: 100%;
     background:url('../img/background.png') no-repeat center;
     text-align: center;
     color: #fcfcfc;
-    padding-top: 30px;
+    padding-bottom: 60px;
 }
 header a{
     color: #212121;
@@ -67,9 +85,11 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
 
 /* Footer */
 footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height:60px;   /* Height of the footer */
     padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 0px;
     color: #ffffff;
     background-color: #212121;
     text-align: center;
