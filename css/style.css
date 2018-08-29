@@ -1,0 +1,78 @@
+body{
+    width: 100%;
+    font: 15px/1.5 Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin:0;
+    background-color: #f4f4f4;
+}
+
+.container{
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+ul{
+    margin: 0;
+    padding: 0;
+}
+
+/* header*/
+header{
+    min-height: 1000px;
+    width: 100%;
+    background:url('../img/background.png') no-repeat center;
+    text-align: center;
+    color: #fcfcfc;
+    padding-top: 30px;
+}
+header a{
+    color: #212121;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 16px;
+}
+header li{
+    /* float: right; */
+    display: inline;
+    padding: 0 20px 0 20px;
+}
+header #title{
+    float: left;
+}
+header #title h1{
+    margin: 0;
+}
+header #title h1 a{
+    font-size: 30px;
+    text-transform: none;
+}
+header nav{
+    float: right;
+    margin-top: 10px;
+}
+
+header .current a{
+    color: goldenrod;
+    font-weight: bold;
+}
+
+header a:hover{  /*Changes appearance of menu links when the mouse is moved over the element */
+    color: goldenrod;
+    font-weight: bold;
+}
+.highlight{
+    color: goldenrod;
+}
+
+
+/* Footer */
+footer{
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    color: #ffffff;
+    background-color: #212121;
+    text-align: center;
+    text-shadow: #353637;
+    font-size: 20px
+}
