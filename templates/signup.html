@@ -7,7 +7,7 @@
 		<meta name="author" content="Steve Onyeneke">
 		<title>Fast-Food-Fast | SignUp</title>
 		<link rel="stylesheet" href="../css/style.css">
-		<link rel="stylesheet" href="../css/signup.css">
+		<link rel="stylesheet" href="../css/forms.css">
 	</head>
 	<body>
 		<div class="container">
@@ -26,7 +26,10 @@
 				</nav>
 			</header>
 		</div>
-		<div id="form">
+		<h1>Create an Account</h1>
+		<h3>New Customers</h3>
+		<p>	By creating an account with our restaurant, you will be able to move through the checkout process faster, view and track your orders in your account and more.</p>
+		<div id="signupForm">
 			<form>
 				<label for="userName">Username</label>
 					<input id="userName" name="userName" placeholder="Enter a username" autocomplete="off" autofocus>
@@ -34,8 +37,9 @@
 					<input id="email" name="email" type="email" placeholder="Enter your email address">
 				<label for="password">Password</label>
 					<input id="password" name="password" type="password" placeholder="Create your password">
+				<label for="password2">Confirm Password</label>
 					<input id="password2" name="password2" type="password" placeholder="Retype your password">
-				<button>Create Account</button>
+				<button id="signupBtn">Create Account</button>
 			</form>
 		</div>
 		<div>
@@ -44,4 +48,5 @@
 			</footer>
 		</div>
 	</body>
+	<script src="../js/signup.js"></script>
 </html>
