@@ -25,11 +25,12 @@ header{
     padding-top: 30px;
 }
 header#index{
-    min-height: 1000px;
-    background:url('../img/background.png') no-repeat center;
+    min-height: 800px;
+    background:url('../imgs/svg1.png') no-repeat center;
     text-align: center;
     color: #fcfcfc;
     padding-bottom: 60px;
+    border: none;
 }
 header a{
     color: #212121;
