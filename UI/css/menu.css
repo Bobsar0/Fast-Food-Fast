@@ -1,6 +1,6 @@
 
 .menu h1{
-    padding: 10px;
+    padding: 5px;
     text-shadow: 1px 1px 1px goldenrod;
 }
 .menu h3{
@@ -14,7 +14,6 @@
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-
   /*Responsive Image Gallery */
 
 div.gallery {
@@ -27,7 +26,7 @@ div.gallery:hover {
 
 div.gallery img {
     width: 95%;
-    height: 200px;
+    height: 190px;
 }
 
 div.desc {
@@ -37,6 +36,32 @@ div.desc {
 
 * {
     box-sizing: border-box;
+}
+
+.checked {
+    color: orange;
+}
+
+.price {
+    color: grey;
+    font-size: 16px;
+  }
+
+.cartBtn{
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: goldenrod;
+    background-color: #212121;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+.cartBtn:hover{
+    cursor: pointer;
+    background-color: #2ec371;
+    color:white;
 }
 
 .responsive {
