@@ -5,15 +5,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="A food delivery service app for a restaurant - Andela Developer Challenge">
 		<meta name="author" content="Steve Onyeneke">
-		<title>Fast-Food-Fast | SignUp</title>
-		<link rel="stylesheet" href="../css/style.css">
+		<title>Fast-Food-Fast | Login</title>
+		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="../css/forms.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
 		<div class="container">
 			<header> 
 				<div id="title">
-					<h1><a href="index.html"><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+					<h1><a href="index.html"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 				</div>
 				<nav>
 					<ul>
@@ -26,17 +27,20 @@
 				</nav>
 			</header>
 		</div>
-        <h1>Login</h1>
+		<h4>If you have an account with us, please log in below. Otherwise click on <a href="./signup.html">Sign Up</a> to register an account with us.</h4><br>
+
         <div id="loginForm">
 			<form>
+				<i class="fa fa-user fa-2x" aria-hidden="true"></i>
 				<label for="email">Email</label>
 					<input class="userForm" id="email" name="email" type="email" placeholder="Enter your email address">
 				<label for="password">Password</label>
 					<input class="userForm" id="password" name="password" type="password" placeholder="Enter your password">
                     <div><input type="checkbox" id="checkbox" onclick="togglePassword()">Show Password</div>
                 <button id="loginBtn">Login</button>
-            </form>
-            <h4>If you have an account with us, please log in above. Otherwise click on <a href="./signup.html">Sign Up</a> to register an account with us.</h4>
+			</form><br>
+			<h4>Having difficulty signing in?<a href="./contact.html">Contact Us</a></h4>
+
 		</div>
 		<div>
 			<footer>
