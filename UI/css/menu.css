@@ -14,6 +14,11 @@
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
+#hist{
+    margin: 5px;
+    text-align: left;
+    font: 15px/1.5 Arial, Helvetica, sans-serif;
+}
   /*Responsive Image Gallery */
 
 div.gallery {
@@ -105,13 +110,18 @@ th, td {
     color : white;
     cursor : pointer;
     border: 1px solid black;
-    border-radius: 5px
+    border-radius: 5px;
+    opacity: 0.8;
 }
 
 #cancelOdr{
     background: red;
 }
-
+#submitOdr:hover,
+#cancelOdr:hover{
+    opacity: 1;
+    font: bolder;
+}
 /*****MODAL*****/
 .modal {
     display: none; /* Hidden by default */
@@ -158,3 +168,4 @@ th, td {
     cursor: pointer;
     color: black;
 } 
+
