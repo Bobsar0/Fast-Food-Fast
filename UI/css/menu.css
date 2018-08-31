@@ -10,7 +10,7 @@
 .menu h2{
     padding: 10px;
     color: goldenrod;
-    text-shadow: 1px 1px 1px #000000;
+    text-shadow: 1.5px 1.5px 2px #000000;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -111,3 +111,49 @@ th, td {
 #cancelOdr{
     background: red;
 }
+
+/*****MODAL*****/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+  }
+  /* Modal Content/Box */
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 80%;
+    border-radius: 0.5rem;
+    border: 1px solid #888;
+    background-color: #fefefe;
+}
+
+#cartInfo:hover {
+    cursor: pointer;
+    color: goldenrod;
+}
+
+  
+  /* Close (x) Button */
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+}
+  
+.close:hover,
+.close:focus {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+} 
