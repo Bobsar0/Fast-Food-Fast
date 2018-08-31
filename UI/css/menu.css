@@ -99,3 +99,15 @@ th, td {
     text-align: center;
     border-bottom: 1px solid #212121;
 }
+
+#submitOdr, #cancelOdr{
+    background-color : green;
+    color : white;
+    cursor : pointer;
+    border: 1px solid black;
+    border-radius: 5px
+}
+
+#cancelOdr{
+    background: red;
+}

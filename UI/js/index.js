@@ -1,52 +1,42 @@
-/**Add to cart**/
+/****ADD TO CART IMPLEMENTATION****/
 let cartBtns = document.getElementsByClassName("cartBtn");
 const table = document.getElementById("table")
 
-Array.prototype.forEach.call(cartBtns, (cartBtn) => {
+//Listen for a click event on each 'Add to Cart' button append order information to shopping cart table (modal)
+Array.prototype.forEach.call(cartBtns, cartBtn=> {
     cartBtn.addEventListener('click', () => {
         let btnID = cartBtn.id;
-        const name = document.getElementById(`item${btnID[btnID.length -1 ]}`).innerHTML; //the last digit in the id corresponds to the last digit  in btnID
-        const price = document.getElementById(`price${btnID[btnID.length -1 ]}`).innerHTML;
+        const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML; //the last 2-digits in the id corresponds to the last digit  in btnID
+        const price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
+        alert(`${name} successfully added to cart`) //alert user of successful cart addition
+
+        let tr = document.createElement('TR'); //create a tablerow node
 
         //Create contents for the table data cells in each row
         const cell1 = document.createTextNode(name); 
         const cell2 = document.createTextNode(price);
 
-        let tr = document.createElement('TR'); //create a tablerow
-        let td1 = document.createElement('TD'); //create table data 
-        let td2 = document.createElement('TD'); //create table data 
-        td1.appendChild(cell1);
-        td2.appendChild(cell2);
-
-        let submitBtn = document.createElement("BUTTON");
-        submitBtn.id = "submit"
-        submitBtn.style.background = "green"
-        submitBtn.style.color= "white"
-
+        //Create a submit order for review button
+        let submitBtn = document.createElement("BUTTON"); //
+        submitBtn.id = "submitOdr"
         const submit = document.createTextNode("Submit Order");
         submitBtn.appendChild(submit);
-        let td3 = document.createElement('TD'); //create table data 
-        td3.appendChild(submitBtn)
 
+        //Create a cancel order button
         let cancelBtn = document.createElement("BUTTON");
-        cancelBtn.id = "cancel"
-        cancelBtn.style.background = "red"
-        cancelBtn.style.color= "white"
+        cancelBtn.id = "cancelOdr"
         const cancel = document.createTextNode("Cancel Order");
         cancelBtn.appendChild(cancel);
-        let td4 = document.createElement('TD'); //create table data 
-        td4.appendChild(cancelBtn)
 
-        let td5 = document.createElement('TD'); //create table data 
-        td5.appendChild(document.createTextNode("Anonymous"))//User is anonymous till backend functionality is implemented
+        const user = document.createTextNode("Anonymous")//User is anonymous till backend functionality is implemented
 
-        tr.appendChild(td5);
+        const cells = [user, cell1, cell2, submitBtn, cancelBtn]
 
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        tr.appendChild(td4); 
-
-        table.appendChild(tr);
+        cells.forEach(cell => { //append each cell to td then to tr
+            let td = document.createElement('TD'); //create table data 
+            td.appendChild(cell)
+            tr.appendChild(td)
+        })       
+        table.appendChild(tr); //append to table
     });
 });
