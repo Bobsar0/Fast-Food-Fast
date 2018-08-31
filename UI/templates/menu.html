@@ -18,7 +18,8 @@
                   <li class="current"><a href="./menu.html">Menu</a></li><!--Page where users can order food-->
                   <li><a href="./login.html">Login</a></li>
                   <li><a href="./signup.html">Signup</a></li>
-              </ul>
+                  <li><i class="fa fa-shopping-cart" id="cartInfo"></i></li>
+               </ul>
           </nav>
       </div>
  	</header>
@@ -26,7 +27,8 @@
 	<div class="menu">
 		<h1><i>What's on the Menu?</i></h1>
 		<h3>Please select from our wide tasty variety of meals, snacks and drinks and add your choices to cart.</h3>
-	</div>		
+    <p><i>Click the shopping cart icon <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
+  </div>		
 	<section class="menu" id="meals">
 		<h2>MEALS</h2>
 
@@ -34,15 +36,15 @@
 			<div class="gallery">
           <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain">
           <div class="desc">
-            <h1>Ofada Rice & Dodo</h1>
-            <p class="price">NGN 600.00</p>
+            <h1 id="item1">Rice and Dodo</h1>
+            <p class="price" id="price1">NGN 600.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn1">Add to Cart</button>
         </div>
 			</div>
 		</div>      
@@ -51,15 +53,15 @@
 			<div class="gallery">
           <img src="../imgs/meals/chicken.jpg" alt="chicken">
           <div class="desc">
-            <h1>Chicken</h1>
-            <p class="price">NGN 1000.00</p>
+            <h1 id="item2">Chicken</h1>
+            <p class="price" id="price2">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn2">Add to Cart</button>
         </div>
       </div>
 		</div> 
@@ -68,15 +70,15 @@
 			<div class="gallery">
           <img src="../imgs/meals/steak2.jpg" alt="steak">
           <div class="desc">
-            <h1>Steak dish</h1>
-            <p class="price">NGN 1000.00</p>
+            <h1 id="item3">Steak dish</h1>
+            <p class="price" id="price3">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn3">Add to Cart</button>
         </div>
     	</div>
     </div> 
@@ -85,22 +87,22 @@
 			<div class="gallery">
           <img src="../imgs/meals/moinmoin.jpg" alt="moin-moin">
           <div class="desc">
-            <h1>Moin-moin delicacy</h1>
-            <p class="price">NGN 400.00</p>
+            <h1 id="item4">Moin-moin deli</h1>
+            <p class="price" id="price4">NGN 400.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn4">Add to Cart</button>
         </div>
       </div>
 		</div> 
 		
 		<div class="clearfix"></div>
 	</section>
-    <!-- ----SNACKS --------->
+  <!-- SNACKS -->
   <section class="menu" id="meals">
     <h2>SNACKS</h2>
 
@@ -108,15 +110,15 @@
 			<div class="gallery">
           <img src="../imgs/snacks/burger.jpg" alt="burger">
           <div class="desc">
-            <h1>CheeseBurger</h1>
-            <p class="price">NGN 500.00</p>
+            <h1 id="item5">CheeseBurger</h1>
+            <p class="price" id="price5">NGN 500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn5">Add to Cart</button>
         </div>
       </div>
     </div>  
@@ -125,15 +127,15 @@
 			<div class="gallery">
           <img src="../imgs/snacks/meatpie.jpg" alt="meatpie">
           <div class="desc">
-            <h1>Meatpie</h1>
-            <p class="price">NGN 350.00</p>
+            <h1 id="item6">Meatpie</h1>
+            <p class="price" id="price6">NGN 350.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn6">Add to Cart</button>
         </div>
       </div>
     </div> 
@@ -142,71 +144,39 @@
 			<div class="gallery">
           <img src="../imgs/snacks/dougnut1.jpg" alt="doughnut">
           <div class="desc">
-            <h1>Doughnut</h1>
-            <p class="price">NGN 100.00</p>
+            <h1 id="item7">Doughnut</h1>
+            <p class="price" id="price7">NGN 100.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn7">Add to Cart</button>
         </div>		
       </div>
 		</div> 
-
-    <div class="responsive">
-			<div class="gallery">
-          <img src="../imgs/snacks/piehumus.jpg" alt="pie">
-          <div class="desc">
-            <h1>Loaf with Humus</h1>
-            <p class="price">NGN 500.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <button class="cartBtn">Add to Cart</button>
-        </div>			</div>
-		</div> 
-                
+     
     <div class="responsive">
 			<div class="gallery">
           <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg">
           <div class="desc">
-            <h1>Scotch Eggs</h1>
-            <p class="price">NGN 150.00</p>
+            <h1 id="item8">Scotch Eggs</h1>
+            <p class="price" id="price8">NGN 150.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn8">Add to Cart</button>
         </div>			
       </div>
     </div> 
     
-    <div class="responsive">
-			<div class="gallery">
-          <img src="../imgs/snacks/pie3.jpg" alt="mince_pie">
-          <div class="desc">
-            <h1>Minced Pie</h1>
-            <p class="price">NGN 1000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <button class="cartBtn">Add to Cart</button>
-        </div>
-      </div>
-		</div> 
     <div class="clearfix"></div>
 
-  <!-- ----DRINKS --------->
+  <!--DRINKS-->
   <section class="menu" id="drinks">
     <h2>DRINKS</h2>
 
@@ -214,15 +184,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse">
           <div class="desc">
-            <h1>Chocolate Mousse</h1>
-            <p class="price">NGN 1000.00</p>
+            <h1 id="item9">Chocolate Mousse</h1>
+            <p class="price" id="price9">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn9">Add to Cart</button>
         </div>			</div>
 		</div> 
       
@@ -230,15 +200,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/fruitjuice.jpg" alt="juice">
           <div class="desc">
-            <h1>FruitJuice | Yoghurt</h1>
-            <p class="price">NGN 350.00 | NGN 500.00</p>
+            <h1 id="item10">FruitJuice</h1>
+            <p class="price" id="price10">NGN 500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn10">Add to Cart</button>
         </div>			
       </div>
     </div> 
@@ -247,15 +217,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/cocktailspecial.jpg" alt="cocktailspecial">
           <div class="desc">
-            <h1>Cocktails</h1>
-            <p class="price">NGN 1200.00</p>
+            <h1 id="item11">Cocktails</h1>
+            <p class="price" id="price11">NGN 1200.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
+              <span class="fa fa-star checked"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn11">Add to Cart</button>
         </div>			
       </div>
 		</div> 
@@ -264,15 +234,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks">
           <div class="desc">
-            <h1>Soft drinks</h1>
-            <p class="price">NGN 150.00</p>
+            <h1 id="item12">Soft drinks</h1>
+            <p class="price" id="price12">NGN 150.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn12">Add to Cart</button>
         </div>			
       </div>
 		</div> 
@@ -281,15 +251,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/beer.jpg" alt="beer">
           <div class="desc">
-            <h1>Beer</h1>
-            <p class="price">NGN 500.00</p>
+            <h1 id="item13">Beer</h1>
+            <p class="price" id="price13">NGN 500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn13">Add to Cart</button>
         </div>			
       </div>
     </div> 
@@ -298,15 +268,15 @@
 			<div class="gallery">
           <img src="../imgs/drinks/bacardi.jpg" alt="vodka">
           <div class="desc">
-            <h1>Spirit</h1>
-            <p class="price">NGN 4000.00</p>
+            <h1 id="item14">Spirit</h1>
+            <p class="price" id="price14">NGN 4000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn14">Add to Cart</button>
         </div>			
       </div>
     </div> 
@@ -314,7 +284,7 @@
     <div class="clearfix"></div>
   </section>
 
- <!-- ----COMBO/SPeCIALS --------->
+ <!--COMBO/SPECIALS-->
   <section class="menu" id="combo">
   <h2>COMBO/SPECIALS</h2>
 
@@ -322,15 +292,15 @@
       <div class="gallery">
           <img src="../imgs/combo/delicacy.jpg" alt="paella">
           <div class="desc">
-            <h1>Special Rice & Vegetables</h1>
-            <p class="price">NGN 1500.00</p>
+            <h1 id="item15">Special Rice and Vegetables</h1>
+            <p class="price" id="price15">NGN 1500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn15">Add to Cart</button>
         </div>
       </div>
     </div> 
@@ -339,15 +309,15 @@
       <div class="gallery">
           <img src="../imgs/combo/burger-fries-drink.png" alt="burgerfrieschickendrink">
           <div class="desc">
-            <h1>Burger, Fries & Drink combo</h1>
-            <p class="price">NGN 2000.00</p>
+            <h1 id="item16">Burger, Fries, Drink combo</h1>
+            <p class="price" id="price16">NGN 2000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn16">Add to Cart</button>
         </div>
       </div> 
     </div>
@@ -356,15 +326,15 @@
       <div class="gallery">
           <img src="../imgs/combo/chicken3.jpg" alt="wholechicken">
           <div class="desc">
-            <h1>Paella Rice & Roasted Whole Chicken</h1>
-            <p class="price">NGN 5000.00</p>
+            <h1 id="item17">Paella with Roasted Whole Chicken</h1>
+            <p class="price" id="price17">NGN 5000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn17">Add to Cart</button>
         </div>      
       </div>
     </div> 
@@ -373,18 +343,38 @@
       <div class="gallery">
           <img src="../imgs/combo/snail.jpg" alt="peppered-snail">
           <div class="desc">
-            <h1>Peppered Fried Snail</h1>
-            <p class="price">NGN 1000.00</p>
+            <h1 id="product18">Peppered Fried Snail</h1>
+            <p class="price" id="price18">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
-            <button class="cartBtn">Add to Cart</button>
+            <button class="cartBtn" id="btn18">Add to Cart</button>
         </div>      
       </div>
     </div> 
   </section> 
+    <!-- Modal -->
+    <div id="modalDiv" class="modal">
+      <!-- Modal content -->
+      <div class="modalContent">
+        <span class="close">&times;</span>
+        <h1>SHOPPING CART</h1>
+        <table id="table">
+          <thead>
+          <tr>
+            <th>User</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th colspan="2">Action</th>
+          </tr>
+          </thead>
+          </table>
+        <div id="orders"></div>
+      </div>
+    </div>
 </body>
+<script src="../js/index.js"></script>
 </html>
