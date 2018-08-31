@@ -148,6 +148,11 @@ img {
 @media only screen and (max-width: 500px) {
   .text {font-size: 18px}
 }
+.fa-1x{
+    border: 1px solid goldenrod;
+    border-radius: 100%;
+    padding: 5px;
+}
 
 .fa-4x {
     color: #212121;
@@ -186,11 +191,11 @@ footer{
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px;   /* Height of the footer */
-    padding: 15px;
+    padding: 5px;
+    margin-top: 20px;
     color: #ffffff;
     background-color: #212121;
     text-align: center;
     text-shadow: #353637;
-    font-size: 18px
+    font-size: 15px
 }

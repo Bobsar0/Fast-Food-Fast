@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="A food delivery service app for a restaurant - Andela Developer Challenge">
+		<meta name="author" content="Steve Onyeneke">
+		<title>Fast-Food-Fast | Admin</title>
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/menu.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><body>
+	</head>
+	<body style="background:whitesmoke;">
+			<header> 
+					<div class="container">
+							<div id="title">
+						<h1><a href="./index.html"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+							</div>
+							<nav>
+									<ul>
+											<li><a href="./index.html">Home</a></li>
+											<li><a href="./menu.html">Menu</a></li><!--Page where users can order food-->
+											<li><a href="#">Logout</a></li>
+											<li class="current"><i class="fa fa-user fa-2x"></i><a href="#">Admin</a></li><!--Admin Page-->
+											<li><i class="fa fa-shopping-cart" id="cartInfo">Cart</i></li>
+									 </ul>
+							</nav>
+					</div>
+			 </header>
+		<section class="main">
+			<div class="container">
+				<h2>APPROVE/REJECT USER ORDER</h2>
+					<div id="admin">
+						<table>
+							<thead>
+								<tr>
+									<th>User</th>
+									<th>Product</th>
+									<th>Price</th>
+									<th colspan="2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Steve</td>
+									<td>Chicken</td>
+									<td>#1000.00</td>
+									<td><button id="approveBtn">Approve Order</button></td>
+									<td><button id="declineBtn">Decline Order</button></td>
+								</tr>
+								<tr>
+									<td colspan="5">
+										<textarea name="reason" id="reason" placeholder="Please enter reasons for action taken"></textarea>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			</section>
+			<footer>
+					<span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018
+			</footer>
+	</body>
+</html>
