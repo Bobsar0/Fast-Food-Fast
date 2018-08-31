@@ -71,17 +71,50 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
     color: goldenrod;
 }
 
+/********* Admin ************/
+#admin{
+    padding: 50px;
+    border: goldenrod groove 5px;
+    margin-bottom: 100px;
+    overflow: auto;
+}
+
+
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+#approveBtn:hover, #declineBtn:hover {
+    opacity:0.8;
+}
+
+
+.fa-2x {
+    color: #212121;
+    border: 2px solid #2ec371;
+    border-radius: 100%;
+    padding: 10px;
+    margin-bottom: 10px;;
+}
+
 
 /* Footer */
 footer{
     position: absolute;
     bottom: 0;
     width: 100%;
-    height:60px;   /* Height of the footer */
-    padding: 20px;
+    height: 60px;   /* Height of the footer */
+    padding: 15px;
     color: #ffffff;
     background-color: #212121;
     text-align: center;
     text-shadow: #353637;
-    font-size: 20px
+    font-size: 18px
 }

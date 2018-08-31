@@ -19,7 +19,7 @@
     text-align: left;
     font: 15px/1.5 Arial, Helvetica, sans-serif;
 }
-  /*Responsive Image Gallery */
+/*Responsive Image Gallery */
 
 div.gallery {
     border: 1px solid #ccc;
@@ -102,10 +102,10 @@ table {
 th, td {
     padding: 8px;
     text-align: center;
-    border-bottom: 1px solid #212121;
+    border-bottom: 0.2px solid #747474;
 }
 
-#submitOdr, #cancelOdr{
+#submitOdr, #cancelOdr, #approveBtn, #declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;
@@ -114,7 +114,7 @@ th, td {
     opacity: 0.8;
 }
 
-#cancelOdr{
+#cancelOdr, #declineBtn{
     background: red;
 }
 #submitOdr:hover,
@@ -168,4 +168,3 @@ th, td {
     cursor: pointer;
     color: black;
 } 
-
