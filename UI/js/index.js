@@ -40,3 +40,24 @@ Array.prototype.forEach.call(cartBtns, cartBtn=> {
         table.appendChild(tr); //append to table
     });
 });
+
+//***********MODAL**********/
+const modal = document.getElementById("modalDiv"); // Get the modal
+const cart = document.getElementById("cartInfo"); // Get the cart that opens the modal
+const span = document.getElementsByClassName("close")[0]; // Get the <span> element that closes the modal
+
+// Open the modal when the user clicks on the text,
+cart.onclick = () => {
+  modal.style.display = "block";
+};
+// Close the modal when the user clicks on <span> (x)
+span.onclick = () => {
+  modal.style.display = "none";
+};
+
+// Also close the modal when the user clicks anywhere outside of the modal,
+window.onclick = event => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
