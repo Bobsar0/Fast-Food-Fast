@@ -26,7 +26,7 @@ header{
 }
 header#index{
     min-height: 800px;
-    background:url('../imgs/svg1.png') no-repeat center;
+    background:url('../imgs/background.png') no-repeat center;
     text-align: center;
     color: #fcfcfc;
     padding-bottom: 60px;
