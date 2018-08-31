@@ -10,7 +10,8 @@
     <header> 
       <div class="container">
           <div id="title">
-				<h1><a href="./index.html"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+				<h1><a href="./index.html"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+
           </div>
           <nav>
               <ul>
@@ -18,8 +19,12 @@
                   <li class="current"><a href="./menu.html">Menu</a></li><!--Page where users can order food-->
                   <li><a href="./login.html">Login</a></li>
                   <li><a href="./signup.html">Signup</a></li>
-                  <li><i class="fa fa-shopping-cart" id="cartInfo"></i></li>
-               </ul>
+                  <li><a href="#history">Order History</a></li>
+                  <li><i class="fa fa-shopping-cart fa-1x" id="cartInfo">Cart</i></li>
+                <!-- if (user.role === admin) show admin navbar link -->
+                  <li><a href="./admin.html">Admin</a></li>
+                </ul>
+
           </nav>
       </div>
  	</header>
@@ -27,7 +32,7 @@
 	<div class="menu">
 		<h1><i>What's on the Menu?</i></h1>
 		<h3>Please select from our wide tasty variety of meals, snacks and drinks and add your choices to cart.</h3>
-    <p><i>Click the shopping cart icon <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
+    <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
   </div>		
 	<section class="menu" id="meals">
 		<h2>MEALS</h2>
@@ -185,7 +190,7 @@
           <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse">
           <div class="desc">
             <h1 id="item09">Chocolate Mousse</h1>
-            <p class="price" id="price9">NGN 1000.00</p>
+            <p class="price" id="price09">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -355,26 +360,45 @@
         </div>      
       </div>
     </div> 
+    <div class="clearfix"></div>
   </section> 
+
+<!--ORDER HISTORY-->
+  <div class="menu" id="history">
+    <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
+    <ul id="hist"></ul>
+  </div>
+  <div>
+  <table id="tableHistory">
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    </table>
+</div>
     <!-- Modal -->
     <div id="modalDiv" class="modal">
       <!-- Modal content -->
       <div class="modalContent">
         <span class="close">&times;</span>
         <h1>SHOPPING CART</h1>
+        <p>Username: <b>ANONYMOUS</b></p>
         <table id="table">
           <thead>
           <tr>
-            <th>User</th>
-            <th>Product</th>
+            <th>Item</th>
             <th>Price</th>
             <th colspan="2">Action</th>
           </tr>
           </thead>
           </table>
-        <div id="orders"></div>
       </div>
     </div>
+
 </body>
 <script src="../js/index.js"></script>
 </html>

@@ -1,6 +1,7 @@
 /****ADD TO CART IMPLEMENTATION****/
 let cartBtns = document.getElementsByClassName("cartBtn");
 const table = document.getElementById("table")
+const tableHist = document.getElementById("tableHistory")
 
 //Listen for a click event on each 'Add to Cart' button append order information to shopping cart table (modal)
 Array.prototype.forEach.call(cartBtns, cartBtn=> {
@@ -8,7 +9,7 @@ Array.prototype.forEach.call(cartBtns, cartBtn=> {
         let btnID = cartBtn.id;
         const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML; //the last 2-digits in the id corresponds to the last digit  in btnID
         const price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
-        alert(`${name} successfully added to cart`) //alert user of successful cart addition
+        alert(`${name} successfully added to cart`); //alert user of successful cart addition
 
         let tr = document.createElement('TR'); //create a tablerow node
 
@@ -18,28 +19,51 @@ Array.prototype.forEach.call(cartBtns, cartBtn=> {
 
         //Create a submit order for review button
         let submitBtn = document.createElement("BUTTON"); //
-        submitBtn.id = "submitOdr"
+        submitBtn.id = "submitOdr";
+        submitBtn.className = "submitClass";
+
         const submit = document.createTextNode("Submit Order");
         submitBtn.appendChild(submit);
 
         //Create a cancel order button
         let cancelBtn = document.createElement("BUTTON");
-        cancelBtn.id = "cancelOdr"
+        cancelBtn.id = "cancelOdr";
         const cancel = document.createTextNode("Cancel Order");
-        cancelBtn.appendChild(cancel);
+				cancelBtn.appendChild(cancel);
 
-        const user = document.createTextNode("Anonymous")//User is anonymous till backend functionality is implemented
+				let cancelHist = document.createElement("BUTTON");
+				const cancelTxt = document.createTextNode("Erase History");
+				cancelHist.id = "cancelOdr";
+				cancelHist.appendChild(cancelTxt);
 
-        const cells = [user, cell1, cell2, submitBtn, cancelBtn]
-
-        cells.forEach(cell => { //append each cell to td then to tr
-            let td = document.createElement('TD'); //create table data 
-            td.appendChild(cell)
-            tr.appendChild(td)
-        })       
-        table.appendChild(tr); //append to table
+        const cells = [cell1, cell2, submitBtn, cancelBtn];
+        appendtoTable(cells, tr, table);
+		 
+				//If submit btn is clicked
+        submitBtn.onclick = () => {
+          table.removeChild(tr); //remove row from table
+          alert(`Your order of ${name} at the cost of ${price} has been successfully placed! We will contact you shortly with further details.`)
+					const date = document.createTextNode(`${new Date()}`)//Record date and time the order was placed
+					const cells = [date, cell1, cell2, cancelHist];
+          let trHist = document.createElement('TR'); //create a new tablerow node
+          appendtoTable(cells, trHist, tableHist);
+				}
+				//If cancel btn is clicked
+        cancelBtn.onclick = () => {
+          table.removeChild(tr); //remove row from table
+				};
     });
 });
+
+//Helper function tht appends row containing data to table
+function appendtoTable(cellArr, tr, table){
+  cellArr.forEach(cell => { //append each cell to td then to tr
+    let td = document.createElement('TD'); //create table data 
+    td.appendChild(cell);
+    tr.appendChild(td);
+  });
+  table.appendChild(tr); //append to table
+}
 
 //***********MODAL**********/
 const modal = document.getElementById("modalDiv"); // Get the modal
