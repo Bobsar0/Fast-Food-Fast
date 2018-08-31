@@ -88,3 +88,14 @@ div.desc {
     display: table;
     clear: both;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #212121;
+}
