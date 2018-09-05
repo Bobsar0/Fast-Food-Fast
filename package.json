@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/Bobsar0/Fast-Food-Fast#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
