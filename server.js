@@ -4,7 +4,7 @@ import express from 'express';
 export default (orders) => {
   const server = express();
 
-  server.get('/orders', (req, res) => orders.index().then(result => res.send(200, result)));
+  server.get('/orders', (req, res) => orders.index().then(result => res.status(200).send(result)));
 
   return server;
 };
