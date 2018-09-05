@@ -4,6 +4,7 @@
   "description": "A food delivery service app for a restaurant developed | Andela Developer Challenge",
   "main": "index.js",
   "scripts": {
+    "pretest": "eslint --ignore-path .gitignore",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
