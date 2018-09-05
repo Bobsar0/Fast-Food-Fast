@@ -3,11 +3,19 @@ import supertest from 'supertest';
 import server from '../server';
 
 describe('server', () => {
-  const request = supertest(server);
+  // OrdersController stub
+  const orders = {};
+  const request = supertest(server(orders));
 
   // checks that server returns success response when 'GET /orders' is performed
-  // response content is not verified here yet.
-  describe('GET /orders', () => it('responds with OK', () => request
-    .get('/orders')
-    .expect(200)));
+  describe('GET /orders', () => {
+    // test function that is called by the server instance
+    before(() => {
+      orders.index = () => new Promise((resolve, reject) => resolve({}));
+    });
+
+    it('responds with OK', () => request
+      .get('/orders')
+      .expect(200));
+  });
 });
