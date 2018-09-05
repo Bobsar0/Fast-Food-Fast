@@ -1,12 +1,10 @@
 import express from 'express';
-import OrdersController from './controllers/orders';
 
+// OrdersController intance must be created and passed from outside
+export default (orders) => {
+  const server = express();
 
-const server = express();
-const orders = new OrdersController();
+  server.get('/orders', (req, res) => orders.index().then(result => res.send(200, result)));
 
-// Server responds with the empty object for now. Content
-// is not tested yet, just server availability.
-server.get('/orders', (req, res) => orders.index().then(result => res.send(200, result)));
-
-export default server;
+  return server;
+};
