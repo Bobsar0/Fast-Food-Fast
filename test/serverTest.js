@@ -95,11 +95,27 @@ describe('server', () => {
       });
 
       // test below verifies status and response data
-      it('responds with ORDER UPDATED and returns content of the updated order', () => request
+      it('responds with 200 OK and returns content of the updated order', () => request
         .post('/orders/123')
         .send({ order: data })
         .expect(_.merge({ orderId: 123 }, data))
         .expect(200));
     });
+  });
+
+  // ======== DELETE /orders/:orderId TEST =================//
+  describe('DELETE /orders/:orderId', () => {
+    // imitate action that always returns id of the deleted order
+    before(() => {
+      orders.del = id => new Promise(
+        (resolve, reject) => resolve({ id }),
+      );
+    });
+
+    // checks that server returns deleted order with specified id
+    it('responds with 200 OK and the id of the deleted order', () => request
+      .delete('/orders/555')
+      .expect({ orderId: 555 })
+      .expect(200));
   });
 });
