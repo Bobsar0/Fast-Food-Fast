@@ -7,7 +7,7 @@
     "pretest": "eslint --ignore-path .gitignore",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register",
     "start": "nodemon --exec babel-node src/index.js",
-    "coverage": "npm run build && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --  -R spec dist/test/*.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js && npm run clean || npm run clean"  
+    "coverage": "npm run build && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --  -R spec dist/test/*.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js && npm run clean || npm run clean"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,13 @@
   },
   "homepage": "https://github.com/Bobsar0/Fast-Food-Fast#readme",
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
     "express": "^4.16.3",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "sinon": "^6.2.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -40,6 +44,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
     "eslint": "^5.5.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
