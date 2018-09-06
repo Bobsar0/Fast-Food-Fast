@@ -54,13 +54,24 @@ describe('server', () => {
       orderId: '234', user: 'Steve', address: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
     }];
 
-    // The read action stub merges specified id with the predefined data to imitate real controller
-    // behaviour and checks that proper id was passed to the controller
+    context('when there is no post with the specified id', () => {
+      // Controller should return rejected promise when order with the specified id is not found
+      before(() => {
+        orders.read = id => new Promise((resolve, reject) => reject(id));
+      });
+
+      // test that server responds with 404 status code if order isn't found
+      it('responds with 404 Order NotFound', () => request
+        .get('/orders/33')
+        .send(data)
+        .expect(404));
+    });
+
+    // Otherwise merge specified id with the predefined data to and sed to the controller
     before(() => {
       orders.read = id => new Promise((resolve, reject) => resolve(_.merge({ orderId: id }, data)));
     });
 
-    // checks that server just pass id to the controller and returns its result.
     it('responds with OK and returns unique order corresponding to the id', () => request
       .get('/orders/234')
       .send(data)
