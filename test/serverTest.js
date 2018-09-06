@@ -6,13 +6,12 @@ import server from '../server';
 describe('server', () => {
   const orders = {};
   const request = supertest(server(orders));
-
-  // checks that server returns success response when 'GET /orders' is performed
+  // test data
+  const data = [{
+    orderId: '234', user: 'Steve', address: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
+  }];
+  // check that server returns success response when 'GET /orders' is performed
   describe('GET /orders', () => {
-    // test data that is returned by the orders controller stub
-    const data = [{
-      orderId: '123', user: 'Steve', address: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
-    }];
 
     // test method now returns test data
     before(() => {
@@ -29,11 +28,6 @@ describe('server', () => {
 
   // ======== POST /orders TEST =================//
   describe('POST /orders', () => {
-    // data sent to the server
-    const data = [{
-      user: 'Anonymous', address: 'Andela HQ', name: 'Burger', price: 'NGN 800',
-    }];
-
     before(() => {
       // we expect server to merge id attribute to the order and return attributes for the new order
       orders.create = attrs => new Promise((resolve, reject) => resolve(_.merge({ orderId: 234 },
@@ -49,11 +43,6 @@ describe('server', () => {
 
   // ======== GET /orders/:orderId TEST =================//
   describe('GET /orders/:orderId', () => {
-    // data that is returned from the controller stub
-    const data = [{
-      orderId: '234', user: 'Steve', address: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
-    }];
-
     context('when there is no post with the specified id', () => {
       // Controller should return rejected promise when order with the specified id is not found
       before(() => {
@@ -76,6 +65,23 @@ describe('server', () => {
       .get('/orders/234')
       .send(data)
       .expect(_.merge({ orderId: 234 }, data))
+      .expect(200));
+  });
+
+  // ======== PUT /orders/:orderId TEST =================//
+  describe('PUT /orders/:orderId', () => {
+    // Update action returns order attributes corresponding to the specified id
+    before(() => {
+      orders.update = (id, attrs) => new Promise(
+        (resolve, reject) => resolve(_.merge({ orderId: id }, attrs)),
+      );
+    });
+
+    // test below verifies status and response data
+    it('responds with ORDER UPDATED and returns content of the updated order', () => request
+      .post('/orders/123')
+      .send({ order: data })
+      .expect(_.merge({ orderId: 123 }, data))
       .expect(200));
   });
 });
