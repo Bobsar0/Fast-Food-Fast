@@ -14,6 +14,7 @@ export default (orders) => {
 
   server.post('/orders', (req, res) => orders.create(req.body.order).then(result => res.status(201).send(result)));
   server.post('/orders/:orderId', (req, res) => orders.update(req.params.orderId, req.body.order)
-    .then(result => res.status(200).send(result)));
+    .then(result => res.status(200).send(result))
+    .catch(() => res.sendStatus(404)));
   return server;
 };
