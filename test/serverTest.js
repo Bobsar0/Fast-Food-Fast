@@ -12,7 +12,6 @@ describe('server', () => {
   }];
   // check that server returns success response when 'GET /orders' is performed
   describe('GET /orders', () => {
-
     // test method now returns test data
     before(() => {
       orders.index = () => new Promise((resolve, reject) => resolve(data));
@@ -43,7 +42,7 @@ describe('server', () => {
 
   // ======== GET /orders/:orderId TEST =================//
   describe('GET /orders/:orderId', () => {
-    context('when there is no post with the specified id', () => {
+    context('when there is no order with the specified id', () => {
       // Controller should return rejected promise when order with the specified id is not found
       before(() => {
         orders.read = id => new Promise((resolve, reject) => reject(id));
@@ -57,31 +56,50 @@ describe('server', () => {
     });
 
     // Otherwise merge specified id with the predefined data to and sed to the controller
-    before(() => {
-      orders.read = id => new Promise((resolve, reject) => resolve(_.merge({ orderId: id }, data)));
-    });
+    context('when there is no order with the specified id', () => {
+      before(() => {
+        orders.read = id => new Promise(
+          (resolve, reject) => resolve(_.merge({ orderId: id }, data)),
+        );
+      });
 
-    it('responds with OK and returns unique order corresponding to the id', () => request
-      .get('/orders/234')
-      .send(data)
-      .expect(_.merge({ orderId: 234 }, data))
-      .expect(200));
+      it('responds with OK and returns unique order corresponding to the id', () => request
+        .get('/orders/234')
+        .send(data)
+        .expect(_.merge({ orderId: 234 }, data))
+        .expect(200));
+    });
   });
 
   // ======== PUT /orders/:orderId TEST =================//
   describe('PUT /orders/:orderId', () => {
     // Update action returns order attributes corresponding to the specified id
-    before(() => {
-      orders.update = (id, attrs) => new Promise(
-        (resolve, reject) => resolve(_.merge({ orderId: id }, attrs)),
-      );
+
+    context('when there is no order with the specified id', () => {
+      before(() => {
+        orders.update = id => new Promise((resolve, reject) => reject(id));
+      });
+
+      it('responds with 404 HTTP response', () => request
+        .post('/orders/444')
+        .send({ order: data })
+        .expect(404));
     });
 
-    // test below verifies status and response data
-    it('responds with ORDER UPDATED and returns content of the updated order', () => request
-      .post('/orders/123')
-      .send({ order: data })
-      .expect(_.merge({ orderId: 123 }, data))
-      .expect(200));
+
+    context('when there is an order with the specified id', () => {
+      before(() => {
+        orders.update = (id, attrs) => new Promise(
+          (resolve, reject) => resolve(_.merge({ orderId: id }, attrs)),
+        );
+      });
+
+      // test below verifies status and response data
+      it('responds with ORDER UPDATED and returns content of the updated order', () => request
+        .post('/orders/123')
+        .send({ order: data })
+        .expect(_.merge({ orderId: 123 }, data))
+        .expect(200));
+    });
   });
 });
