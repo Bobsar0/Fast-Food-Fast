@@ -55,7 +55,7 @@ describe('server', () => {
         .expect(404));
     });
 
-    // Otherwise merge specified id with the predefined data to and sed to the controller
+    // Otherwise merge specified id with the predefined data to and send to the controller
     context('when there is no order with the specified id', () => {
       before(() => {
         orders.read = id => new Promise(
@@ -79,13 +79,11 @@ describe('server', () => {
       before(() => {
         orders.update = id => new Promise((resolve, reject) => reject(id));
       });
-
       it('responds with 404 HTTP response', () => request
         .post('/orders/444')
         .send({ order: data })
         .expect(404));
     });
-
 
     context('when there is an order with the specified id', () => {
       before(() => {
@@ -93,7 +91,6 @@ describe('server', () => {
           (resolve, reject) => resolve(_.merge({ orderId: id }, attrs)),
         );
       });
-
       // test below verifies status and response data
       it('responds with 200 OK and returns content of the updated order', () => request
         .post('/orders/123')
@@ -105,6 +102,15 @@ describe('server', () => {
 
   // ======== DELETE /orders/:orderId TEST =================//
   describe('DELETE /orders/:orderId', () => {
+    context('when there is no order with the specified id', () => {
+      before(() => {
+        orders.del = id => new Promise((resolve, reject) => reject(id));
+      });
+      it('responds with NotFound', () => request
+        .delete('/orders/555')
+        .expect(404));
+    });
+
     // imitate action that always returns id of the deleted order
     before(() => {
       orders.del = id => new Promise(
