@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import _ from 'lodash';
 import supertest from 'supertest';
 import server from '../server';
 
@@ -25,4 +26,26 @@ describe('server', () => {
       .expect(data)
       .expect(200));
   });
+
+  // ======== POST /orders TEST =================//
+  describe('POST /orders', () => {
+    // data sent to the server
+    const data = [{
+      user: 'Anonymous', name: 'Burger', price: 'NGN 800',
+    }];
+
+    before(() => {
+      // we expect server to merge id attribute to the order and return attributes for the new order
+      orders.create = attrs => new Promise((resolve, reject) => resolve(_.merge({ orderId: 234 },
+        attrs)));
+    });
+
+    it('responds with CREATED and returns content of the newly created order with ID', () => request
+      .post('/orders')
+      .send({ order: data })
+      .expect(_.merge({ orderId: 234 }, data))
+      .expect(201));
+  });
 });
+
+
