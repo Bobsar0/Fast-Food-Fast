@@ -21,6 +21,8 @@ export default (orders) => {
     .catch(() => res.sendStatus(404)));
 
   // DELETE /orders/:orderId
-  server.delete('/orders/:orderId', (req, res) => orders.del(req.params.orderId).then(() => res.status(200).send({ orderId: req.params.orderId })));
+  server.delete('/orders/:orderId', (req, res) => orders.del(req.params.orderId)
+    .then(() => res.status(200).send({ orderId: req.params.orderId }))
+    .catch(() => res.sendStatus(404)));
   return server;
 };
