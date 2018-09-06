@@ -2,11 +2,11 @@
   "name": "fast-food-fast",
   "version": "1.0.0",
   "description": "A food delivery service app for a restaurant developed | Andela Developer Challenge",
-  "main": "index.js",
+  "main": "./api/v1/src/index.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register",
-    "start": "nodemon --exec babel-node src/index.js",
+    "start": "nodemon --exec babel-node ./api/v1/src/index.js",
     "coverage": "npm run build && ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha --  -R spec dist/test/*.js && cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js && npm run clean || npm run clean"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "chai": "^4.1.2",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
+    "npm": "^6.4.1",
     "sinon": "^6.2.0",
     "uuid": "^3.3.2"
   },
