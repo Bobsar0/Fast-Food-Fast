@@ -22,7 +22,6 @@
 											<li><a href="./menu">Menu</a></li><!--Page where users can order food-->
 											<li><a href="#">Logout</a></li>
 											<li class="current"><i class="fa fa-user fa-2x"></i><a href="#">Admin</a></li><!--Admin Page-->
-											<li><i class="fa fa-shopping-cart" id="cartInfo">Cart</i></li>
 									 </ul>
 							</nav>
 					</div>
@@ -39,6 +38,7 @@
 									<th>Product</th>
 									<th>Price</th>
 									<th colspan="2">Action</th>
+									<th><i>Mark as completed</i></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -48,9 +48,10 @@
 									<td>#1000.00</td>
 									<td><button id="approveBtn">Approve Order</button></td>
 									<td><button id="declineBtn">Decline Order</button></td>
+									<td><input type="checkbox" name="completed"></td>
 								</tr>
 								<tr>
-									<td colspan="5">
+									<td colspan="6">
 										<textarea name="reason" id="reason" placeholder="Please enter reasons for action taken"></textarea>
 									</td>
 								</tr>
