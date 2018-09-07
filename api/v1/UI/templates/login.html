@@ -19,17 +19,17 @@
 				<nav>
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="about.html">About</a></li>
 						<li><a href="menu.html">Menu</a></li><!--Page where users can order food-->
 						<li class="current"><a href="login.html">Login</a></li>
 						<li><a href="signup.html">Signup</a></li>
 					</ul>
 				</nav>
 			</header>
-		</div>
-		<h4>If you have an account with us, please log in below. Otherwise click on <a href="./signup.html">Sign Up</a> to register an account with us.</h4><br>
+    </div>
+    <h1>Login</h1>
+		<h4>If you have an account with us, please log in below. Otherwise click on <a href="./signup.html">Sign Up</a> to register.</h4>
 
-        <div id="loginForm">
+		<div id="loginForm">
 			<form>
 				<i class="fa fa-user fa-2x" aria-hidden="true"></i>
 				<label for="email">Email</label>
@@ -39,14 +39,13 @@
                     <div><input type="checkbox" id="checkbox" onclick="togglePassword()">Show Password</div>
                 <button id="loginBtn">Login</button>
 			</form>
-			<h4>Having difficulty signing in?<a href="./contact.html">Contact Us</a></h4>
-
-		</div>
-		<div>
-			<footer>
-				<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
-			</footer>
-        </div>
+    </div>
+    <h4 style="margin-bottom:100px">Having difficulty signing in? <a href="./contact.html">Contact Us</a></h4>
+		<footer>
+			<p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
+			<p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
+			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
+		</footer>
         <script>
             function togglePassword() {
                 const input = document.getElementById("password");
@@ -58,4 +57,5 @@
             }
         </script>
 	</body>
+	<!-- <script src="../js/login.js"></script> -->
 </html>

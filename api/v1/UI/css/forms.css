@@ -1,13 +1,13 @@
-#signupForm {
-    padding: 10px 0 30px;
-    margin: 280px 0 400px;
+#signupForm, #loginForm {
+    padding: 100px 0;
+    margin: 200px 0 250px;
     position: relative;
 }
 
 #loginForm {
-    padding: 20px;
-    margin: 380px 0 50px;
-    height: 120px;
+    padding: 200px;
+    margin: 50px 0;
+    position: relative;
 }
 
 /* SignUp and Login forms */
