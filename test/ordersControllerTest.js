@@ -79,5 +79,15 @@ describe('OrdersController', () => {
     it('parses and returns order data', () => {
       orders.create(attrs).then(result => result.should.deepEqual(_.merge({ orderId: 'ABCDEFGHIJKLMNO' }, attrs)));
     });
+    it('specifies proper body and store', () => {
+      const spy = sinon.spy(client, 'save');
+      return orders.create(attrs).then(() => {
+        spy.should.be.calledOnce();
+        spy.should.be.calledWith({
+          store: 'orderStore',
+          body: attrs,
+        });
+      });
+    });
   });
 });
