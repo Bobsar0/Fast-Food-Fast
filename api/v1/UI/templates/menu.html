@@ -10,19 +10,19 @@
     <header> 
       <div class="container">
           <div id="title">
-				<h1><a href="./index.html"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+				<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 
           </div>
           <nav>
               <ul>
-                  <li><a href="./index.html">Home</a></li>
-                  <li class="current"><a href="./menu.html">Menu</a></li><!--Page where users can order food-->
-                  <li><a href="./login.html">Login</a></li>
-                  <li><a href="./signup.html">Signup</a></li>
+                  <li><a href="./index">Home</a></li>
+                  <li class="current"><a href="./menu">Menu</a></li><!--Page where users can order food-->
+                  <li><a href="./login">Login</a></li>
+                  <li><a href="./signup">Signup</a></li>
                   <li><a href="#history">Order History</a></li>
                   <li><i class="fa fa-shopping-cart fa-1x" id="cartInfo">Cart</i></li>
                 <!-- if (user.role === admin) show admin navbar link -->
-                  <li><a href="./admin.html">Admin</a></li>
+                  <li><a href="./admin">Admin</a></li>
                 </ul>
 
           </nav>
@@ -31,7 +31,7 @@
 	<!--Image Gallery-->
 	<div class="menu">
 		<h1><i>What's on the Menu?</i></h1>
-		<h3>Please select from our wide tasty variety of meals, snacks and drinks and add your choices to cart.</h3>
+		<h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
     <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
   </div>		
 	<section class="menu" id="meals">
@@ -364,22 +364,22 @@
   </section> 
 
 <!--ORDER HISTORY-->
-  <div class="menu" id="history" style="padding-bottom: 50px">
+  <div class="menu" id="history" style="padding-bottom: 10px">
     <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
     <ul id="hist"></ul>
   </div>
   <div>
-  <table id="tableHistory">
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Item</th>
-      <th>Price</th>
-      <th>Action</th>
-    </tr>
-    </thead>
+    <table id="tableHistory">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+      </thead>
     </table>
-</div>
+  </div>
     <!-- Modal -->
     <div id="modalDiv" class="modal">
       <!-- Modal content -->
@@ -399,8 +399,10 @@
       </div>
     </div>
     <footer>
-      <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
+        <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
+        <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
+        <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
 </body>
-<script src="../js/index.js"></script>
+<script src="../js/cart.js"></script>
 </html>

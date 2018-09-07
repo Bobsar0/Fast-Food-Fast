@@ -155,7 +155,7 @@ th, td {
 
   
   /* Close (x) Button */
-.close {
+.close, .closeLogin{
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -163,7 +163,9 @@ th, td {
 }
   
 .close:hover,
-.close:focus {
+.close:focus,
+.closeLogin:hover,
+.closeLogin:focus {
     text-decoration: none;
     cursor: pointer;
     color: black;

@@ -5,17 +5,16 @@ body{
     margin:0;
     position:relative;
     background-color: white;
-    text-align: center
+    text-align: center;
 }
 
 h1{
     text-shadow: 1px 1px 1px goldenrod;
+    margin-top: 100px
 }
 .container{
     width: 90%;
-    min-height:100%;
     margin: auto;
-    overflow: hidden;
 }
 
 ul{
@@ -28,10 +27,7 @@ header{
     padding-top: 30px;
 }
 header#index{
-    /* min-height: 800px; */
-    /* background:url('../imgs/background.png') no-repeat center; */
     text-align: center;
-    /* color: #fcfcfc; */
     padding-bottom: 60px;
     border: none;
 }
@@ -152,6 +148,8 @@ img {
     border: 1px solid goldenrod;
     border-radius: 100%;
     padding: 5px;
+    text-decoration: none;
+    background-color: none;
 }
 
 .fa-4x {
@@ -165,10 +163,9 @@ img {
 #admin{
     padding: 50px;
     border: goldenrod groove 5px;
-    margin-bottom: 100px;
+    margin-bottom: 200px;
     overflow: auto;
 }
-
 
 textarea {
     width: 100%;
@@ -188,11 +185,12 @@ textarea {
 
 /* Footer */
 footer{
-    position: absolute;
+    position: relative;
+    margin-top: 5%;
     bottom: 0;
     width: 100%;
     padding: 5px;
-    margin-top: 20px;
+    /* margin-top: -50px; */
     color: #ffffff;
     background-color: #212121;
     text-align: center;
