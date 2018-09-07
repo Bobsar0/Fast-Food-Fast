@@ -1,10 +1,11 @@
-import { should } from 'should';
+import sinon from 'sinon';
+import 'should-sinon';
 import OrdersController from '../api/v1/controllers/ordersController';
 
 describe('OrdersController', () => {
   // introdue external client stub
   const client = {};
-  const orders = new OrdersController(client);
+  const orders = new OrdersController(client, 'Steve', 'bobsarglobal@gmail.com');
 
   // index should return list of orders merged with corresponding ids
   describe('index', () => {
@@ -45,5 +46,18 @@ describe('OrdersController', () => {
       userAddr: 'Somewhere',
       userRank: 'guest',
     }])));
+
+    it('specifies proper username and email while searching', () => {
+      // import sinon for spying on method calls
+      const spy = sinon.spy(client, 'search');
+      // search() method should be called once with proper username and email as paramters.
+      return orders.index().then(() => {
+        spy.should.be.calledOnce();
+        spy.should.be.calledWith({
+          user: 'Steve',
+          email: 'bobsarglobal@gmail.com',
+        });
+      });
+    });
   });
 });
