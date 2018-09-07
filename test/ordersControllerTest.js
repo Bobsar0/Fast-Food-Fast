@@ -132,4 +132,46 @@ describe('OrdersController', () => {
       });
     });
   });
+
+  // POST /orders/:orderId test
+  // update should modify an order and return orderId if successful
+  describe('UPDATE', () => {
+    context('when there is no order with the specified id', () => {
+      before(() => {
+        client.update = () => new Promise((resolve, reject) => resolve({
+          error: 'Order ABCDEFGHIJKLMNO not found!]',
+          status: 404,
+        }));
+      });
+      it('returns rejected promise with the non existing post id', () => orders.update(id, attrs)
+        .catch(result => result.should.equal(id)));
+    });
+
+    context('when there is an order with the specified id!', () => {
+      before(() => {
+        client.update = () => new Promise((resolve, reject) => resolve({
+          store: 'orderStore',
+          orderId: id,
+        }));
+      });
+
+      it('parses and returns post data', () => {
+        orders.update(id, attrs)
+          .then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
+      });
+
+      it('specifies proper body, store and id and attrs', () => {
+        const spy = sinon.spy(client, 'update');
+
+        return orders.update(id, attrs).then(() => {
+          spy.should.be.calledOnce();
+          spy.should.be.calledWith({
+            store: 'orderStore',
+            orderId: id,
+            body: attrs,
+          });
+        });
+      });
+    });
+  });
 });
