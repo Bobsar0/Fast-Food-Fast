@@ -3,7 +3,7 @@ import _ from 'lodash';
 import supertest from 'supertest';
 import server from '../api/v1/server';
 
-describe('server', () => {
+describe('Server', () => {
   const orders = {};
   const request = supertest(server(orders));
   // test data
@@ -104,7 +104,7 @@ describe('server', () => {
   describe('DELETE /orders/:orderId', () => {
     context('when there is no order with the specified id', () => {
       before(() => {
-        orders.del = id => new Promise((resolve, reject) => reject(id));
+        orders.cancel = id => new Promise((resolve, reject) => reject(id));
       });
       it('responds with NotFound', () => request
         .delete('/api/v1/orders/555')
@@ -113,7 +113,7 @@ describe('server', () => {
 
     // imitate action that always returns id of the deleted order
     before(() => {
-      orders.del = id => new Promise(
+      orders.cancel = id => new Promise(
         resolve => resolve({ id }),
       );
     });
