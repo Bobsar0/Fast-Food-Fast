@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import compression from 'compression';
 
 // OrdersController intance must be created and passed from outside
 export default (orders) => {
@@ -30,6 +31,9 @@ export default (orders) => {
     .catch(() => res.sendStatus(404)));
 
   // ==========POWER FRONT-END PAGES===============//
+  // Compress the routes
+  server.use(compression());
+
   const dirName = '/UI/templates';
   server.use(express.static(path.join(__dirname, '/UI')));
 
