@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 export default class {
-  constructor(client, username, email) {
+  constructor(client, username) {
     this.client = client;
     this.username = username;
-    this.email = email;
+    this.attr = 'orders';
   }
 
   // GET /orders
@@ -13,8 +13,16 @@ export default class {
     return this.client
       .search({
         user: this.username,
-        email: this.email,
+        attr: this.attr,
       })
       .then(res => _.map(res.orders, order => _.merge(order, { orderId: order.id })));
+  }
+
+  // POST /orders
+  // create creates a new order and returns orderId if successful
+  create(attrs) {
+    return this.client.save({
+    })
+      .then(res => _.merge({ orderId: res.orderId }, attrs));
   }
 }
