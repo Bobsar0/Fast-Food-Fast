@@ -1,10 +1,15 @@
+import _ from 'lodash';
+
 export default class {
-  constructor(user) {
-    this.user = user;
+  constructor(client) {
+    this.client = client;
   }
 
+  // GET /orders
+  // index returns list of orders merged with corresponding ids
   index() {
-    // controller returns an empty object
-    return new this.Promise(resolve => resolve({}));
+    return this.client
+      .search()
+      .then(res => _.map(res.orders, order => _.merge(order, { orderId: order.id })));
   }
 }
