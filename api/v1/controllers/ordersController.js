@@ -19,6 +19,16 @@ export default class {
       .then(res => _.map(res.orders, order => _.merge(order, { orderId: order.id })));
   }
 
+  // GET /orders/:orderId
+  // read implements get() method to return an order based on its id
+  read(id) {
+    return this.client.get({
+      store: this.store,
+      orderId: id,
+    })
+      .then(res => _.merge({ orderId: res.orderId }, res.value));
+  }
+
   // POST /orders
   // create creates a new order and returns orderId if successful
   create(attrs) {
