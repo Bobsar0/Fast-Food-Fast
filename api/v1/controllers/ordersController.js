@@ -59,4 +59,17 @@ export default class {
         return reject(id);
       }));
   }
+
+  cancel(id) {
+    return this.client.delete({
+      store: this.store,
+      orderId: id,
+    })
+      .then(res => new Promise((resolve, reject) => {
+        if (res.found) {
+          return resolve(id);
+        }
+        return reject(id);
+      }));
+  }
 }
