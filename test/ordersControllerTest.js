@@ -11,7 +11,7 @@ describe('OrdersController', () => {
 
   // GET /orders test
   // index should return list of orders merged with corresponding ids
-  describe('index', () => {
+  describe('READ', () => {
     before(() => {
       client.search = () => new Promise(resolve => resolve({
         orders: [{
@@ -63,9 +63,40 @@ describe('OrdersController', () => {
       });
     });
   });
+
+  // GET /orders:orderId test
+  // read should get an order by id
+  describe('READByID', () => {
+    const id = 'ABCDEFGHIJKLMNO';
+    const attrs = {
+      name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
+    };
+    before(() => {
+      client.get = () => new Promise(resolve => resolve({
+        store: 'orderStore',
+        orderId: id,
+        found: true,
+        value: attrs,
+      }));
+    });
+    it('parses and returns order data', () => {
+      orders.read(id).then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
+    });
+    it('specifies proper store and id', () => {
+      const spy = sinon.spy(client, 'get');
+      return orders.read('ABC').then(() => {
+        spy.should.be.calledOnce();
+        spy.should.be.calledWith({
+          store: 'orderStore',
+          orderId: 'ABC',
+        });
+      });
+    });
+  });
+
   // POST /orders test
   // create should establish a new order
-  describe('create', () => {
+  describe('CREATE', () => {
     const attrs = {
       name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
     };
