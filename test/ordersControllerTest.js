@@ -7,7 +7,11 @@ import OrdersController from '../api/v1/controllers/ordersController';
 describe('OrdersController', () => {
   // introdue external client stub
   const client = {};
-  const orders = new OrdersController(client, 'Steve', 'orders');
+  const id = 'ABCDEFGHIJKLMNO';
+  const attrs = {
+    name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
+  };
+  const orders = new OrdersController(client, 'Steve', attrs);
 
   // GET /orders test
   // index should return list of orders merged with corresponding ids
@@ -58,7 +62,7 @@ describe('OrdersController', () => {
         spy.should.be.calledOnce();
         spy.should.be.calledWith({
           user: 'Steve',
-          attr: 'orders',
+          attr: attrs,
         });
       });
     });
@@ -67,28 +71,38 @@ describe('OrdersController', () => {
   // GET /orders:orderId test
   // read should get an order by id
   describe('READByID', () => {
-    const id = 'ABCDEFGHIJKLMNO';
-    const attrs = {
-      name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
-    };
-    before(() => {
-      client.get = () => new Promise(resolve => resolve({
-        store: 'orderStore',
-        orderId: id,
-        found: true,
-        value: attrs,
-      }));
-    });
-    it('parses and returns order data', () => {
-      orders.read(id).then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
-    });
-    it('specifies proper store and id', () => {
-      const spy = sinon.spy(client, 'get');
-      return orders.read('ABC').then(() => {
-        spy.should.be.calledOnce();
-        spy.should.be.calledWith({
+    context('When there is no order matching the id', () => {
+      before(() => {
+        client.get = () => new Promise((resolve, reject) => resolve({
           store: 'orderStore',
-          orderId: 'ABC',
+          orderId: id,
+          found: false,
+        }));
+      });
+
+      it('returns rejected promise with the non existent id', () => orders.read(id).catch(result => result.should.equal(id)));
+    });
+
+    context('When there is an order matching the id!', () => {
+      before(() => {
+        client.get = () => new Promise(resolve => resolve({
+          store: 'orderStore',
+          orderId: id,
+          found: true,
+          value: attrs,
+        }));
+      });
+      it('parses and returns order data', () => {
+        orders.read(id).then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
+      });
+      it('specifies proper store and id', () => {
+        const spy = sinon.spy(client, 'get');
+        return orders.read('ABC').then(() => {
+          spy.should.be.calledOnce();
+          spy.should.be.calledWith({
+            store: 'orderStore',
+            orderId: 'ABC',
+          });
         });
       });
     });
@@ -97,9 +111,6 @@ describe('OrdersController', () => {
   // POST /orders test
   // create should establish a new order
   describe('CREATE', () => {
-    const attrs = {
-      name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
-    };
     before(() => {
       client.save = () => new Promise(resolve => resolve({
         store: 'orderStore',
