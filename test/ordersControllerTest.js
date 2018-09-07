@@ -57,12 +57,11 @@ describe('OrdersController', () => {
     it('specifies proper username and attr while searching', () => {
       // import sinon for spying on method calls
       const spy = sinon.spy(client, 'search');
-      // search() method should be called once with proper username and attributes as paramters.
+      // search() method should be called once with proper storeNames.
       return orders.index().then(() => {
         spy.should.be.calledOnce();
         spy.should.be.calledWith({
-          user: 'Steve',
-          attr: attrs,
+          store: 'orderStore',
         });
       });
     });

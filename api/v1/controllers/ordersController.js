@@ -1,10 +1,9 @@
 import _ from 'lodash';
+import BaseController from './baseController';
 
-export default class {
-  constructor(client, username, order) {
-    this.client = client;
-    this.username = username;
-    this.attr = order;
+export default class extends BaseController {
+  constructor(client, username, attr) {
+    super(client, username, attr);
     this.store = 'orderStore';
   }
 
@@ -13,8 +12,7 @@ export default class {
   index() {
     return this.client
       .search({
-        user: this.username,
-        attr: this.attr,
+        store: this.store,
       })
       .then(res => _.map(res.orders, order => _.merge(order, { orderId: order.id })));
   }
