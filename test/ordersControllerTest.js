@@ -174,4 +174,44 @@ describe('OrdersController', () => {
       });
     });
   });
+
+  // DELETE /orders/:orderId test
+  //  cancel should delete an order from store if found
+  describe('DELETE', () => {
+    context('when there is no post with the specified id', () => {
+      before(() => {
+        client.delete = () => new Promise(resolve => resolve({
+          found: false,
+          store: 'orderStore',
+          orderId: 'ABC',
+        }));
+      });
+
+      // checks that promise is rejected
+      it('returns rejected promise with the non existing post id', () => orders.cancel('ABC').catch(result => result.should.equal(id)));
+    });
+
+    context('when there is a post with the specified id', () => {
+      before(() => {
+        client.delete = () => new Promise(resolve => resolve({
+          found: true,
+          store: 'orderStore',
+          orderId: id,
+        }));
+      });
+
+      it('parses and returns order data', () => orders.cancel(id).then(result => result.should.equal(id)));
+
+      it('specifies proper store and id', () => {
+        const spy = sinon.spy(client, 'delete');
+        return orders.cancel(id).then(() => {
+          spy.should.be.calledOnce();
+          spy.should.be.calledWith({
+            store: 'orderStore',
+            orderId: id,
+          });
+        });
+      });
+    });
+  });
 });
