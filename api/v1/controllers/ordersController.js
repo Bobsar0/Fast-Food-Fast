@@ -35,12 +35,28 @@ export default class {
   }
 
   // POST /orders
-  // create creates a new order and returns orderId if successful
+  // create makes a new order and returns orderId merged with order if successful
   create(attrs) {
     return this.client.save({
       store: this.store,
       body: attrs,
     })
       .then(res => _.merge({ orderId: res.orderId }, attrs));
+  }
+
+  // POST /orders/:orderId
+  // update modifies an order and returns orderId if successful
+  update(id, attrs) {
+    return this.client.update({
+      store: this.store,
+      orderId: id,
+      body: attrs,
+    })
+      .then(res => new Promise((resolve, reject) => {
+        if (res.orderId) {
+          return resolve(_.merge({ orderId: res.orderId }, attrs));
+        }
+        return reject(id);
+      }));
   }
 }
