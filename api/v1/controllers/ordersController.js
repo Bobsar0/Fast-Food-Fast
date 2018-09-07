@@ -5,6 +5,7 @@ export default class {
     this.client = client;
     this.username = username;
     this.attr = 'orders';
+    this.store = 'orderStore';
   }
 
   // GET /orders
@@ -22,6 +23,8 @@ export default class {
   // create creates a new order and returns orderId if successful
   create(attrs) {
     return this.client.save({
+      store: this.store,
+      body: attrs,
     })
       .then(res => _.merge({ orderId: res.orderId }, attrs));
   }
