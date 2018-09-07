@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 export default class {
-  constructor(client, username) {
+  constructor(client, username, order) {
     this.client = client;
     this.username = username;
-    this.attr = 'orders';
+    this.attr = order;
     this.store = 'orderStore';
   }
 
@@ -26,7 +26,12 @@ export default class {
       store: this.store,
       orderId: id,
     })
-      .then(res => _.merge({ orderId: res.orderId }, res.value));
+      .then(res => new Promise((resolve, reject) => {
+        if (res.found) {
+          return resolve(_.merge({ orderId: res.orderId }, res.value));
+        }
+        return reject(id);
+      }));
   }
 
   // POST /orders
