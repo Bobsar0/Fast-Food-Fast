@@ -9,8 +9,8 @@ body{
 }
 
 h1{
+    margin-top: 50px;
     text-shadow: 1px 1px 1px goldenrod;
-    margin-top: 100px
 }
 .container{
     width: 90%;
@@ -35,12 +35,9 @@ header a{
     color: #212121;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 17px;
 }
-header li{
-    display: inline;
-    padding: 0 20px 0 20px;
-}
+
 header #title{
     float: left;
 }
@@ -50,16 +47,7 @@ header #title h1{
 header #title h1 a{
     font-size: 30px;
     text-transform: none;
-}
-header nav{
-    float: right;
-    margin-top: 10px;
-}
-
-header .current a{
-    color: goldenrod;
-    font-weight: bold;
-    text-decoration: underline;
+    margin-right: 45px
 }
 
 header a:hover{  /*Changes appearance of menu links when the mouse is moved over the element */
@@ -75,13 +63,13 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
 body {font-family: Verdana, sans-serif;}
 .mySlides {display: none;}
 img {
-    vertical-align: middle;
-    max-height: 500px;    
+	vertical-align: middle;
+	max-height: 400px;    
 }
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
+  max-width: 800px;
   position: relative;
   margin: auto;
 }
@@ -119,7 +107,7 @@ img {
 }
 
 .active {
-  background-color: #717171;
+  background-color: goldenrod;
 }
 
 /* Fading animation */
@@ -140,6 +128,11 @@ img {
   to {opacity: 1}
 }
 
+@media only screen and (max-width: 600px){
+    h2{
+        font-size: 18px;
+    }
+}
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 500px) {
   .text {font-size: 18px}
@@ -190,10 +183,13 @@ footer{
     bottom: 0;
     width: 100%;
     padding: 5px;
-    /* margin-top: -50px; */
     color: #ffffff;
     background-color: #212121;
     text-align: center;
     text-shadow: #353637;
     font-size: 15px
+}
+
+footer a{
+    text-decoration: none;
 }

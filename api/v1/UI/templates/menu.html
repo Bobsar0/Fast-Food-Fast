@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastFoodFast | Place Order</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/menu.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><body>
-    <header> 
-      <div class="container">
-          <div id="title">
-				<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
-
-          </div>
-          <nav>
-              <ul>
-                  <li><a href="./index">Home</a></li>
-                  <li class="current"><a href="./menu">Menu</a></li><!--Page where users can order food-->
-                  <li><a href="./login">Login</a></li>
-                  <li><a href="./signup">Signup</a></li>
-                  <li><a href="#history">Order History</a></li>
-                  <li><i class="fa fa-shopping-cart fa-1x" id="cartInfo">Cart</i></li>
-                <!-- if (user.role === admin) show admin navbar link -->
-                  <li><a href="./admin">Admin</a></li>
-                </ul>
-
-          </nav>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastFoodFast | Place Order</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/menu.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <header> 
+    <div class="container">
+      <div id="title">
+        <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
- 	</header>
+      <nav class="topNav">
+        <a href="./index">Home</a>
+        <div class="dropdown">
+          <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
+          <div class="dropdown-content">
+              <a href="#meal">Meal</a>
+              <a href="#snacks">Snacks</a>
+              <a href="#drinks">Drinks</a>
+              <a href="#combo">Combo</a>
+          </div>
+        </div>
+        <a href="./login">Login</a>
+        <a href="./signup">Signup</a>
+        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"> Cart</i>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+      </nav>
+      </div>
+    </header> 
 	<!--Image Gallery-->
 	<div class="menu">
 		<h1><i>What's on the Menu?</i></h1>
@@ -108,7 +113,7 @@
 		<div class="clearfix"></div>
 	</section>
   <!-- SNACKS -->
-  <section class="menu" id="meals">
+  <section class="menu" id="snacks">
     <h2>SNACKS</h2>
 
     <div class="responsive">
@@ -164,23 +169,24 @@
      
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg">
-          <div class="desc">
-            <h1 id="item08">Scotch Eggs</h1>
-            <p class="price" id="price08">NGN 150.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <button class="cartBtn" id="btn08">Add to Cart</button>
+        <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg">
+        <div class="desc">
+          <h1 id="item08">Scotch Eggs</h1>
+          <p class="price" id="price08">NGN 150.00</p>
+          <p><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <button class="cartBtn" id="btn08">Add to Cart</button>
         </div>			
       </div>
     </div> 
     
     <div class="clearfix"></div>
 
+    
   <!--DRINKS-->
   <section class="menu" id="drinks">
     <h2>DRINKS</h2>
@@ -198,7 +204,8 @@
               <span class="fa fa-star"></span>
             </p>
             <button class="cartBtn" id="btn09">Add to Cart</button>
-        </div>			</div>
+        </div>
+      </div>
 		</div> 
       
     <div class="responsive">
@@ -295,7 +302,7 @@
 
     <div class="responsive">
       <div class="gallery">
-          <img src="../imgs/combo/delicacy.jpg" alt="paella">
+          <img src="../imgs/combo/delicacy.jpg" alt="special_rice">
           <div class="desc">
             <h1 id="item15">Special Rice and Vegetables</h1>
             <p class="price" id="price15">NGN 1500.00</p>
@@ -329,7 +336,7 @@
     
     <div class="responsive">
       <div class="gallery">
-          <img src="../imgs/combo/chicken3.jpg" alt="wholechicken">
+          <img src="../imgs/combo/chicken3.jpg" alt="wholechicken_paella">
           <div class="desc">
             <h1 id="item17">Roasted Whole Chicken Paella</h1>
             <p class="price" id="price17">NGN 5000.00</p>
@@ -403,6 +410,7 @@
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
+    <script src="../js/script.js"></script>
+    <script src="../js/cart.js"></script>
 </body>
-<script src="../js/cart.js"></script>
 </html>
