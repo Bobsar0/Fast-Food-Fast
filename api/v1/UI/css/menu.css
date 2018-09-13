@@ -1,5 +1,6 @@
 
 .menu h1{
+    margin-top: 120px;
     padding: 5px;
     text-shadow: 1px 1px 1px goldenrod;
 }
@@ -37,6 +38,10 @@ div.gallery img {
 div.desc {
     padding: 15px;
     text-align: center;
+}
+.desc h1{
+    margin-top: 40px;
+    font: 25px Arial, Helvetica, sans-serif;
 }
 
 * {
@@ -148,6 +153,10 @@ th, td {
     background-color: #fefefe;
 }
 
+#cartInfo{
+    margin: 10px;
+    font-size: 18px;
+}
 #cartInfo:hover {
     cursor: pointer;
     color: goldenrod;

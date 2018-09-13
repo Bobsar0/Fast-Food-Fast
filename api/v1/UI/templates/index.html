@@ -7,28 +7,37 @@
     <meta name="author" content="Steve Onyeneke">
     <title>Welcome to Fast-Food-Fast</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../js/script.js"></script>
 </head>
 <body>
-    <header id="index"> 
-        <div class="container">
-            <div id="title">
-                <h1><i class="fa fa-cutlery"></i><a href="#"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+  <header id="index"> 
+    <div class="container">
+      <div id="title">
+        <h1><i class="fa fa-cutlery"></i><a href="#"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+      </div>
+      <nav class="topNav">
+        <a href="#" class="current">Home</a>
+        <a href=#about>About</a>
+        <div class="dropdown">
+            <button class="dropbtn"><a href="./menu">Menu <i class="fa fa-caret-down"></i></a></button>
+            <div class="dropdown-content">
+                <a href="./menu#meal">Meal</a>
+                <a href="./menu#snacks">Snacks</a>
+                <a href="./menu#drinks">Drinks</a>
+                <a href="./menul#combo">Combo</a>
             </div>
-            <nav>
-                <ul>
-                    <li class="current"><a href="#">Home</a></li>
-                    <li><a href=#about>About</a></li>
-                    <li><a href="./menu">Menu</a></li><!--Page where users can order food-->
-                    <li><a href="./login">Login</a></li>
-                    <li><a href="./signup">Signup</a></li>
-                </ul>
-            </nav>
         </div>
-    </header>
+        <a href="./login">Login</a>
+        <a href="./signup">Signup</a>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+      </nav>
+    </div>
+  </header>
     <h1>Welcome to FastFoodFast!</h1><br>
     <h2><i>"We quench your yawns with mouth watering meals."</i></h2>
-    <p>A peek at our<a href="./menu"> MENU</a> will convince you</p>
+    <p>A peek at our <a href="./menu">MENU</a> will convince you</p>
 
     <div class="slideshow-container">
 
