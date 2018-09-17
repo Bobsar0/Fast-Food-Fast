@@ -1,68 +1,51 @@
 import 'babel-polyfill';
+// import sinon for spying on method calls
 import sinon from 'sinon';
 import 'should-sinon';
 import _ from 'lodash';
 import OrdersController from '../api/v1/controllers/ordersController';
+import Client from '../api/v1/client';
 
 describe('OrdersController', () => {
-  // introdue external client stub
-  const client = {};
-  const id = 'ABCDEFGHIJKLMNO';
-  const attrs = {
-    name: 'Cocktail', price: '1200', username: 'Steve', userAddr: 'Andela Epic Tower',
-  };
-  const orders = new OrdersController(client, 'Steve', attrs);
+  const orderStore = [{
+    orderId: 'ABCDEFGHIJKLMNO',
+    name: 'Chicken',
+    price: 1000,
+    quantity: 2,
+    username: 'Steve',
+    userAddr: 'Andela',
+    userRank: 'admin',
+  },
+  {
+    orderId: 'PQRSTUVWXYZABCDE',
+    name: 'Rice',
+    price: 800,
+    quantity: 1,
+    username: 'Anonymous',
+    userAddr: 'Somewhere',
+    userRank: 'guest',
+  }];
+  // introduce external client
+  const client = new Client(orderStore);
+  // introduce external ordersController
+  const orderC = new OrdersController(client, 'Steve');
+
 
   // GET /orders test
   // index should return list of orders merged with corresponding ids
   describe('READ', () => {
     before(() => {
-      client.search = () => new Promise(resolve => resolve({
-        orders: [{
-          orderId: 'ABCDEFGHIJKLMNO',
-          name: 'Chicken',
-          price: 1000,
-          username: 'Steve',
-          userAddr: 'Andela',
-          userRank: 'admin',
-        },
-        {
-          orderId: 'PQRSTUVWXYZABCDE',
-          name: 'Rice',
-          price: 800,
-          username: 'Anonymous',
-          userAddr: 'Somewhere',
-          userRank: 'guest',
-        }],
-      }));
+      client.getAll = () => new Promise(resolve => resolve(orderStore));
     });
     // check to see if it correctly parses and returns post data
-    it('parses and returns post data', () => orders.index().then(result => result.should.deepEqual([{
-      orderId: 'ABCDEFGHIJKLMNO',
-      name: 'Chicken',
-      price: 1000,
-      username: 'Steve',
-      userAddr: 'Andela',
-      userRank: 'admin',
-    },
-    {
-      orderId: 'PQRSTUVWXYZABCDE',
-      name: 'Rice',
-      price: 800,
-      username: 'Anonymous',
-      userAddr: 'Somewhere',
-      userRank: 'guest',
-    }])));
+    it('parses and returns post data', () => orderC.read().then(result => result.should.deepEqual(orderStore)));
 
-    it('specifies proper username and attr while searching', () => {
-      // import sinon for spying on method calls
-      const spy = sinon.spy(client, 'search');
-      // search() method should be called once with proper storeNames.
-      return orders.index().then(() => {
+    it('specifies no parameters while retrieving all orders', () => {
+      const spy = sinon.spy(client, 'getAll');
+      // getAll() method should be called once with no parameter.
+      return orderC.read().then(() => {
         spy.should.be.calledOnce();
-        spy.should.be.calledWith({
-          store: 'orderStore',
-        });
+        spy.should.be.calledWith();
       });
     });
   });
@@ -70,38 +53,36 @@ describe('OrdersController', () => {
   // GET /orders:orderId test
   // read should get an order by id
   describe('READByID', () => {
+    const id = 'ABCDEFGHIJKLMNO';
+    const idInvalid = 'ABCD';
+
     context('When there is no order matching the id', () => {
       before(() => {
-        client.get = () => new Promise((resolve, reject) => resolve({
-          store: 'orderStore',
-          orderId: id,
+        client.get = () => new Promise(resolve => resolve({
+          orderId: idInvalid,
           found: false,
         }));
       });
 
-      it('returns rejected promise with the non existent id', () => orders.read(id).catch(result => result.should.equal(id)));
+      it('returns rejected promise with the non existent id', () => orderC.read(idInvalid).catch(result => result.should.equal(idInvalid)));
     });
 
     context('When there is an order matching the id!', () => {
       before(() => {
         client.get = () => new Promise(resolve => resolve({
-          store: 'orderStore',
           orderId: id,
           found: true,
-          value: attrs,
+          value: client.store[0],
         }));
       });
       it('parses and returns order data', () => {
-        orders.read(id).then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
+        orderC.read(id).then(result => result.should.deepEqual(orderStore[0]));
       });
-      it('specifies proper store and id', () => {
+      it('specifies proper id parameter', () => {
         const spy = sinon.spy(client, 'get');
-        return orders.read('ABC').then(() => {
+        return orderC.read(id).then(() => {
           spy.should.be.calledOnce();
-          spy.should.be.calledWith({
-            store: 'orderStore',
-            orderId: 'ABC',
-          });
+          spy.should.be.calledWith(id);
         });
       });
     });
@@ -110,23 +91,28 @@ describe('OrdersController', () => {
   // POST /orders test
   // create should establish a new order
   describe('CREATE', () => {
+    const order = {
+      orderId: 'FGHIJKLMNOPQRSTU', name: 'Cocktail', price: '1200', quantity: 2, username: 'Steve', userAddr: 'Andela Epic Tower', userRank: 'admin',
+    };
+    const res = {
+      orderId: order.orderId,
+      created: true,
+      createdAt: Date(),
+      updatedAt: Date(),
+      order,
+    };
     before(() => {
-      client.save = () => new Promise(resolve => resolve({
-        store: 'orderStore',
-        orderId: 'ABCDEFGHIJKLMNO',
-        created: true,
-      }));
+      client.save = () => new Promise(resolve => resolve(res));
     });
     it('parses and returns order data', () => {
-      orders.create(attrs).then(result => result.should.deepEqual(_.merge({ orderId: 'ABCDEFGHIJKLMNO' }, attrs)));
+      orderC.create(order).then(result => result.should.deepEqual(_.merge(res, { orderId: res.orderId, order: res.order })));
     });
-    it('specifies proper body and store', () => {
+    it('specifies proper body parameter', () => {
       const spy = sinon.spy(client, 'save');
-      return orders.create(attrs).then(() => {
+      return orderC.create(order).then(() => {
         spy.should.be.calledOnce();
         spy.should.be.calledWith({
-          store: 'orderStore',
-          body: attrs,
+          body: order,
         });
       });
     });
@@ -135,39 +121,47 @@ describe('OrdersController', () => {
   // POST /orders/:orderId test
   // update should modify an order and return orderId if successful
   describe('UPDATE', () => {
+    const order = {
+      orderId: 'ABCDEFGHIJKLMNO', name: 'Chicken', price: '1800', quantity: 3, username: 'Steve', userAddr: 'Andela Epic Tower', userRank: 'admin',
+    };
+    const orderInvalid = {
+      orderId: 'ABCDE', name: 'Meatpie', price: '750', quantity: 3, username: 'Anonymous', userAddr: 'Andela', userRank: 'guest',
+    };
+
     context('when there is no order with the specified id', () => {
       before(() => {
-        client.update = () => new Promise((resolve, reject) => resolve({
-          error: 'Order ABCDEFGHIJKLMNO not found!]',
+        client.update = () => new Promise(resolve => resolve({
+          error: 'Order not found!',
           status: 404,
         }));
       });
-      it('returns rejected promise with the non existing post id', () => orders.update(id, attrs)
-        .catch(result => result.should.equal(id)));
+      it('returns rejected promise with the non existing post id', () => orderC.update(orderInvalid)
+        .catch(result => result.should.equal(orderInvalid.orderId)));
     });
 
     context('when there is an order with the specified id!', () => {
+      const res = {
+        orderId: order.orderId,
+        updated: true,
+        updatedAt: Date(),
+        origOrder: orderStore[0],
+        newOrder: order,
+      };
       before(() => {
-        client.update = () => new Promise((resolve, reject) => resolve({
-          store: 'orderStore',
-          orderId: id,
-        }));
+        client.update = () => new Promise(resolve => resolve(res));
       });
-
       it('parses and returns post data', () => {
-        orders.update(id, attrs)
-          .then(result => result.should.deepEqual(_.merge({ orderId: id }, attrs)));
+        orderC.update(order.orderId, order)
+          .then(result => result.should.deepEqual(_.merge({ orderId: res.orderId }, res)));
       });
-
-      it('specifies proper body, store and id and attrs', () => {
+      it('specifies proper id and body parameters', () => {
         const spy = sinon.spy(client, 'update');
 
-        return orders.update(id, attrs).then(() => {
+        return orderC.update(order.orderId, order).then(() => {
           spy.should.be.calledOnce();
           spy.should.be.calledWith({
-            store: 'orderStore',
-            orderId: id,
-            body: attrs,
+            orderId: order.orderId,
+            body: order,
           });
         });
       });
@@ -177,40 +171,38 @@ describe('OrdersController', () => {
   // DELETE /orders/:orderId test
   //  cancel should delete an order from store if found
   describe('DELETE', () => {
-    const id2 = 'ABCDE';
+    const id2 = 'ABCDD';
 
-    context('when there is no post with the specified id', () => {
+    context('when there is no order with the specified id', () => {
       before(() => {
-        client.delete = () => new Promise(resolve => resolve({
-          found: false,
-          store: 'orderStore',
+        client.cancel = () => new Promise(resolve => resolve({
+          deleted: false,
           orderId: id2,
         }));
       });
 
       // checks that promise is rejected
-      it('returns rejected promise with the non existing post id', () => orders.cancel(id2).catch(result => result.should.equal(id2)));
+      it('returns rejected promise with the non existing post id', () => orderC.delete(id2).catch(result => result.should.equal(id2)));
     });
 
-    context('when there is a post with the specified id', () => {
+    context('when there is an order with the specified id', () => {
       before(() => {
-        client.delete = () => new Promise(resolve => resolve({
-          found: true,
-          store: 'orderStore',
-          orderId: id,
+        client.cancel = () => new Promise(resolve => resolve({
+          orderId: orderStore[1].orderId,
+          deleted: true,
         }));
       });
 
-      it('parses and returns order data', () => orders.cancel(id).then(result => result.should.equal(id)));
+      it('parses and returns order data', () => orderC.delete(orderStore[1].orderId)
+        .then(result => result.should.deepEqual(_.merge(
+          { orderId: orderStore[1].orderId }, { deleted: true },
+        ))));
 
-      it('specifies proper store and id', () => {
-        const spy = sinon.spy(client, 'delete');
-        return orders.cancel(id).then(() => {
+      it('specifies proper id parameter', () => {
+        const spy = sinon.spy(client, 'cancel');
+        return orderC.delete(orderStore[1].orderId).then(() => {
           spy.should.be.calledOnce();
-          spy.should.be.calledWith({
-            store: 'orderStore',
-            orderId: id,
-          });
+          spy.should.be.calledWith(orderStore[1].orderId);
         });
       });
     });

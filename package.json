@@ -29,7 +29,6 @@
   "homepage": "https://github.com/Bobsar0/Fast-Food-Fast#readme",
   "dependencies": {
     "bcrypt": "^3.0.0",
-    "body-parser": "^1.18.3",
     "chai": "^4.1.2",
     "compression": "^1.7.3",
     "express": "^4.16.3",
