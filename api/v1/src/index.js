@@ -1,17 +1,30 @@
-import client from '../client';
+import Client from '../client';
 import servers from '../server';
 import OrdersController from '../controllers/ordersController';
-import config from '../config/config';
 
-const attr = {};
-// attr.name = 'Chicken';
-// attr.price = '1000';
-// attr.username = 'Steve';
-// attr.userAddr = 'Andela Epic Tower';
-// attr.orderId = 'ABCDEFGHIJKLMNO';
+// API test store
+const store = [{
+  orderId: 'ABCDEFGHIJKLMNO',
+  name: 'Chicken',
+  price: 1000,
+  quantity: 2,
+  username: 'Steve',
+  userAddr: 'Andela',
+  userRank: 'admin',
+},
+{
+  orderId: 'PQRSTUVWXYZABCDE',
+  name: 'Meatpie',
+  price: 750,
+  quantity: 3,
+  username: 'Anonymous',
+  userAddr: 'Somewhere',
+  userRank: 'guest',
+}];
 
-// const orderModel = new Order()
-const orders = new OrdersController(client, 'Steve', attr);
+// Client uses CRUD helper functions and JS data structures to deal with order
+const client = new Client(store);
+const orders = new OrdersController(client, 'Anonymous');
 const server = servers(orders);
 
-server.listen(config.local.port, () => console.log(`Server listening at port ${config.local.port}...`));
+server.listen(process.env.PORT || 5000);
