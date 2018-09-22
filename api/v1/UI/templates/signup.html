@@ -8,6 +8,7 @@
 		<title>Fast-Food-Fast | SignUp</title>
 		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="../css/forms.css">
+		<link rel="stylesheet" href="../css/nav.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
@@ -16,17 +17,16 @@
 				<div id="title">
 					<h1><a href="index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 				</div>
-				<nav>
-					<ul>
-						<li><a href="index">Home</a></li>
-						<li><a href="about">About</a></li>
-						<li><a href="menu">Menu</a></li><!--Page where users can order food-->
-						<li><a href="login">Login</a></li>
-						<li  class="current"><a href="signup">Signup</a></li>
-					</ul>
+				<nav class="topNav">
+					<a href="./index">Home</a>
+					<a href="./index#about">About</a>
+					<a href="./login">Login</a>
+					<a href="./signup" class="current">Signup</a>
+					<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 			</header>
 		</div>
+		<br><br>
 		<h1>Create an Account</h1>
 		<h3>New Customers</h3>
 		<p>	By creating an account with our restaurant, you will be able to move through the checkout process faster, view and track your orders in your account and more.</p>
@@ -51,5 +51,6 @@
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
 		</div>
+		<script src="../js/scripts.js"></script>
 	</body>
 </html>

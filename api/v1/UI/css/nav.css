@@ -17,7 +17,7 @@
 /* Hide the link that should open and close the topNav on small screens */
 .topNav .icon {
   display: none;
-  padding: 10px;
+  padding: 14px;
   color: goldenrod;
 }
 .current{
@@ -44,7 +44,8 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  color: black;
+  background-color: #cccccc;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -73,8 +74,40 @@
   display: block;
 }
 
+.welcome{
+  margin-top: 0;
+}
+
+/* Sticky navbar
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 90%;
+  background: #212121;
+  color: white;
+  float: left;
+}
+.sticky a{
+  color: white; 
+  padding-right: 20px; 
+}
+.sticky a:hover{
+  background-color: #f9f9f9;
+}
+.sticky a.current{
+  color: goldenrod; 
+}
+.sticky #cartInfo{
+  float: right;
+}
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 60px;
+}
+
 /* When the screen is less than 700 pixels wide, only show the link that should open and close the topNav (.icon) */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
   header #title h1 a{
     font-size: 26px;
     margin-right: 5px;
@@ -99,49 +132,71 @@
     background: #757575;
   }
   /* Adding responsive class to .topNav */
-  .topNav.responsiveNav {
+  .responsiveNav {
     position: relative;
     background: #f5f5f5;
     padding-bottom: 10px;
   }
-  .topNav.responsiveNav a.icon {
-    position: absolute;
-    padding-left: 10px;
-    right: 0;
-    top: 0;
-  }
-  .topNav.responsiveNav a {
+
+  .responsiveNav a {
     float: none;
     display: block;
     text-align: left;
     font: 14px;
     margin: 0;
   }
-  .topNav.responsiveNav .dropdown {float: none;}
-  .topNav.responsiveNav .dropdown-content {
+  .responsiveNav a.icon {
+    position: absolute;
+    padding-left: 12px;
+    right: 0;
+    top: 0;
+  }
+
+  .responsiveNav .dropdown {float: none;}
+  .responsiveNav .dropdown-content {
     position: relative;
   }
 
-  .topNav.responsiveNav .dropdown .dropbtn{
+  .responsiveNav .dropdown .dropbtn{
     display: block;
     width: 100%;
     text-align: left;
     padding: 0px;
   }
-  .topNav.topNav.responsiveNav .dropdown-content a:hover {
+  .responsiveNav .dropdown-content a:hover {
     background-color: #f9f9f9;
   }
-  .topNav.responsiveNav #cartInfo{display: inline;}
+  .responsiveNav #cartInfo{display: inline;}
+
+  .responsiveNav.sticky{
+    position: fixed;
+    background: #212121;
+  }
+  .responsiveNav .sticky a:not(:first-child) {display: none;}
+
+  .responsiveNav.sticky a:hover{
+    background: #cccccca6
+  }
+  .sticky #cartInfo{
+    float: left;
+  }
 }
 
-@media screen and (max-width: 400px){
-  header #title{float: center;}
+@media screen and (max-width: 450px){
   header #title h1 a{
-    font-size: 30px;
-    margin-right: 30px;
+    font-size: 32px;
+    margin-right: 300px;
   }
   .topNav{
     display: inline-block;
     float:none;
+    margin-top: 15px;
+  }
+  .topNav a{
+    padding-right: 50px;
+  }
+  .sticky{
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 }

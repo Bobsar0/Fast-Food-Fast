@@ -15,7 +15,7 @@
       <div id="title">
         <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
-      <nav class="topNav">
+      <nav class="topNav" id="menuNav">
         <a href="./index">Home</a>
         <div class="dropdown">
           <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
@@ -29,7 +29,7 @@
         <a href="./login">Login</a>
         <a href="./signup">Signup</a>
         <i class="fa fa-shopping-cart fa-1x" id="cartInfo"> Cart</i>
-        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+        <a href="javascript:void(0);" class="icon">&#9776;</a>
       </nav>
       </div>
     </header> 
@@ -44,7 +44,18 @@
 
 		<div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain">
+                </div>
+                <div class="flip-box-back">
+                  <h2>Description:</h2>
+                  <p>Rice and ofada stew garnished with dodo and assorted meat.
+                    <br> Chef Steve's special!</p>
+                </div>
+            </div>
+          </div>
           <div class="desc">
             <h1 id="item01">Rice and Dodo</h1>
             <p class="price" id="price01">NGN 600.00</p>
@@ -54,6 +65,15 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>Select Quantity: 
+              <select id="selectQty01">
+                <option id="qty01">1</option>
+                <option id="qty02">2</option>
+                <option id="qty03">3</option>
+                <option id="qty04">4</option>
+                <option id="qty05">5</option>
+              </select>
+            </p>
             <button class="cartBtn" id="btn01">Add to Cart</button>
         </div>
 			</div>
@@ -61,7 +81,17 @@
 
 		<div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/meals/chicken.jpg" alt="chicken">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+                  <img src="../imgs/meals/chicken.jpg" alt="chicken">
+                </div>
+                <div class="flip-box-back">
+                  <h2>Description:</h2>
+                  <p>Delicious roasted spicy chicken garnished with curry and herbs.</p>
+                </div>
+              </div>
+          </div>
           <div class="desc">
             <h1 id="item02">Chicken</h1>
             <p class="price" id="price02">NGN 1000.00</p>
@@ -71,6 +101,19 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>Select Quantity: 
+                <select id="selectQty02">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                  <option id="qty07">7</option>
+                  <option id="qty08">8</option>
+                  <option id="qty09">9</option>
+                </select>
+              </p>
             <button class="cartBtn" id="btn02">Add to Cart</button>
         </div>
       </div>
@@ -78,7 +121,17 @@
 		
 		<div class="responsive">
 			<div class="gallery">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
           <img src="../imgs/meals/steak2.jpg" alt="steak">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p></p>
+        </div>
+      </div>
+    </div>
           <div class="desc">
             <h1 id="item03">Steak dish</h1>
             <p class="price" id="price03">NGN 1000.00</p>
@@ -88,6 +141,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty03">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn03">Add to Cart</button>
         </div>
     	</div>
@@ -95,7 +159,17 @@
     
     <div class="responsive">
 			<div class="gallery">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
           <img src="../imgs/meals/moinmoin.jpg" alt="moin-moin">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p></p>
+        </div>
+      </div>
+    </div>
           <div class="desc">
             <h1 id="item04">Moin-moin deli</h1>
             <p class="price" id="price04">NGN 400.00</p>
@@ -104,6 +178,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty04">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn04">Add to Cart</button>
         </div>
@@ -128,6 +213,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty05">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn05">Add to Cart</button>
         </div>
       </div>
@@ -144,6 +240,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty06">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn06">Add to Cart</button>
         </div>
@@ -162,6 +269,17 @@
               <span class="fa fa-star"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty07">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn07">Add to Cart</button>
         </div>		
       </div>
@@ -178,6 +296,17 @@
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star"></span>
+          </p>
+          <p>
+            Select Quantity: 
+              <select id="selectQty08">
+                <option id="qty01">1</option>
+                <option id="qty02">2</option>
+                <option id="qty03">3</option>
+                <option id="qty04">4</option>
+                <option id="qty05">5</option>
+                <option id="qty06">6</option>
+              </select>
           </p>
           <button class="cartBtn" id="btn08">Add to Cart</button>
         </div>			
@@ -203,6 +332,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty09">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn09">Add to Cart</button>
         </div>
       </div>
@@ -219,6 +359,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty10">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn10">Add to Cart</button>
         </div>			
@@ -237,6 +388,21 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty11">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                  <option id="qty03">7</option>
+                  <option id="qty04">8</option>
+                  <option id="qty05">9</option>
+                  <option id="qty06">10</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn11">Add to Cart</button>
         </div>			
       </div>
@@ -253,6 +419,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty12">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn12">Add to Cart</button>
         </div>			
@@ -271,6 +448,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty13">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn13">Add to Cart</button>
         </div>			
       </div>
@@ -287,6 +475,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty14">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn14">Add to Cart</button>
         </div>			
@@ -312,6 +511,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty15">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn15">Add to Cart</button>
         </div>
       </div>
@@ -328,6 +538,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty16">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn16">Add to Cart</button>
         </div>
@@ -346,6 +567,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
             </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty17">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
+            </p>
             <button class="cartBtn" id="btn17">Add to Cart</button>
         </div>      
       </div>
@@ -362,6 +594,17 @@
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star"></span>
+            </p>
+            <p>
+              Select Quantity: 
+                <select id="selectQty18">
+                  <option id="qty01">1</option>
+                  <option id="qty02">2</option>
+                  <option id="qty03">3</option>
+                  <option id="qty04">4</option>
+                  <option id="qty05">5</option>
+                  <option id="qty06">6</option>
+                </select>
             </p>
             <button class="cartBtn" id="btn18">Add to Cart</button>
         </div>      
@@ -381,6 +624,7 @@
       <tr>
         <th>Date</th>
         <th>Item</th>
+        <th>Quantity</th>
         <th>Price</th>
         <th>Action</th>
       </tr>
@@ -393,16 +637,23 @@
       <div class="modalContent">
         <span class="close">&times;</span>
         <h1>SHOPPING CART</h1>
-        <p>Username: <b>ANONYMOUS</b></p>
-        <table id="table">
+        <p><b>Username: </b>ANONYMOUS</p>
+        <p><b>Address: <input type="text" placeholder="Please enter your delivery address"></b></p>
+        <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number"></b></p>
+        <table id="cartTable">
           <thead>
-          <tr>
+          <!-- <tr> -->
             <th>Item</th>
+            <th>Quantity</th>
             <th>Price</th>
-            <th colspan="2">Action</th>
-          </tr>
+            <th>Action</th>
+          <!-- </tr> -->
           </thead>
           </table>
+        <h3>
+          TOTAL PRICE: NGN <span id="totalPrice">0.00</span>
+        </h3>
+        <button type="submit" id="checkoutBtn">Submit Order</button>
       </div>
     </div>
     <footer>
@@ -410,7 +661,7 @@
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
-    <script src="../js/script.js"></script>
+    <script src="../js/scripts.js"></script>
     <script src="../js/cart.js"></script>
 </body>
 </html>

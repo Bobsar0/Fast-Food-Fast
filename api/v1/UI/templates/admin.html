@@ -8,7 +8,8 @@
 		<title>Fast-Food-Fast | Admin</title>
 		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="../css/menu.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><body>
+		<link rel="stylesheet" href="../css/nav.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body style="background:whitesmoke;">
 			<header> 
@@ -16,26 +17,35 @@
 							<div id="title">
 						<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 							</div>
-							<nav>
-									<ul>
-											<li><a href="./index">Home</a></li>
-											<li><a href="./menu">Menu</a></li><!--Page where users can order food-->
-											<li><a href="#">Logout</a></li>
-											<li class="current"><i class="fa fa-user fa-2x"></i><a href="#">Admin</a></li><!--Admin Page-->
-									 </ul>
+							<nav class="topNav">
+								<a href="./index.html" class="current">Home</a>
+								<a href=#about>About</a>
+								<div class="dropdown">
+										<button class="dropbtn"><a href="./menu">Menu <i class="fa fa-caret-down"></i></a></button>
+										<div class="dropdown-content">
+												<a href="./menu#meal">Meal</a>
+												<a href="./menu#snacks">Snacks</a>
+												<a href="./menu#drinks">Drinks</a>
+												<a href="./menul#combo">Combo</a>
+										</div>
+								</div>
+								<a href="./login">Login</a>
+								<a href="./signup">Signup</a>
+								<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
 							</nav>
 					</div>
-			 </header>
+			 </header><br><br>
 			 <h1>ADMINISTRATOR PANEL</h1><br>
 		<section class="main">
 			<div class="container">
 				<h2>APPROVE/REJECT USER ORDER</h2>
-					<div id="admin">
+					<section class="admin">
 						<table>
 							<thead>
 								<tr>
 									<th>User</th>
 									<th>Product</th>
+									<th>Qty</th>
 									<th>Price</th>
 									<th colspan="2">Action</th>
 									<th><i>Mark as completed</i></th>
@@ -45,25 +55,57 @@
 								<tr>
 									<td>Steve</td>
 									<td>Chicken</td>
+									<td>6</td>
 									<td>#1000.00</td>
 									<td><button id="approveBtn">Approve Order</button></td>
 									<td><button id="declineBtn">Decline Order</button></td>
 									<td><input type="checkbox" name="completed"></td>
 								</tr>
 								<tr>
-									<td colspan="6">
+									<td colspan="7">
 										<textarea name="reason" id="reason" placeholder="Please enter reasons for action taken"></textarea>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-					</div>
+					</section>
+
+					<h2>EDIT MENU ITEMS</h2>
+					<section class="admin">
+						<table>
+							<thead>
+								<tr>
+									<th>Product</th>
+									<th>Price (Old | New)</th>
+									<th>Qty (Old | New)</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Chicken</td>
+									<td>#1000 | <input type="number" name="editPrice" id="editPrice" class="editInputPrice"></td>
+									<td>11 | <input type="number" name="editQty" id="editQty" class="editInputQty"></td>
+									<td><button id="approveBtn">Approve Change</button></td>
+								</tr>
+								<tr>
+										<td>Rice and Dodo</td>
+										<td>#1200 | <input type="number" name="editPrice" class = "editInputPrice" id="editPrice" style="width: 100px"></td>
+										<td>16 | <input type="number" name="editQty" class="editInputQty" id="editQty" style="width: 50px"></td>
+										<td><button id="approveBtn">Approve Change</button></td>
+									</tr>
+
+							</tbody>
+						</table>
+					</section>
+
 			</div>
 			</section>
 			<footer>
         <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
-    </footer>
+		</footer>
+		<script src="../js/scripts.js"></script>
 	</body>
 </html>
