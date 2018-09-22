@@ -1,4 +1,4 @@
-import Client from '../client';
+import Order from '../models/orderModel';
 import servers from '../server';
 import OrdersController from '../controllers/ordersController';
 
@@ -22,9 +22,9 @@ const store = [{
   userRank: 'guest',
 }];
 
-// Client uses CRUD helper functions and JS data structures to deal with order
-const client = new Client(store);
-const orders = new OrdersController(client, 'Anonymous');
+// Order uses CRUD helper functions and JS data structures to deal with order
+const order = new Order(store);
+const orders = new OrdersController(order, 'Anonymous');
 const server = servers(orders);
 
 server.listen(process.env.PORT || 5000);

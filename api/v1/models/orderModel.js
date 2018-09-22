@@ -1,66 +1,112 @@
-import { uuid } from 'uuid/v1';
-import BaseModel from './baseModel';
+import uuidv1 from 'uuid/v1';
 
-class Order extends BaseModel {
-  constructor(attrs, username, userAddr, userRank) {
-    super(username, userAddr, userRank);
-    this.name = attrs.name;
-    this.price = attrs.price;
-    this.quantity = 0;
-    this.store = [];
-    this.attrs = attrs;
+
+// Class orderModel represents order objects used with Data Structures - No database
+export default class OrderModel {
+  constructor(store) {
+    this.store = store;
   }
 
-  get orderId() {
-    this.orderId = uuid();
-    return this.attrs.orderId;
-  }
-
-  //  searches the entire store and returns everything
-  search(store) {
-    if (store !== this.store) {
-      return false;
-    }
-    return store;
-  }
-
-  // saves order in store
-  save(store, attrs) {
-    this.store.push(attrs);
-  }
-
-  // gets order from store based on id
-  get(store, id) {
-    this.store.forEach((order) => {
-      if (order.orderId === id) {
-        return order[id];
-      }
+  // get all orders
+  getAll() {
+    return new Promise((resolve, reject) => {
+      if (this.store) resolve(this.store);
+      else reject(this.store);
     });
   }
 
-  // updates an order of given id
-  update(store, id, attrs) {
-    this.store.forEach((order) => {
-      if (order.orderId === id) {
-        Object.assign((attrs), order);
+  // get order from store based on id
+  get(id) {
+    return new Promise((resolve, reject) => {
+      if (this.store.length === 0) {
+        return reject(id);
       }
-      return order.orderId;
-    });
-  }
-
-  // deletes an order from store
-  delete(id) {
-    this.store.forEach((order) => {
-      if (order.orderId === id) {
-        const index = this.store.indexOf(order);
-        // call splice() if indexOf() didn't return -1:
-        if (index !== -1) {
-          this.store.splice(index, 1);
+      this.store.forEach((order) => {
+        if (order.orderId === id) {
+          return resolve({
+            orderId: id,
+            found: true,
+            value: order,
+          });
         }
-        return order.orderId;
-      }
+        return reject(id);
+      });
     });
   }
-}
 
-export default Order;
+  // save order in store
+  save(attrs) {
+    return new Promise((resolve, reject) => {
+      if (!attrs.body) {
+        return reject(attrs.body);
+      }
+      const orderObj = attrs.body;
+
+      // Reject if there's an existing ID
+      this.store.forEach((order) => {
+        if (orderObj.orderId === order.orderId) {
+          return reject(orderObj.orderId);
+        }
+      });
+      // Generate unique ID if order doesn't contain one
+      if (!attrs.body.orderId) {
+        orderObj.orderId = uuidv1();
+      }
+      // Assign orderId to order or a unique generated ID if there's none
+      this.orderId = orderObj.orderId;
+
+      // Add order to store
+      this.store.push(orderObj);
+      // return result to be rendered to browser
+      return resolve({
+        orderId: this.orderId,
+        created: true,
+        createdAt: Date(),
+        updatedAt: Date(),
+        order: orderObj,
+      });
+    });
+  }
+
+  // update an order of given id
+  update(attrs) {
+    return new Promise((resolve, reject) => {
+      this.store.forEach((order) => {
+        if (order.orderId === attrs.orderId) {
+          // Convert order to string before assigning to maintain original props of order
+          const orderStr = JSON.stringify(order);
+          const newOd = Object.assign(order, attrs.body);
+
+          return resolve({
+            orderId: newOd.orderId,
+            updated: true,
+            updatedAt: Date(),
+            origOrder: JSON.parse(orderStr),
+            newOrder: newOd,
+          });
+        }
+      });
+      // Reject if there's no matching orderId
+      return reject(attrs.orderId);
+    });
+  }
+
+  // delete an order from store
+  cancel(id) {
+    return new Promise((resolve, reject) => {
+      this.store.forEach((order) => {
+        if (order.orderId === id) {
+          const index = this.store.indexOf(order);
+          this.store.splice(index, 1);
+          return resolve({
+            orderId: order.orderId,
+            deleted: true,
+          });
+        }
+      });
+      // Reject if order isn't found
+      return reject(id);
+    });
+  }
+  // End class
+}

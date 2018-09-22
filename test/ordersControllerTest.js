@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import 'should-sinon';
 import _ from 'lodash';
 import OrdersController from '../api/v1/controllers/ordersController';
-import Client from '../api/v1/client';
+import Order from '../api/v1/models/orderModel';
 
 describe('OrdersController', () => {
   const orderStore = [{
@@ -25,23 +25,23 @@ describe('OrdersController', () => {
     userAddr: 'Somewhere',
     userRank: 'guest',
   }];
-  // introduce external client
-  const client = new Client(orderStore);
+  // introduce external order
+  const orderM = new Order(orderStore);
   // introduce external ordersController
-  const orderC = new OrdersController(client, 'Steve');
+  const orderC = new OrdersController(orderM, 'Steve');
 
 
   // GET /orders test
   // index should return list of orders merged with corresponding ids
   describe('READ', () => {
     before(() => {
-      client.getAll = () => new Promise(resolve => resolve(orderStore));
+      orderM.getAll = () => new Promise(resolve => resolve(orderStore));
     });
     // check to see if it correctly parses and returns post data
     it('parses and returns post data', () => orderC.read().then(result => result.should.deepEqual(orderStore)));
 
     it('specifies no parameters while retrieving all orders', () => {
-      const spy = sinon.spy(client, 'getAll');
+      const spy = sinon.spy(orderM, 'getAll');
       // getAll() method should be called once with no parameter.
       return orderC.read().then(() => {
         spy.should.be.calledOnce();
@@ -58,7 +58,7 @@ describe('OrdersController', () => {
 
     context('When there is no order matching the id', () => {
       before(() => {
-        client.get = () => new Promise(resolve => resolve({
+        orderM.get = () => new Promise(resolve => resolve({
           orderId: idInvalid,
           found: false,
         }));
@@ -69,17 +69,17 @@ describe('OrdersController', () => {
 
     context('When there is an order matching the id!', () => {
       before(() => {
-        client.get = () => new Promise(resolve => resolve({
+        orderM.get = () => new Promise(resolve => resolve({
           orderId: id,
           found: true,
-          value: client.store[0],
+          value: orderM.store[0],
         }));
       });
       it('parses and returns order data', () => {
         orderC.read(id).then(result => result.should.deepEqual(orderStore[0]));
       });
       it('specifies proper id parameter', () => {
-        const spy = sinon.spy(client, 'get');
+        const spy = sinon.spy(orderM, 'get');
         return orderC.read(id).then(() => {
           spy.should.be.calledOnce();
           spy.should.be.calledWith(id);
@@ -95,20 +95,20 @@ describe('OrdersController', () => {
       orderId: 'FGHIJKLMNOPQRSTU', name: 'Cocktail', price: '1200', quantity: 2, username: 'Steve', userAddr: 'Andela Epic Tower', userRank: 'admin',
     };
     const res = {
-      orderId: order.orderId,
+      orderId: orderM.orderId,
       created: true,
       createdAt: Date(),
       updatedAt: Date(),
       order,
     };
     before(() => {
-      client.save = () => new Promise(resolve => resolve(res));
+      orderM.save = () => new Promise(resolve => resolve(res));
     });
     it('parses and returns order data', () => {
       orderC.create(order).then(result => result.should.deepEqual(_.merge(res, { orderId: res.orderId, order: res.order })));
     });
     it('specifies proper body parameter', () => {
-      const spy = sinon.spy(client, 'save');
+      const spy = sinon.spy(orderM, 'save');
       return orderC.create(order).then(() => {
         spy.should.be.calledOnce();
         spy.should.be.calledWith({
@@ -130,7 +130,7 @@ describe('OrdersController', () => {
 
     context('when there is no order with the specified id', () => {
       before(() => {
-        client.update = () => new Promise(resolve => resolve({
+        orderM.update = () => new Promise(resolve => resolve({
           error: 'Order not found!',
           status: 404,
         }));
@@ -148,14 +148,14 @@ describe('OrdersController', () => {
         newOrder: order,
       };
       before(() => {
-        client.update = () => new Promise(resolve => resolve(res));
+        orderM.update = () => new Promise(resolve => resolve(res));
       });
       it('parses and returns post data', () => {
         orderC.update(order.orderId, order)
           .then(result => result.should.deepEqual(_.merge({ orderId: res.orderId }, res)));
       });
       it('specifies proper id and body parameters', () => {
-        const spy = sinon.spy(client, 'update');
+        const spy = sinon.spy(orderM, 'update');
 
         return orderC.update(order.orderId, order).then(() => {
           spy.should.be.calledOnce();
@@ -175,7 +175,7 @@ describe('OrdersController', () => {
 
     context('when there is no order with the specified id', () => {
       before(() => {
-        client.cancel = () => new Promise(resolve => resolve({
+        orderM.cancel = () => new Promise(resolve => resolve({
           deleted: false,
           orderId: id2,
         }));
@@ -187,7 +187,7 @@ describe('OrdersController', () => {
 
     context('when there is an order with the specified id', () => {
       before(() => {
-        client.cancel = () => new Promise(resolve => resolve({
+        orderM.cancel = () => new Promise(resolve => resolve({
           orderId: orderStore[1].orderId,
           deleted: true,
         }));
@@ -199,7 +199,7 @@ describe('OrdersController', () => {
         ))));
 
       it('specifies proper id parameter', () => {
-        const spy = sinon.spy(client, 'cancel');
+        const spy = sinon.spy(orderM, 'cancel');
         return orderC.delete(orderStore[1].orderId).then(() => {
           spy.should.be.calledOnce();
           spy.should.be.calledWith(orderStore[1].orderId);
