@@ -1,4 +1,6 @@
-
+* {
+    box-sizing: border-box;
+}
 .menu h1{
     margin-top: 120px;
     padding: 5px;
@@ -24,29 +26,71 @@
 
 div.gallery {
     border: 1px solid #ccc;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+    transition: 0.3s;
+    border-radius: 5px;
 }
 
 div.gallery:hover {
     border: 1px solid goldenrod;
+    /* Add deeper shadow */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 div.gallery img {
-    width: 95%;
-    height: 190px;
+    width: 100%;
+    height: 200px;
+    border-radius: 5px 5px 0 0;
+}
+/* Image flip */
+.flip-box{
+    background-color: transparent;
+    width: 100%;
+		height: 200px;
+    perspective: 1000px;
+}
+.flip-box-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+}
+/* Do a horizontal flip when you move the mouse over the flip box container */
+	.flip-box:hover .flip-box-inner {
+	transform: rotateY(180deg);
+}
+
+  /* Position the front and back side */
+.flip-box-front, .flip-box-back {
+		border-radius: 5px 5px 0 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+/* Style the front side (fallback if image is missing) */
+.flip-box-front {
+    background-color: #bbb;
+    color: black;
+}
+  
+  /* Style the back side */
+.flip-box-back {
+		background-color: #212121;
+		color: white;
+		transform: rotateY(180deg);
 }
 
 div.desc {
-    padding: 15px;
     text-align: center;
 }
 .desc h1{
-    margin-top: 40px;
+    margin-top: 30px;
     font: 25px Arial, Helvetica, sans-serif;
 }
 
-* {
-    box-sizing: border-box;
-}
 
 .checked {
     color: orange;
@@ -57,7 +101,7 @@ div.desc {
     font-size: 16px;
   }
 
-.cartBtn{
+.cartBtn, #checkoutBtn{
     border: none;
     outline: 0;
     padding: 12px;
@@ -91,6 +135,9 @@ div.desc {
     .responsive {
         width: 100%;
     }
+    div.gallery img {
+        height: 220px;
+    }    
 }
 
 .clearfix:after {
@@ -110,7 +157,7 @@ th, td {
     border-bottom: 0.2px solid #747474;
 }
 
-#submitOdr, #cancelOdr, #approveBtn, #declineBtn{
+.cancelOdr, #approveBtn, #declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;
@@ -119,14 +166,15 @@ th, td {
     opacity: 0.8;
 }
 
-#cancelOdr, #declineBtn{
+.cancelOdr, #declineBtn{
     background: red;
 }
-#submitOdr:hover,
+
 #cancelOdr:hover{
     opacity: 1;
     font: bolder;
 }
+
 /*****MODAL*****/
 .modal {
     display: none; /* Hidden by default */
@@ -151,6 +199,9 @@ th, td {
     border-radius: 0.5rem;
     border: 1px solid #888;
     background-color: #fefefe;
+}
+.modalContent h1{
+    margin-top: 20px;
 }
 
 #cartInfo{
@@ -179,3 +230,12 @@ th, td {
     cursor: pointer;
     color: black;
 } 
+
+#userAddr, #userPhone{
+    height: 36px;
+    width: 300px;
+    font-size: 16px;
+    padding: 10px;
+    border: 0;
+    font: bold
+}

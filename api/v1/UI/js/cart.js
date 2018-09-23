@@ -1,9 +1,17 @@
 /** **ADD TO CART IMPLEMENTATION*** */
 const cartBtns = document.getElementsByClassName('cartBtn');
-const table = document.getElementById('table');
-const tableHist = document.getElementById('tableHistory');
+const cartTable = document.getElementById('cartTable');
+const checkoutBtn = document.getElementById('checkoutBtn');
 
-// Helper function tht appends row containing data to table
+// Total price for cart items
+const total = document.getElementById('totalPrice');
+let totalPrice = 0;
+
+// Hold all the cells in an array so as to transfer to order history
+let cartCellArr = [];
+let trArr = [];
+
+// Helper function that appends row containing data to table
 function appendtoTable(cellArr, tr, tableName) {
   cellArr.forEach((cell) => { // append each cell to td then to tr
     const td = document.createElement('TD'); // create table data
@@ -13,59 +21,75 @@ function appendtoTable(cellArr, tr, tableName) {
   tableName.appendChild(tr); // append to table
 }
 
+// Assign count to each event
+let count = 0;
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
+    count += 1;
+
     const btnID = cartBtn.id;
-    const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML; // the last 2-digits in the id corresponds to the last digit  in btnID
-    const price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
-    alert(`${name} successfully added to cart`); // alert user of successful cart addition
+    // the last 2-digits in the id corresponds to the last digit in btnID
+    const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
+    const qty = document.querySelector(`select#selectQty${btnID.slice(-2)}`).value;
+    let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
+    price = Number(qty) * Number(price.slice(4));
 
-    const tr = document.createElement('TR'); // create a tablerow node
+    totalPrice += Number(price);
+    total.innerHTML = totalPrice.toFixed(2);
+    // alert user of successful cart addition
+    alert(`${qty}x ${name} successfully added to cart`);
 
+    // create a tablerow node
+    const tr = document.createElement('TR');
     // Create contents for the table data cells in each row
     const cell1 = document.createTextNode(name);
-    const cell2 = document.createTextNode(price);
-
-    // Create a submit order for review button
-    const submitBtn = document.createElement('BUTTON'); //
-    submitBtn.id = 'submitOdr';
-    submitBtn.className = 'submitClass';
-
-    const submit = document.createTextNode('Submit Order');
-    submitBtn.appendChild(submit);
+    const cell2 = document.createTextNode(qty);
+    const cell3 = document.createTextNode(price);
 
     // Create a cancel order button
     const cancelBtn = document.createElement('BUTTON');
-    cancelBtn.id = 'cancelOdr';
-    const cancel = document.createTextNode('Cancel Order');
+    cancelBtn.className = 'cancelOdr';
+    cancelBtn.id = `cancelOdr${count}`;
+    const cancel = document.createTextNode('Delete Item');
     cancelBtn.appendChild(cancel);
 
-    const cancelHist = document.createElement('BUTTON');
-    const cancelTxt = document.createTextNode('Erase History');
-    cancelHist.id = 'cancelOdr';
-    cancelHist.appendChild(cancelTxt);
+    const cells = [cell1, cell2, cell3, cancelBtn];
+    appendtoTable(cells, tr, cartTable);
+    // append row to array to be used to delete cart table upon checkout
+    trArr.push(tr);
+    // Append cells to array (excluding count) to be used to fill orderHistory
+    cartCellArr.push(cells);
 
-    const cells = [cell1, cell2, submitBtn, cancelBtn];
-    appendtoTable(cells, tr, table);
-
-    // If submit btn is clicked
-    submitBtn.onclick = () => {
-      table.removeChild(tr); // remove row from table
-      alert(`Your order of ${name} at the cost of ${price} has been successfully placed! We will contact you shortly with further details.`);
-      const date = document.createTextNode(`${new Date()}`);// Record date and time the order was placed
-      const cells = [date, cell1, cell2, cancelHist];
-      const trHist = document.createElement('TR'); // create a new tablerow node
-      appendtoTable(cells, trHist, tableHist);
-    };
-    // If cancel btn is clicked
+    // *** If cancel btn is clicked *** //
     cancelBtn.onclick = () => {
-      table.removeChild(tr); // remove row from table
+      // remove row from cartTable
+      cartTable.removeChild(tr);
+      // remove row from trArr
+      const index = trArr.indexOf(tr);
+      // call splice() if indexOf() didn't return -1:
+      if (index !== -1) {
+        trArr.splice(index, 1);
+      }
+      // remove row from cartCellArr
+      cartCellArr.forEach((cell) => {
+        if (cell[cell.length - 1].id === cancelBtn.id) {
+          // Delete cell
+          cartCellArr.splice(cartCellArr.indexOf(cell), 1);
+        }
+      });
+
+      totalPrice -= Number(price);
+      total.innerHTML = totalPrice.toFixed(2);
+      if (totalPrice === 0) {
+        checkoutBtn.style.backgroundColor = '#212121';
+        checkoutBtn.style.cursor = 'not-allowed';
+        checkoutBtn.style.color = 'goldenrod';
+        checkoutBtn.style.opacity = 0.6;
+      }
     };
   });
 });
-
-
 
 //* **********MODAL**********/
 const modal = document.getElementById('modalDiv'); // Get the modal
@@ -75,6 +99,13 @@ const span = document.getElementsByClassName('close')[0]; // Get the <span> elem
 // Open the modal when the user clicks on the text,
 cart.onclick = () => {
   modal.style.display = 'block';
+  const condition = Number(total.innerHTML) === 0;
+
+  // Style checkout button
+  checkoutBtn.style.cursor = condition ? 'not-allowed' : 'pointer';
+  checkoutBtn.style.backgroundColor = condition ? '#212121' : '#2ec371';
+  checkoutBtn.style.color = condition ? 'goldenrod' : 'white';
+  checkoutBtn.style.opacity = condition ? 0.6 : 1;
 };
 // Close the modal when the user clicks on <span> (x)
 span.onclick = () => {
@@ -85,5 +116,40 @@ span.onclick = () => {
 window.onclick = (event) => {
   if (event.target === modal) {
     modal.style.display = 'none';
+  }
+};
+
+// Order History
+const orderHistory = document.getElementById('tableHistory');
+// // If submit btn is clicked
+checkoutBtn.onclick = () => {
+  count = 0;
+  if (totalPrice > 0) {
+    alert('Your order has been successfully placed! We will contact you shortly with further details.');
+    totalPrice = 0;
+    total.innerHTML = totalPrice.toFixed(2);
+
+    // Remove rows from cart table
+    trArr.forEach(((tr) => {
+      cartTable.removeChild(tr); // remove row from table
+    }));
+    // Clear trArr
+    trArr = [];
+
+    // Record order in order history table
+    cartCellArr.forEach((cells) => {
+      // Add date as first element in cell
+      const date = document.createTextNode(`${new Date()}`);
+      cells.unshift(date);
+      const trHist = document.createElement('TR');
+      appendtoTable(cells, trHist, orderHistory);
+    });
+    // Clear cartCellArr
+    cartCellArr = [];
+    // Style button
+    checkoutBtn.style.backgroundColor = '#212121';
+    checkoutBtn.style.cursor = 'not-allowed';
+    checkoutBtn.style.color = 'goldenrod';
+    checkoutBtn.style.opacity = 0.6;
   }
 };
