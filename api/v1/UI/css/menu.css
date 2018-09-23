@@ -157,7 +157,7 @@ th, td {
     border-bottom: 0.2px solid #747474;
 }
 
-#cancelOdr, #approveBtn, #declineBtn{
+.cancelOdr, #approveBtn, #declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;
@@ -166,7 +166,7 @@ th, td {
     opacity: 0.8;
 }
 
-#cancelOdr, #declineBtn{
+.cancelOdr, #declineBtn{
     background: red;
 }
 
@@ -231,11 +231,10 @@ th, td {
     color: black;
 } 
 
-input{
+#userAddr, #userPhone{
     height: 36px;
     width: 300px;
     font-size: 16px;
-    /* margin-left: 10px; */
     padding: 10px;
     border: 0;
     font: bold
