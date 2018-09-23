@@ -231,11 +231,10 @@ th, td {
     color: black;
 } 
 
-input{
+#userAddr, #userPhone{
     height: 36px;
     width: 300px;
     font-size: 16px;
-    /* margin-left: 10px; */
     padding: 10px;
     border: 0;
     font: bold
