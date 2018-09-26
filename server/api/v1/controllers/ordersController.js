@@ -46,7 +46,7 @@ export default class extends BaseController {
         if (res.orderId) {
           return resolve(_.merge({ orderId: res.orderId }, res));
         }
-        return reject(attrs.orderId);
+        return reject(attrs);
       }))
       .catch(resId => _.merge({ status: '404', error: `Order of ID ${resId} does not exist` }));
   }
