@@ -10,3 +10,4 @@ branches:
     - develop
 after_success:
   - npm coverage
+  
