@@ -72,14 +72,15 @@ export default class OrderModel {
       this.store.forEach((order) => {
         if (order.orderId === attrs.orderId) {
           // Convert order to string before assigning to maintain original props of order
-          const orderStr = JSON.stringify(order);
+          // const orderStr = JSON.stringify(order);
+
           const newOd = Object.assign(order, attrs.body);
 
           return resolve({
             orderId: newOd.orderId,
             updated: true,
             updatedAt: Date(),
-            origOrder: JSON.parse(orderStr),
+            // origOrder: JSON.parse(orderStr),
             newOrder: newOd,
           });
         }
