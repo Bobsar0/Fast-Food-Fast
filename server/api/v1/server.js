@@ -27,7 +27,7 @@ export default (orderC) => {
   });
 
   // POST /orders
-  server.post(`${prefix}/orders`, (req, res) => {
+  server.post(`${prefix}/orders`, (req, res, next) => {
     // kill the connection if someone tries to flood the RAM
     let body = '';
     req.on('data', (data) => {
@@ -37,6 +37,7 @@ export default (orderC) => {
         req.connection.destroy();
         return res.status(400).json({ warning: 'Please reduce content. You are flooding my server!' });
       }
+      return next();
     });
     // Validate request
     if (req.body === {}) {
@@ -48,17 +49,18 @@ export default (orderC) => {
     if (!req.body.userAddr) {
       return res.status(400).json({ message: 'Sorry, your delivery address cannot be empty' });
     }
-    orderC.create(req.body)
+    return orderC.create(req.body)
       .then((result) => {
         if (result === undefined) {
           return res.status(400).json({ message: 'Sorry invalid order request' });
         }
-        res.status(201).json(result);
-      });
+        return res.status(201).json(result);
+      })
+      .catch(() => res.sendStatus(404));
   });
 
   // PUT /orders/:orderId
-  server.put(`${prefix}/orders/:orderId`, (req, res) => {
+  server.put(`${prefix}/orders/:orderId`, (req, res, next) => {
     // kill the connection if someone tries to flood the RAM
     let body = '';
     req.on('data', (data) => {
@@ -68,6 +70,7 @@ export default (orderC) => {
         req.connection.destroy();
         return res.status(400).json({ warning: 'Please reduce content. You are flooding my server!' });
       }
+      return next();
     });
     orderC.update(req.params.orderId, req.body)
       .then(result => res.status(200).json(result))
@@ -84,27 +87,27 @@ export default (orderC) => {
   // Compress the routes
   server.use(compression());
 
-  const dirName = '/UI/templates';
-  server.use(express.static(path.join(__dirname, '/UI')));
+  const uiPath = path.join(__dirname, '../../../UI');
+  server.use(express.static(uiPath));
 
   server.get('/', (_req, res) => {
-    res.sendFile(path.join(__dirname, dirName, '/index.html'));
+    res.sendFile(`${uiPath}/templates/index.html`);
   });
   server.get('/index', (_req, res) => {
-    res.sendFile(path.join(__dirname, dirName, '/index.html'));
+    res.sendFile(`${uiPath}/templates/index.html`);
   });
   server.get('/menu', (_req, res) => {
-    res.sendFile(path.join(__dirname, `${dirName}/menu.html`));
+    res.sendFile(`${uiPath}/templates/menu.html`);
   });
 
   server.get('/signup', (_req, res) => {
-    res.sendFile(path.join(__dirname, `${dirName}/signup.html`));
+    res.sendFile(`${uiPath}/templates/signup.html`);
   });
   server.get('/login', (_req, res) => {
-    res.sendFile(path.join(__dirname, `${dirName}/login.html`));
+    res.sendFile(`${uiPath}/templates/login.html`);
   });
   server.get('/admin', (_req, res) => {
-    res.sendFile(path.join(__dirname, `${dirName}/admin.html`));
+    res.sendFile(`${uiPath}/templates/admin.html`);
   });
 
   return server;
