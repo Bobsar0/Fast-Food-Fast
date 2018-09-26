@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import _ from 'lodash';
 import supertest from 'supertest';
-import server from '../api/v1/server';
+import server from '../server/api/v1/server';
 
 describe('Server', () => {
   const orders = {};

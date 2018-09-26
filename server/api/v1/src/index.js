@@ -1,5 +1,5 @@
 import Order from '../models/orderModel';
-import servers from '../server';
+import server from '../server';
 import OrdersController from '../controllers/ordersController';
 
 // API test store
@@ -25,6 +25,6 @@ const store = [{
 // Order uses CRUD helper functions and JS data structures to deal with order
 const order = new Order(store);
 const orders = new OrdersController(order, 'Anonymous');
-const server = servers(orders);
+const app = server(orders);
 
-server.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5000);

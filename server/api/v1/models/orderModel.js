@@ -29,8 +29,8 @@ export default class OrderModel {
             value: order,
           });
         }
-        return reject(id);
       });
+      return reject(id);
     });
   }
 

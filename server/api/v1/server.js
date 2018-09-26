@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import compression from 'compression';
+import logger from 'morgan';
 
 // OrdersController intance must be created and passed from outside
 export default (orderC) => {
@@ -8,7 +9,8 @@ export default (orderC) => {
   const prefix = '/api/v1';
 
   /** TOP LEVEL MIDDLEWARES ** */
-
+  // log requests to console
+  server.use(logger('dev'));
   // parse requests of content-type - application/json
   server.use(express.json());
   // parse requests of content-type - application/x-www-form-urlencoded
