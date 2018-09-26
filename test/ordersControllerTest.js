@@ -3,8 +3,8 @@ import 'babel-polyfill';
 import sinon from 'sinon';
 import 'should-sinon';
 import _ from 'lodash';
-import OrdersController from '../api/v1/controllers/ordersController';
-import Order from '../api/v1/models/orderModel';
+import OrdersController from '../server/api/v1/controllers/ordersController';
+import Order from '../server/api/v1/models/orderModel';
 
 describe('OrdersController', () => {
   const orderStore = [{
