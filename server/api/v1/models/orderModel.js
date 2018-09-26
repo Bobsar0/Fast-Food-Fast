@@ -73,6 +73,7 @@ export default class OrderModel {
         if (order.orderId === attrs.orderId) {
           // Convert order to string before assigning to maintain original props of order
           // const orderStr = JSON.stringify(order);
+
           const newOd = Object.assign(order, attrs.body);
 
           return resolve({
