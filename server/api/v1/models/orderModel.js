@@ -18,9 +18,6 @@ export default class OrderModel {
   // get order from store based on id
   get(id) {
     return new Promise((resolve, reject) => {
-      if (this.store.length === 0) {
-        return reject(id);
-      }
       this.store.forEach((order) => {
         if (order.orderId === id) {
           return resolve({
@@ -29,6 +26,7 @@ export default class OrderModel {
             value: order,
           });
         }
+        return reject(id);
       });
       return reject(id);
     });
