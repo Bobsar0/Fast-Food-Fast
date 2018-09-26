@@ -80,28 +80,33 @@
 
 /* Sticky navbar
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
+.stickyNav {
   position: fixed;
   top: 0;
-  width: 90%;
+  left: 0;
+  width: 100%;
   background: #212121;
   color: white;
-  float: left;
+  float: none;
 }
-.sticky a{
+.stickyFooter{
+  bottom: 0;
+}
+.stickyNav a{
   color: white; 
-  padding-right: 20px; 
+  padding-left: 30px; 
+  text-align: center
 }
 
-.sticky a.current{
+.stickyNav a.current{
   color: goldenrod; 
 }
-.sticky #cartInfo{
+.stickyNav #cartInfo{
   float: right;
 }
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
-  padding-top: 60px;
+.stickyNav + .content {
+  /* padding-top: 60px; */
 }
 
 /* When the screen is less than 700 pixels wide, only show the link that should open and close the topNav (.icon) */
@@ -166,16 +171,16 @@
   }
   .responsiveNav #cartInfo{display: inline;}
 
-  .responsiveNav.sticky{
+  .responsiveNav.stickyNav{
     position: fixed;
     background: #212121;
   }
-  .responsiveNav .sticky a:not(:first-child) {display: none;}
+  /* .responsiveNav.stickyNav a:not(:first-child) {display: none;} */
 
-  .responsiveNav.sticky a:hover{
+  .responsiveNav.stickyNav a:hover{
     background: #cccccca6
   }
-  .sticky #cartInfo{
+  .stickyNav #cartInfo{
     float: left;
   }
   .welcome{
@@ -196,8 +201,9 @@
   .topNav a{
     padding-right: 50px;
   }
-  .sticky{
-    left: 50%;
-    transform: translate(-50%, 0);
+  .stickyNav{
+    margin-top: 0;
+    /* left: 50%;
+    transform: translate(-50%, 0); */
   }
 }
