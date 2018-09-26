@@ -1,6 +1,9 @@
+* {box-sizing: border-box;}
+
 body{
     height:100%;
-    font: 15px/1.5 Arial, Helvetica, sans-serif;
+    overflow: auto ;
+    font: 15px/1.5 Verdana, sans-serif;
     padding: 0;
     margin:0;
     position:relative;
@@ -15,11 +18,6 @@ h1{
 .container{
     width: 90%;
     margin: auto;
-}
-
-ul{
-    margin: 0;
-    padding: 0;
 }
 
 /* header*/
@@ -59,8 +57,6 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
 }
 
 /******* Slideshow ********/
-* {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
 .mySlides {display: none;}
 img {
 	vertical-align: middle;
@@ -167,7 +163,6 @@ textarea {
     width: 100%;
     height: 100px;
     padding: 12px 20px;
-    box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     background-color: #f8f8f8;

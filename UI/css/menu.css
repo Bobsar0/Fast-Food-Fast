@@ -1,6 +1,3 @@
-* {
-    box-sizing: border-box;
-}
 .menu h1{
     margin-top: 120px;
     padding: 5px;
@@ -11,10 +8,14 @@
 }
   
 .menu h2{
-    padding: 10px;
     color: goldenrod;
     text-shadow: 1.5px 1.5px 2px #000000;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    background-color: #cccccc;
+    width: 99%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #hist{
@@ -64,7 +65,7 @@ div.gallery img {
 
   /* Position the front and back side */
 .flip-box-front, .flip-box-back {
-		border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -83,12 +84,13 @@ div.gallery img {
 		transform: rotateY(180deg);
 }
 
-div.desc {
+.desc {
     text-align: center;
 }
 .desc h1{
-    margin-top: 30px;
-    font: 25px Arial, Helvetica, sans-serif;
+    margin-top: 20px;
+    font: 18px Arial, Helvetica, sans-serif;
+    height: 25px;
 }
 
 
@@ -98,7 +100,7 @@ div.desc {
 
 .price {
     color: grey;
-    font-size: 16px;
+    font-size: 14px;
   }
 
 .cartBtn, #checkoutBtn{
@@ -111,6 +113,7 @@ div.desc {
     cursor: pointer;
     width: 100%;
     font-size: 18px;
+    margin-top: 10px;
 }
 .cartBtn:hover{
     cursor: pointer;
@@ -138,6 +141,12 @@ div.desc {
     div.gallery img {
         height: 220px;
     }    
+    .desc h1{
+        font: 25px Arial, Helvetica, sans-serif;
+    }
+    .menu h2{
+        font-size: 20px;
+    }
 }
 
 .clearfix:after {

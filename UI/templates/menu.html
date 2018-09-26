@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+  <div class="container">
   <header> 
-    <div class="container">
       <div id="title">
         <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
@@ -31,7 +31,6 @@
         <i class="fa fa-shopping-cart fa-1x" id="cartInfo"> Cart</i>
         <a href="javascript:void(0);" class="icon">&#9776;</a>
       </nav>
-      </div>
     </header> 
 	<!--Image Gallery-->
 	<div class="menu">
@@ -324,7 +323,7 @@
 			<div class="gallery">
           <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse">
           <div class="desc">
-            <h1 id="item09">Chocolate Mousse</h1>
+            <h1 id="item09">Choco Mousse</h1>
             <p class="price" id="price09">NGN 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -341,6 +340,7 @@
                   <option id="qty04">4</option>
                   <option id="qty05">5</option>
                   <option id="qty06">6</option>
+                  
                 </select>
             </p>
             <button class="cartBtn" id="btn09">Add to Cart</button>
@@ -397,10 +397,8 @@
                   <option id="qty04">4</option>
                   <option id="qty05">5</option>
                   <option id="qty06">6</option>
-                  <option id="qty03">7</option>
-                  <option id="qty04">8</option>
-                  <option id="qty05">9</option>
-                  <option id="qty06">10</option>
+                  <option id="qty07">7</option>
+                  <option id="qty08">8</option>
                 </select>
             </p>
             <button class="cartBtn" id="btn11">Add to Cart</button>
@@ -435,62 +433,6 @@
         </div>			
       </div>
 		</div> 
-                 
-    <div class="responsive">
-			<div class="gallery">
-          <img src="../imgs/drinks/beer.jpg" alt="beer">
-          <div class="desc">
-            <h1 id="item13">Beer</h1>
-            <p class="price" id="price13">NGN 500.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty13">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="cartBtn" id="btn13">Add to Cart</button>
-        </div>			
-      </div>
-    </div> 
-    
-    <div class="responsive">
-			<div class="gallery">
-          <img src="../imgs/drinks/bacardi.jpg" alt="vodka">
-          <div class="desc">
-            <h1 id="item14">Spirit</h1>
-            <p class="price" id="price14">NGN 4000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty14">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="cartBtn" id="btn14">Add to Cart</button>
-        </div>			
-      </div>
-    </div> 
 
     <div class="clearfix"></div>
   </section>
@@ -503,7 +445,7 @@
       <div class="gallery">
           <img src="../imgs/combo/delicacy.jpg" alt="special_rice">
           <div class="desc">
-            <h1 id="item15">Special Rice and Vegetables</h1>
+            <h1 id="item15">Special Veggie Rice</h1>
             <p class="price" id="price15">NGN 1500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -531,7 +473,7 @@
       <div class="gallery">
           <img src="../imgs/combo/burger-fries-drink.png" alt="burgerfrieschickendrink">
           <div class="desc">
-            <h1 id="item16">Burger, Fries, Drink combo</h1>
+            <h1 id="item16">Combo-licious Burger</h1>
             <p class="price" id="price16">NGN 2000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -559,7 +501,7 @@
       <div class="gallery">
           <img src="../imgs/combo/chicken3.jpg" alt="wholechicken_paella">
           <div class="desc">
-            <h1 id="item17">Roasted Whole Chicken Paella</h1>
+            <h1 id="item17">Whole Chicken Paella</h1>
             <p class="price" id="price17">NGN 5000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -614,6 +556,7 @@
   </section> 
 
 <!--ORDER HISTORY-->
+<div style="display: none">
   <div class="menu" id="history" style="padding-bottom: 10px">
     <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
     <ul id="hist"></ul>
@@ -630,6 +573,7 @@
       </tr>
       </thead>
     </table>
+  </div>
   </div>
     <!-- Modal -->
     <div id="modalDiv" class="modal">
@@ -656,12 +600,14 @@
         <button type="submit" id="checkoutBtn">Submit Order</button>
       </div>
     </div>
+   <!-- End container div -->
+  </div>
     <footer>
         <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
-    <script src="../js/scripts.js"></script>
-    <script src="../js/cart.js"></script>
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cart.js"></script>
 </body>
 </html>

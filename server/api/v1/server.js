@@ -109,6 +109,9 @@ export default (orderC) => {
   server.get('/admin', (_req, res) => {
     res.sendFile(`${uiPath}/templates/admin.html`);
   });
+  server.get('/history', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/history.html`);
+  });
 
   return server;
 };
