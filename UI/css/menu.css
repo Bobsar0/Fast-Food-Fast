@@ -249,3 +249,24 @@ th, td {
     border: 0;
     font: bold
 }
+
+/* Pagination links */
+.pagination{
+    display: inline-block;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.current {
+    background-color: darkgoldenrod;
+    color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.current) {background-color: #cccccc;}
