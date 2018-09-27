@@ -2,24 +2,24 @@
 
 body{
     height:100%;
-    overflow: auto ;
     font: 15px/1.5 Verdana, sans-serif;
     padding: 0;
     margin:0;
     position:relative;
     background-color: white;
     text-align: center;
+    /* background: whitesmoke */
 }
 
+.container{
+    width: 90%;
+    min-height: 100vh;
+    margin: auto;
+}
 h1{
     margin-top: 60px;
     text-shadow: 1px 1px 1px goldenrod;
 }
-.container{
-    width: 90%;
-    margin: auto;
-}
-
 /* header*/
 header{
     padding-top: 30px;
@@ -124,15 +124,7 @@ img {
   to {opacity: 1}
 }
 
-@media only screen and (max-width: 600px){
-    h2{
-        font-size: 18px;
-    }
-}
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 500px) {
-  .text {font-size: 18px}
-}
+
 .fa-1x{
     border: 1px solid goldenrod;
     border-radius: 100%;
@@ -176,20 +168,32 @@ textarea {
 .editInputPrice{width: 100px;}
 .editInputQty{width: 50px;}
 
+.last{
+    margin-bottom: 150px;
+}
+
 /* Footer */
 footer{
-    position: relative;
     margin-top: 5%;
     bottom: 0;
     width: 100%;
-    padding: 5px;
     color: #ffffff;
     background-color: #212121;
     text-align: center;
-    text-shadow: #353637;
-    font-size: 15px
+    /* text-shadow: #353637; */
+    font-size: 12px;
 }
 
 footer a{
     text-decoration: none;
+}
+
+@media only screen and (max-width: 600px){
+    h2{
+        font-size: 18px;
+    }
+}
+/* On smaller screens, decrease text size */
+@media screen and (max-width: 500px) {
+  .text {font-size: 18px}
 }

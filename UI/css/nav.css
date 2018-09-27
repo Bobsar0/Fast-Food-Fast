@@ -80,7 +80,7 @@
 
 /* Sticky navbar
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.stickyNav {
+.stickyNav{
   position: fixed;
   top: 0;
   left: 0;
@@ -89,12 +89,11 @@
   color: white;
   float: none;
 }
-.stickyFooter{
-  bottom: 0;
-}
+
 .stickyNav a{
   color: white; 
   padding-left: 30px; 
+  padding-right: 30px; 
   text-align: center
 }
 
@@ -106,7 +105,7 @@
 }
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
 .stickyNav + .content {
-  /* padding-top: 60px; */
+  padding-top: 60px;
 }
 
 /* When the screen is less than 700 pixels wide, only show the link that should open and close the topNav (.icon) */
