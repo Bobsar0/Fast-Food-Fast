@@ -14,6 +14,31 @@
   font-size: 17px;
 }
 
+.topNav .search{
+  float: right;
+  border: 1px solid goldenrod;
+  margin: 10px 12px;
+  padding: 0;
+}
+.topNav .search input[type=text] {
+  padding: 7px;
+  border: none;
+  outline: none;
+}
+.topNav .search button {
+  float: right;
+  padding: 7px 12px;
+  background: #cccccc;
+  border: none;
+  cursor: pointer;
+  font-size: 14px
+}
+.topNav .search:hover{
+  background: none;
+}
+.topNav .search button:hover {
+  background: goldenrod;
+}
 /* Hide the link that should open and close the topNav on small screens */
 .topNav .icon {
   display: none;
@@ -80,32 +105,40 @@
 
 /* Sticky navbar
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
-.sticky {
+.stickyNav{
   position: fixed;
   top: 0;
-  width: 90%;
+  left: 0;
+  width: 100%;
   background: #212121;
   color: white;
-  float: left;
-}
-.sticky a{
-  color: white; 
-  padding-right: 20px; 
+  float: none;
+  z-index: 1;
 }
 
-.sticky a.current{
+.stickyNav a{
+  color: white; 
+  padding-left: 20px; 
+  text-align: center
+}
+
+.stickyNav a.search input[type=text], 
+.stickyNav a.search button{
+  height: 31px;
+}
+.stickyNav a.current{
   color: goldenrod; 
 }
-.sticky #cartInfo{
-  float: right;
+.stickyNav #cartInfo{
+  float: left;
 }
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
+.stickyNav + .content {
   padding-top: 60px;
 }
 
 /* When the screen is less than 700 pixels wide, only show the link that should open and close the topNav (.icon) */
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 780px) {
   header #title h1 a{
     font-size: 26px;
     margin-right: 5px;
@@ -115,7 +148,7 @@
   .topNav a, #cartInfo{
     display: none;
     font-size: 14px;
-    padding-right: 20px
+    /* padding-right: 20px */
   }
   .dropdown .dropbtn{
     display: none;
@@ -141,8 +174,16 @@
     display: block;
     text-align: left;
     font: 14px;
-    margin: 0;
   }
+  .responsiveNav #cartInfo{
+    float: left;
+    display: inline;
+    font-size: 16px;
+  }
+  .responsiveNav .search{
+    float: left;
+  }
+
   .responsiveNav a.icon {
     position: absolute;
     padding-left: 12px;
@@ -164,26 +205,22 @@
   .responsiveNav .dropdown-content a:hover {
     background-color: #f9f9f9;
   }
-  .responsiveNav #cartInfo{display: inline;}
 
-  .responsiveNav.sticky{
+  .responsiveNav.stickyNav{
     position: fixed;
     background: #212121;
   }
-  .responsiveNav .sticky a:not(:first-child) {display: none;}
+  /* .responsiveNav.stickyNav a:not(:first-child) {display: none;} */
 
-  .responsiveNav.sticky a:hover{
+  .responsiveNav.stickyNav a:hover{
     background: #cccccca6
-  }
-  .sticky #cartInfo{
-    float: left;
   }
   .welcome{
     margin-top: 10px;
   }
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 550px){
   header #title h1 a{
     font-size: 32px;
     margin-right: 300px;
@@ -196,8 +233,9 @@
   .topNav a{
     padding-right: 50px;
   }
-  .sticky{
-    left: 50%;
-    transform: translate(-50%, 0);
+  .stickyNav{
+    margin-top: 0;
+    /* left: 50%;
+    transform: translate(-50%, 0); */
   }
 }

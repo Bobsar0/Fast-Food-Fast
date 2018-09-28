@@ -29,16 +29,22 @@
         <a href="./login">Login</a>
         <a href="./signup">Signup</a>
         <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+        <a class="search">
+          <form action="#">
+            <input type="text" placeholder="Search for food.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </a>
         <a href="javascript:void(0);" class="icon">&#9776;</a>
       </nav>
     </header> 
 	<!--Image Gallery-->
-	<div class="menu">
-		<h1><i>What's on the Menu?</i></h1>
-		<h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
-    <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
-  </div>		
-	<section class="menu" id="meals">
+    <div class="menu">
+      <h1><i>What's on the Menu?</i></h1>
+      <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
+      <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
+    </div>		
+    <section class="menu" id="meals">
 		<h2>MEALS</h2>
 
 		<div class="responsive">
@@ -192,8 +198,19 @@
             <button class="cartBtn" id="btn04">Add to Cart</button>
         </div>
       </div>
-		</div> 
-		
+    </div>
+    <div class="center"> 
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a class="current" href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
 		<div class="clearfix"></div>
 	</section>
   <!-- SNACKS -->
@@ -310,8 +327,19 @@
           <button class="cartBtn" id="btn08">Add to Cart</button>
         </div>			
       </div>
-    </div> 
-    
+    </div>
+    <div class="center">
+      <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#">1</a>
+          <a class="current" href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+          <a href="#">6</a>
+          <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
 
     
@@ -432,13 +460,24 @@
             <button class="cartBtn" id="btn12">Add to Cart</button>
         </div>			
       </div>
-		</div> 
-
+    </div> 
+    <div class="center">
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a class="current" href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
   </section>
 
  <!--COMBO/SPECIALS-->
-  <section class="menu" id="combo">
+  <section class="menu last" id="combo">
   <h2>COMBO/SPECIALS</h2>
 
     <div class="responsive">
@@ -552,11 +591,23 @@
         </div>      
       </div>
     </div> 
+    <div class="center">
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a class="current" href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
   </section> 
 
 <!--ORDER HISTORY-->
-<div style="display: none">
+<div style="display: none" class="last">
   <div class="menu" id="history" style="padding-bottom: 10px">
     <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
     <ul id="hist"></ul>

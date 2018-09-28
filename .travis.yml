@@ -1,10 +1,6 @@
 language: node_js
 node_js:
   - "lts/*"
-branches:
-  only:
-    - master
-    - develop
 after_success:
-  - npm coverage
+  - npm run coverage
   
