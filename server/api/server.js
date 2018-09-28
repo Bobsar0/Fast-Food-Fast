@@ -1,6 +1,4 @@
 import express from 'express';
-import path from 'path';
-import compression from 'compression';
 import logger from 'morgan';
 
 // OrdersController intance must be created and passed from outside
@@ -82,36 +80,6 @@ export default (orderC) => {
   server.delete(`${prefix}/orders/:orderId`, (req, res) => orderC.delete(req.params.orderId)
     .then(result => res.status(200).json(result))
     .catch(() => res.sendStatus(404)));
-
-  // ==========POWER FRONT-END PAGES===============//
-  // Compress the routes
-  server.use(compression());
-
-  const uiPath = path.join(__dirname, '../../../UI');
-  server.use(express.static(uiPath));
-
-  server.get('/', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/index.html`);
-  });
-  server.get('/index', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/index.html`);
-  });
-  server.get('/menu', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/menu.html`);
-  });
-
-  server.get('/signup', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/signup.html`);
-  });
-  server.get('/login', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/login.html`);
-  });
-  server.get('/admin', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/admin.html`);
-  });
-  server.get('/history', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/history.html`);
-  });
 
   return server;
 };
