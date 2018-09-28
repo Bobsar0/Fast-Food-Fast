@@ -120,6 +120,7 @@ div.gallery img {
     background-color: #2ec371;
     color:white;
 }
+#totalItems{color: goldenrod;}
 
 .responsive {
     padding: 0 6px;
