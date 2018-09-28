@@ -5,29 +5,27 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DB_URL_ELEPHANT,
+  connectionString: process.env.DB_URL_LOCAL,
 });
 
 // Connect to db
 pool.on('connect', () => {
   console.log('connected to the db');
 });
-
 /**
  * Create Tables
  */
 const createTables = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       orders(
-        orderId serial PRIMARY KEY,
+        orderId SERIAL PRIMARY KEY,
         name VARCHAR(128) NOT NULL,
-        quantity TEXT NOT NULL,
-        price TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        price INTEGER NOT NULL,
         userAddr VARCHAR(255),
-        created_at TIMESTAMP DEFAULT NOW(),
-        modified_at TIMESTAMP DEFAULT NOW()
+        created_at TIMESTAMP,
+        modified_at TIMESTAMP
       )`;
-
   pool.query(queryText)
     .then((res) => {
       console.log(res);
@@ -43,7 +41,7 @@ const createTables = () => {
  * Drop Tables
  */
 const dropTables = () => {
-  const queryText = 'DROP TABLE IF EXISTS reflections';
+  const queryText = 'DROP TABLE IF EXISTS orders';
   pool.query(queryText)
     .then((res) => {
       console.log(res);

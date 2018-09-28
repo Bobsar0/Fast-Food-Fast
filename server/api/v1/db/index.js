@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DB_URL_ELEPHANT,
+  connectionString: process.env.DB_URL_LOCAL,
 });
 
 export default {
@@ -14,6 +14,7 @@ export default {
    * @param {object} res
    * @returns {object} object
    */
+  // Reference source
   query(text, params) {
     return new Promise((resolve, reject) => {
       pool.query(text, params)

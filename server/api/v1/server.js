@@ -56,7 +56,7 @@ export default (orderC) => {
         }
         return res.status(201).json(result);
       })
-      .catch(() => res.sendStatus(404));
+      .catch(err => res.status(404).json(err));
   });
 
   // PUT /orders/:orderId
