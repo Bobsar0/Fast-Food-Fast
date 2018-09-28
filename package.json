@@ -5,11 +5,11 @@
     "node": "8.11.4"
   },
   "description": "A food delivery service app for a restaurant | Andela Developer Challenge",
-  "main": "./server/api/v1/src/index.js",
+  "main": "./server/api/src/index.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore",
     "test": "nyc mocha --timeout=3000 --compilers js:babel-core/register",
-    "start": "nodemon --exec babel-node ./server/api/v1/src/index.js",
+    "start": "nodemon --exec babel-node ./server/api/src/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
