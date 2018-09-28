@@ -118,7 +118,7 @@ describe('Server', () => {
         );
       });
       // checks that server returns deleted order with specified id
-      it('responds with 200 OK and the id of the deleted order', () => request
+      it('responds with 204 DELETED and the id of the deleted order', () => request
         .delete('/api/v1/orders/23')
         .expect({ orderId: 23 })
         .expect(200));

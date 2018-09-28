@@ -1,11 +1,11 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
 
 // Load .env into process.env
 dotenv.config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: process.env.DB_URL_ELEPHANT,
 });
 
 // Connect to db
@@ -20,11 +20,10 @@ const createTables = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
       orders(
         orderId serial PRIMARY KEY,
-        userId serial REFERENCES users(userId) ON DELETE CASCADE
         name VARCHAR(128) NOT NULL,
-        quantity NUMBER NOT NULL,
-        price MONEY NOT NULL,
-        userAddr VARCHAR(255)
+        quantity TEXT NOT NULL,
+        price TEXT NOT NULL,
+        userAddr VARCHAR(255),
         created_at TIMESTAMP DEFAULT NOW(),
         modified_at TIMESTAMP DEFAULT NOW()
       )`;
@@ -60,7 +59,7 @@ pool.on('remove', () => {
   console.log('client removed');
   process.exit(0);
 });
-export {
+module.exports = {
   createTables,
   dropTables,
 };

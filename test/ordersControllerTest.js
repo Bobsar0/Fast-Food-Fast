@@ -105,7 +105,9 @@ describe('OrdersController', () => {
       orderM.save = () => new Promise(resolve => resolve(res));
     });
     it('parses and returns order data', () => {
-      orderC.create(order).then(result => result.should.deepEqual(_.merge(res, { orderId: res.orderId, order: res.order })));
+      orderC.create(order).then(result => result.should.deepEqual(
+        _.merge(res, { orderId: res.orderId, order: res.order }),
+      ));
     });
     it('specifies proper body parameter', () => {
       const spy = sinon.spy(orderM, 'save');

@@ -1,5 +1,5 @@
 import uuidv4 from 'uuid/v4';
-import db from '../../db';
+import db from '../index';
 
 const OrderC = {
   /**
@@ -143,7 +143,7 @@ const OrderC = {
   /**
    * Delete An Order
    * @param {object} id
-   * @returns {void} return statuc code 204
+   * @returns {void} return status code 204
    */
   async delete(id) {
     const deleteQuery = 'DELETE FROM orders WHERE orderId=$1 returning *';
@@ -152,7 +152,7 @@ const OrderC = {
       if (!rows[0]) {
         return reject(id);
       }
-      return resolve({ message: 'order deleted successfully' });
+      return resolve({ message: `order with id ${id} deleted successfully` });
     });
   },
   // async delete(req, res) {

@@ -1,6 +1,8 @@
+import dotenv from 'dotenv';
 import Order from '../models/orderModel';
 import server from '../server';
 import OrdersController from '../controllers/ordersController';
+import OrdersControllerDB from '../db/controllers/ordersControllerDB';
 
 // API test store
 const store = [{
@@ -22,9 +24,15 @@ const store = [{
   userRank: 'guest',
 }];
 
-// Order uses CRUD helper functions and JS data structures to deal with order
+dotenv.config();
+
 const order = new Order(store);
-const orders = new OrdersController(order, 'Anonymous');
-const app = server(orders);
+let orderC = {};
+if (process.env.CONTROLLER_TYPE === 'db') {
+  orderC = OrdersControllerDB;
+} else {
+  orderC = new OrdersController(order, 'Anonymous');
+}
+const app = server(orderC);
 
 app.listen(process.env.PORT || 5000);
