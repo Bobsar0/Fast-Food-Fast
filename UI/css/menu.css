@@ -1,5 +1,5 @@
-
 .menu h1{
+    margin-top: 120px;
     padding: 5px;
     text-shadow: 1px 1px 1px goldenrod;
 }
@@ -8,10 +8,14 @@
 }
   
 .menu h2{
-    padding: 10px;
     color: goldenrod;
     text-shadow: 1.5px 1.5px 2px #000000;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    background-color: #cccccc;
+    width: 99%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #hist{
@@ -23,25 +27,72 @@
 
 div.gallery {
     border: 1px solid #ccc;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+    transition: 0.3s;
+    border-radius: 5px;
 }
 
 div.gallery:hover {
     border: 1px solid goldenrod;
+    /* Add deeper shadow */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 div.gallery img {
-    width: 95%;
-    height: 190px;
+    width: 100%;
+    height: 200px;
+    border-radius: 5px 5px 0 0;
+}
+/* Image flip */
+.flip-box{
+    background-color: transparent;
+    width: 100%;
+		height: 200px;
+    perspective: 1000px;
+}
+.flip-box-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+}
+/* Do a horizontal flip when you move the mouse over the flip box container */
+	.flip-box:hover .flip-box-inner {
+	transform: rotateY(180deg);
 }
 
-div.desc {
-    padding: 15px;
+  /* Position the front and back side */
+.flip-box-front, .flip-box-back {
+	border-radius: 5px 5px 0 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+/* Style the front side (fallback if image is missing) */
+.flip-box-front {
+    background-color: #bbb;
+    color: black;
+}
+  
+  /* Style the back side */
+.flip-box-back {
+		background-color: #212121;
+		color: white;
+		transform: rotateY(180deg);
+}
+
+.desc {
     text-align: center;
 }
-
-* {
-    box-sizing: border-box;
+.desc h1{
+    margin-top: 20px;
+    font: 18px Arial, Helvetica, sans-serif;
+    height: 25px;
 }
+
 
 .checked {
     color: orange;
@@ -49,10 +100,10 @@ div.desc {
 
 .price {
     color: grey;
-    font-size: 16px;
+    font-size: 14px;
   }
 
-.cartBtn{
+.cartBtn, #checkoutBtn{
     border: none;
     outline: 0;
     padding: 12px;
@@ -62,12 +113,14 @@ div.desc {
     cursor: pointer;
     width: 100%;
     font-size: 18px;
+    margin-top: 10px;
 }
 .cartBtn:hover{
     cursor: pointer;
     background-color: #2ec371;
     color:white;
 }
+#totalItems{color: goldenrod;}
 
 .responsive {
     padding: 0 6px;
@@ -85,6 +138,15 @@ div.desc {
 @media only screen and (max-width: 500px) {
     .responsive {
         width: 100%;
+    }
+    div.gallery img {
+        height: 220px;
+    }    
+    .desc h1{
+        font: 25px Arial, Helvetica, sans-serif;
+    }
+    .menu h2{
+        font-size: 20px;
     }
 }
 
@@ -105,7 +167,7 @@ th, td {
     border-bottom: 0.2px solid #747474;
 }
 
-#submitOdr, #cancelOdr, #approveBtn, #declineBtn{
+.cancelOdr, #approveBtn, #declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;
@@ -114,14 +176,15 @@ th, td {
     opacity: 0.8;
 }
 
-#cancelOdr, #declineBtn{
+.cancelOdr, #declineBtn{
     background: red;
 }
-#submitOdr:hover,
+
 #cancelOdr:hover{
     opacity: 1;
     font: bolder;
 }
+
 /*****MODAL*****/
 .modal {
     display: none; /* Hidden by default */
@@ -146,8 +209,16 @@ th, td {
     border-radius: 0.5rem;
     border: 1px solid #888;
     background-color: #fefefe;
+    margin-bottom: 150px;
+}
+.modalContent h1{
+    margin-top: 20px;
 }
 
+#cartInfo{
+    margin: 10px;
+    font-size: 18px;
+}
 #cartInfo:hover {
     cursor: pointer;
     color: goldenrod;
@@ -155,7 +226,7 @@ th, td {
 
   
   /* Close (x) Button */
-.close {
+.close, .closeLogin{
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -163,8 +234,40 @@ th, td {
 }
   
 .close:hover,
-.close:focus {
+.close:focus,
+.closeLogin:hover,
+.closeLogin:focus {
     text-decoration: none;
     cursor: pointer;
     color: black;
 } 
+
+#userAddr, #userPhone{
+    height: 36px;
+    width: 300px;
+    font-size: 16px;
+    padding: 10px;
+    border: 0;
+    font: bold
+}
+
+/* Pagination links */
+.pagination{
+    display: inline-block;
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.current {
+    background-color: darkgoldenrod;
+    color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.current) {background-color: #cccccc;}

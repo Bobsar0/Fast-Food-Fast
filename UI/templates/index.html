@@ -7,28 +7,41 @@
     <meta name="author" content="Steve Onyeneke">
     <title>Welcome to Fast-Food-Fast</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <header id="index"> 
-        <div class="container">
-            <div id="title">
-                <h1><i class="fa fa-cutlery"></i><a href="#"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+	<div class="container">
+  	<header id="index"> 
+      <div id="title">
+        <h1><i class="fa fa-cutlery"></i><a href="#"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+      </div>
+      <nav class="topNav">
+        <a href="#" class="current">Home</a>
+        <a href=#about>About</a>
+        <div class="dropdown">
+            <button class="dropbtn"><a href="./menu">Menu <i class="fa fa-caret-down"></i></a></button>
+            <div class="dropdown-content">
+                <a href="./menu#meal">Meal</a>
+                <a href="./menu#snacks">Snacks</a>
+                <a href="./menu#drinks">Drinks</a>
+                <a href="./menul#combo">Combo</a>
             </div>
-            <nav>
-                <ul>
-                    <li class="current"><a href="#">Home</a></li>
-                    <li><a href=#about>About</a></li>
-                    <li><a href="./menu.html">Menu</a></li><!--Page where users can order food-->
-                    <li><a href="./login.html">Login</a></li>
-                    <li><a href="./signup.html">Signup</a></li>
-                </ul>
-            </nav>
         </div>
-    </header>
-    <h1>Welcome to FastFoodFast!</h1><br>
+        <a href="./login">Login</a>
+        <a href="./signup">Signup</a>
+        <a class="search">
+          <form action="#">
+            <input type="text" placeholder="Search for food.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</a>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+      </nav>
+  	</header>
+    <h1 class="welcome">Welcome to FastFoodFast!</h1><br>
     <h2><i>"We quench your yawns with mouth watering meals."</i></h2>
-    <p>A peek at our<a href="./menu.html"> MENU</a> will convince you</p>
+    <p>A peek at our <a href="./menu" class="current">MENU</a> will convince you</p>
 
     <div class="slideshow-container">
 
@@ -74,9 +87,9 @@
     <span class="dot"></span> 
     </div>
 
-    <section id="boxes"><!--Contains boxes to highlight services.-->
+    <section id="boxes" class="last">
         <div class="container">
-            <h1 id="about">ABOUT US</h1>
+            <br><h1 id="about">ABOUT US</h1>
             <div class="box">
                 <i class="fa fa-cutlery fa-4x"></i>
                 <h3>Yummy Meals</h3>
@@ -92,18 +105,41 @@
                 <h3>Speedy Lagos-wide Delivery</h3>
                 <p>We fast-forward your food to any location in Lagos at little or no cost to you.</p>
             </div>
-            <div class="box" style="padding-bottom:120px">
+            <div class="box" style="padding-bottom:10px">
                 <i class="fa fa-user-plus fa-4x"></i>
                 <h3>Spectacular Catering Services</h3>
-                <p>Should you need a skilled professional to cater for that occasion - wedding, birthday, parties... look no further.</p><br>
-            </div><br>
+                <p>Should you need a skilled professional to cater for that occasion - wedding, birthday, parties... look no further.</p>
+            </div>
         </div>
-    </section>
+		</section>
+		   <!-- End container div -->
+		</div>
     <footer>
         <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
-    <script src="../js/index.js"></script>
+    <script>
+        /******SLIDESHOW***** */
+        let slideIndex = 0;
+        const showSlides = () => {
+            const slides = document.getElementsByClassName('mySlides');
+            const dots = document.getElementsByClassName('dot');
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            slideIndex += 1;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(' active', '');
+            }
+            slides[slideIndex - 1].style.display = 'block';
+            dots[slideIndex - 1].className += ' active';
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        };
+        showSlides()
+    </script>
+    <script src="../js/scripts.js"></script>
 </body>
 </html>

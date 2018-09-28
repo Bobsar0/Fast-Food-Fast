@@ -1,37 +1,32 @@
+* {box-sizing: border-box;}
+
 body{
     height:100%;
-    font: 15px/1.5 Arial, Helvetica, sans-serif;
+    font: 15px/1.5 Verdana, sans-serif;
     padding: 0;
     margin:0;
     position:relative;
     background-color: white;
-    text-align: center
+    text-align: center;
+    /* background: whitesmoke */
+}
+
+.container{
+    width: 90%;
+    min-height: 100vh;
+    margin: auto;
 }
 
 h1{
+    margin-top: 60px;
     text-shadow: 1px 1px 1px goldenrod;
 }
-.container{
-    width: 90%;
-    min-height:100%;
-    margin: auto;
-    overflow: hidden;
-}
-
-ul{
-    margin: 0;
-    padding: 0;
-}
-
 /* header*/
 header{
     padding-top: 30px;
 }
 header#index{
-    /* min-height: 800px; */
-    /* background:url('../imgs/background.png') no-repeat center; */
     text-align: center;
-    /* color: #fcfcfc; */
     padding-bottom: 60px;
     border: none;
 }
@@ -39,12 +34,9 @@ header a{
     color: #212121;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 17px;
 }
-header li{
-    display: inline;
-    padding: 0 20px 0 20px;
-}
+
 header #title{
     float: left;
 }
@@ -54,16 +46,7 @@ header #title h1{
 header #title h1 a{
     font-size: 30px;
     text-transform: none;
-}
-header nav{
-    float: right;
-    margin-top: 10px;
-}
-
-header .current a{
-    color: goldenrod;
-    font-weight: bold;
-    text-decoration: underline;
+    margin-right: 45px
 }
 
 header a:hover{  /*Changes appearance of menu links when the mouse is moved over the element */
@@ -75,17 +58,15 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
 }
 
 /******* Slideshow ********/
-* {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
 .mySlides {display: none;}
 img {
-    vertical-align: middle;
-    max-height: 500px;    
+	vertical-align: middle;
+	max-height: 400px;    
 }
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
+  max-width: 800px;
   position: relative;
   margin: auto;
 }
@@ -123,7 +104,7 @@ img {
 }
 
 .active {
-  background-color: #717171;
+  background-color: goldenrod;
 }
 
 /* Fading animation */
@@ -144,14 +125,13 @@ img {
   to {opacity: 1}
 }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 500px) {
-  .text {font-size: 18px}
-}
+
 .fa-1x{
     border: 1px solid goldenrod;
     border-radius: 100%;
     padding: 5px;
+    text-decoration: none;
+    background-color: none;
 }
 
 .fa-4x {
@@ -161,20 +141,21 @@ img {
     padding: 15px;
     margin-bottom :5px;
 }
+
+
+
 /********* Admin ************/
-#admin{
+.admin{
     padding: 50px;
     border: goldenrod groove 5px;
-    margin-bottom: 100px;
+    margin-bottom: 200px;
     overflow: auto;
 }
 
-
 textarea {
     width: 100%;
-    height: 150px;
+    height: 100px;
     padding: 12px 20px;
-    box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     background-color: #f8f8f8;
@@ -185,17 +166,35 @@ textarea {
     opacity:0.8;
 }
 
+.editInputPrice{width: 100px;}
+.editInputQty{width: 50px;}
+
+.last{
+    margin-bottom: 150px;
+}
 
 /* Footer */
 footer{
-    position: absolute;
+    margin-top: 5%;
     bottom: 0;
     width: 100%;
-    padding: 5px;
-    margin-top: 20px;
     color: #ffffff;
     background-color: #212121;
     text-align: center;
-    text-shadow: #353637;
-    font-size: 15px
+    /* text-shadow: #353637; */
+    font-size: 12px;
+}
+
+footer a{
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 600px){
+    h2{
+        font-size: 18px;
+    }
+}
+/* On smaller screens, decrease text size */
+@media screen and (max-width: 500px) {
+  .text {font-size: 18px}
 }
