@@ -1,10 +1,6 @@
 import 'babel-polyfill';
-// import sinon for spying on method calls
-import sinon from 'sinon';
-import 'should-sinon';
-import _ from 'lodash';
-import OrdersController from '../server/api/v1/controllers/ordersController';
-import Order from '../server/api/v1/models/orderModel';
+import OrdersController from '../server/api/controllers/ordersController';
+import Order from '../server/api/models/orderModel';
 
 describe('OrdersController', () => {
   const orderStore = [{
@@ -39,15 +35,6 @@ describe('OrdersController', () => {
     });
     // check to see if it correctly parses and returns post data
     it('parses and returns post data', () => orderC.read().then(result => result.should.deepEqual(orderStore)));
-
-    it('specifies no parameters while retrieving all orders', () => {
-      const spy = sinon.spy(orderM, 'getAll');
-      // getAll() method should be called once with no parameter.
-      return orderC.read().then(() => {
-        spy.should.be.calledOnce();
-        spy.should.be.calledWith();
-      });
-    });
   });
 
   // GET /orders:orderId test
@@ -76,14 +63,7 @@ describe('OrdersController', () => {
         }));
       });
       it('parses and returns order data', () => {
-        orderC.read(id).then(result => result.should.deepEqual(orderStore[0]));
-      });
-      it('specifies proper id parameter', () => {
-        const spy = sinon.spy(orderM, 'get');
-        return orderC.read(id).then(() => {
-          spy.should.be.calledOnce();
-          spy.should.be.calledWith(id);
-        });
+        orderC.read(id).then(result => result.should.equal(orderStore[0]));
       });
     });
   });
@@ -95,7 +75,7 @@ describe('OrdersController', () => {
       orderId: 'FGHIJKLMNOPQRSTU', name: 'Cocktail', price: '1200', quantity: 2, username: 'Steve', userAddr: 'Andela Epic Tower', userRank: 'admin',
     };
     const res = {
-      orderId: orderM.orderId,
+      orderId: order.orderId,
       created: true,
       createdAt: Date(),
       updatedAt: Date(),
@@ -105,16 +85,7 @@ describe('OrdersController', () => {
       orderM.save = () => new Promise(resolve => resolve(res));
     });
     it('parses and returns order data', () => {
-      orderC.create(order).then(result => result.should.deepEqual(_.merge(res, { orderId: res.orderId, order: res.order })));
-    });
-    it('specifies proper body parameter', () => {
-      const spy = sinon.spy(orderM, 'save');
-      return orderC.create(order).then(() => {
-        spy.should.be.calledOnce();
-        spy.should.be.calledWith({
-          body: order,
-        });
-      });
+      orderC.create(order).then(result => result.should.deepEqual(res));
     });
   });
 
@@ -136,7 +107,7 @@ describe('OrdersController', () => {
         }));
       });
       it('returns rejected promise with the non existing post id', () => orderC.update(orderInvalid)
-        .catch(result => result.should.equal(orderInvalid.orderId)));
+        .catch(result => result.should.deepEqual(orderInvalid.orderId)));
     });
 
     context('when there is an order with the specified id!', () => {
@@ -144,7 +115,6 @@ describe('OrdersController', () => {
         orderId: order.orderId,
         updated: true,
         updatedAt: Date(),
-        origOrder: orderStore[0],
         newOrder: order,
       };
       before(() => {
@@ -152,18 +122,7 @@ describe('OrdersController', () => {
       });
       it('parses and returns post data', () => {
         orderC.update(order.orderId, order)
-          .then(result => result.should.deepEqual(_.merge({ orderId: res.orderId }, res)));
-      });
-      it('specifies proper id and body parameters', () => {
-        const spy = sinon.spy(orderM, 'update');
-
-        return orderC.update(order.orderId, order).then(() => {
-          spy.should.be.calledOnce();
-          spy.should.be.calledWith({
-            orderId: order.orderId,
-            body: order,
-          });
-        });
+          .then(result => result.should.deepEqual(res));
       });
     });
   });
@@ -194,17 +153,9 @@ describe('OrdersController', () => {
       });
 
       it('parses and returns order data', () => orderC.delete(orderStore[1].orderId)
-        .then(result => result.should.deepEqual(_.merge(
-          { orderId: orderStore[1].orderId }, { deleted: true },
-        ))));
-
-      it('specifies proper id parameter', () => {
-        const spy = sinon.spy(orderM, 'cancel');
-        return orderC.delete(orderStore[1].orderId).then(() => {
-          spy.should.be.calledOnce();
-          spy.should.be.calledWith(orderStore[1].orderId);
-        });
-      });
+        .then(result => result.should.deepEqual(
+          { orderId: orderStore[1].orderId, deleted: true },
+        )));
     });
   });
 });

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import BaseModel from '../server/api/v1/models/baseModel';
+import BaseModel from '../server/api/models/baseModel';
 
 describe('Models', () => {
   it('should create a new model', () => {
