@@ -7,11 +7,8 @@ export default (orderC) => {
   const prefix = '/api/v1';
 
   /** TOP LEVEL MIDDLEWARES ** */
-  // log requests to console
   server.use(logger('dev'));
-  // parse requests of content-type - application/json
   server.use(express.json());
-  // parse requests of content-type - application/x-www-form-urlencoded
   server.use(express.urlencoded({ extended: true }));
 
   // GET /orders
@@ -25,18 +22,7 @@ export default (orderC) => {
   });
 
   // POST /orders
-  server.post(`${prefix}/orders`, (req, res, next) => {
-    // kill the connection if someone tries to flood the RAM
-    let body = '';
-    req.on('data', (data) => {
-      body += data;
-      if (body.length > 1e6) {
-        // Nuke request if flood attack or faulty client
-        req.connection.destroy();
-        return res.status(400).json({ warning: 'Please reduce content. You are flooding my server!' });
-      }
-      return next();
-    });
+  server.post(`${prefix}/orders`, (req, res) => {
     // Validate request
     if (req.body === {}) {
       return res.status(400).json({ message: 'Sorry, order content cannot be empty' });
@@ -58,21 +44,9 @@ export default (orderC) => {
   });
 
   // PUT /orders/:orderId
-  server.put(`${prefix}/orders/:orderId`, (req, res, next) => {
-    // kill the connection if someone tries to flood the RAM
-    let body = '';
-    req.on('data', (data) => {
-      body += data;
-      if (body.length > 1e6) {
-        // Nuke request if flood attack or faulty client
-        req.connection.destroy();
-        return res.status(400).json({ warning: 'Please reduce content. You are flooding my server!' });
-      }
-      return next();
-    });
+  server.put(`${prefix}/orders/:orderId`, (req, res) => {
     orderC.update(req.params.orderId, req.body)
       .then(result => res.status(200).json(result))
-    // Catch general error if uncaught by controller
       .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order not found' } }));
   });
 
