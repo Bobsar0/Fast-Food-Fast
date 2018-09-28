@@ -1,7 +1,6 @@
 import 'babel-polyfill';
-import _ from 'lodash';
 import supertest from 'supertest';
-import server from '../server/api/v1/server';
+import server from '../server/api/server';
 
 describe('Server', () => {
   const orders = {};
@@ -44,14 +43,14 @@ describe('Server', () => {
     context('when there is an order with the specified id', () => {
       before(() => {
         orders.read = id => new Promise(
-          resolve => resolve(_.merge({ orderId: id }, data)),
+          resolve => resolve({ orderId: id, data }),
         );
       });
 
       it('responds with OK and returns unique order corresponding to the id', () => request
         .get('/api/v1/orders/234')
         .send(data)
-        .expect(_.merge({ orderId: 234 }, data))
+        .expect({ orderId: 234, data })
         .expect(200));
     });
   });
@@ -87,14 +86,14 @@ describe('Server', () => {
     context('when there is an order with the specified id', () => {
       before(() => {
         orders.update = (id, attrs) => new Promise(
-          resolve => resolve(_.merge({ orderId: id }, data, attrs)),
+          resolve => resolve({ orderId: id, data, attrs }),
         );
       });
       // test below verifies status and response data
       it('responds with 200 OK and returns content of the updated order', () => request
         .put('/api/v1/orders/234')
         .send(attrNew)
-        .expect(_.merge({ orderId: 234 }, data, attrNew))
+        .expect({ orderId: 234, data, attrs: attrNew })
         .expect(200));
     });
   });

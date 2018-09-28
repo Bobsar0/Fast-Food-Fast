@@ -8,7 +8,7 @@
   "main": "./server/api/src/index.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore",
-    "test": "nyc mocha --timeout=3000 --compilers js:babel-core/register",
+    "test": "nyc mocha --timeout=3000 --compilers js:babel-core/register --require should",
     "start": "nodemon --exec babel-node ./server/api/src/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -30,12 +30,10 @@
   "dependencies": {
     "bcrypt": "^3.0.0",
     "chai": "^4.1.2",
-    "compression": "^1.7.3",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "morgan": "^1.9.1",
     "npm": "^6.4.1",
-    "sinon": "^6.2.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -60,7 +58,6 @@
     "nodemon": "^1.18.4",
     "nyc": "^13.0.1",
     "should": "^13.2.3",
-    "should-sinon": "0.0.6",
     "supertest": "^3.1.0"
   }
 }
