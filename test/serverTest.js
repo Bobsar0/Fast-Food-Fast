@@ -66,7 +66,7 @@ describe('Server', () => {
     it('responds with CREATED and returns content of the newly created order with id attached', () => request
       .post('/api/v1/orders/')
       .send(data)
-      .expect(data)
+      .expect({ message: 'order created successfully', order: data })
       .expect(201));
   });
 

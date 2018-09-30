@@ -23,7 +23,7 @@ export default (orderC) => {
   server.get(`${prefix}/orders/:orderId`, (req, res) => {
     orderC.read(req.params.orderId)
       .then(result => res.status(200).json(result))
-      .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order Not Found' } }));
+      .catch(err => res.status(404).json({ status: 404, msg: err.message }));
   });
 
   // POST /orders
@@ -40,23 +40,25 @@ export default (orderC) => {
       return next();
     });
     // Validate request
-    if (req.body === {}) {
-      return res.status(400).json({ message: 'Sorry, order content cannot be empty' });
+    // The line below was adapted from this source: https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
+    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+      return res.status(400).json({ status: 400, message: 'Sorry, order content cannot be empty' });
     }
+    // if (req.body.constructor !== Object) {
+    //   return res.status(400).json({ status: 400, message: 'Bad REQ' });
+    // }
     if (!req.body.name) {
-      return res.status(400).json({ message: 'Sorry, name of order cannot be empty' });
+      return res.status(400).json({ status: 400, message: 'Sorry, name of order cannot be empty' });
+    }
+    if (!req.body.price) {
+      return res.status(400).json({ status: 400, message: 'Sorry, price of order cannot be empty' });
     }
     if (!req.body.userAddr) {
-      return res.status(400).json({ message: 'Sorry, your delivery address cannot be empty' });
+      return res.status(400).json({ status: 400, message: 'Sorry, your delivery address cannot be empty' });
     }
     return orderC.create(req.body)
-      .then((result) => {
-        if (result === undefined) {
-          return res.status(400).json({ message: 'Sorry invalid order request' });
-        }
-        return res.status(201).json(result);
-      })
-      .catch(err => res.status(404).json(err));
+      .then(order => res.status(201).json({ message: 'order created successfully', order }))
+      .catch(err => res.status(400).json(err));
   });
 
   // PUT /orders/:orderId
@@ -75,13 +77,13 @@ export default (orderC) => {
     orderC.update(req.params.orderId, req.body)
       .then(result => res.status(200).json(result))
     // Catch general error if uncaught by controller
-      .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order not found' } }));
+      .catch(err => res.status(404).json({ status: 404, msg: err.message }));
   });
 
   // DELETE /orders/:orderId
   server.delete(`${prefix}/orders/:orderId`, (req, res) => orderC.delete(req.params.orderId)
     .then(result => res.status(200).json(result))
-    .catch(() => res.sendStatus(404)));
+    .catch(err => res.status(404).json({ status: 404, msg: err.message })));
 
   // ==========POWER FRONT-END PAGES===============//
   // Compress the routes

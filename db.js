@@ -1,3 +1,5 @@
+// This acts as dbmodel!!!. SHould include query
+
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
@@ -16,19 +18,22 @@ pool.on('connect', () => {
  * Create Tables
  */
 const createTables = () => {
+  console.log('created table');
+
   const queryText = `CREATE TABLE IF NOT EXISTS
       orders(
         orderId SERIAL PRIMARY KEY,
         name VARCHAR(128) NOT NULL,
         quantity INTEGER NOT NULL,
         price INTEGER NOT NULL,
+        genre VARCHAR(128)
         userAddr VARCHAR(255),
-        created_at TIMESTAMP,
-        modified_at TIMESTAMP
+        created_at TIMESTAMP default NOW(),
+        modified_at TIMESTAMP default NOW(),
       )`;
   pool.query(queryText)
     .then((res) => {
-      console.log(res);
+      console.log('created table: ', res);
       pool.end();
     })
     .catch((err) => {
@@ -41,6 +46,7 @@ const createTables = () => {
  * Drop Tables
  */
 const dropTables = () => {
+  console.log('dropped table: ');
   const queryText = 'DROP TABLE IF EXISTS orders';
   pool.query(queryText)
     .then((res) => {
