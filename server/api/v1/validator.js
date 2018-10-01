@@ -40,7 +40,6 @@ export default class Validator {
 
   /**
    * Hash Password Method
-   * @param {string} password
    * @returns {string} returns hashed password
    */
   get hashedPassword() {
@@ -50,11 +49,10 @@ export default class Validator {
   /**
    * comparePassword
    * @param {string} hashedPassword
-   * @param {string} password
-   * @returns {Boolean} return True or False
+   * @returns {Boolean} True or False
    */
-  static comparePassword() {
-    return bcrypt.compareSync(this.password, this.hashedPassword);
+  comparePassword(hashedPassword) {
+    return bcrypt.compareSync(this.password, hashedPassword);
   }
 
   /**

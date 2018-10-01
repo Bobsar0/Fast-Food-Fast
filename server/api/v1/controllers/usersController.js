@@ -60,6 +60,33 @@ class UsersController {
       return { status: 400, error };
     }
   }
+
+  /**
+   * Login
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} user object
+   */
+  async login(req) {
+    if (!req.body.user || !req.body.password) {
+      return { status: 400, message: 'Please input (username or email) and password' };
+    }
+    this.user.password = req.body.password;
+    const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
+    try {
+      const { rows } = await this.db.query(text, [req.body.user]);
+      if (!rows[0]) {
+        return { status: 400, message: 'The credentials you provided are incorrect' };
+      }
+      if (!this.user.comparePassword(rows[0].password)) {
+        return { status: 400, message: 'The credentials you provided are incorrect' };
+      }
+      const token = this.user.generateToken(rows[0].userid);
+      return { status: 200, token };
+    } catch (error) {
+      return { status: 400, error };
+    }
+  }
 }
 
 export default UsersController;

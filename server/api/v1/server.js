@@ -85,8 +85,14 @@ export default (orderC, userC) => {
     .then(result => res.status(200).json(result))
     .catch(err => res.status(404).json({ status: 404, msg: err.message })));
 
+  // ****** USER ROUTES **** //
   // CREATE /user
   server.post(`${prefix}/signup`, (req, res) => userC.create(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+
+  // LOGIN /user
+  server.post(`${prefix}/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
