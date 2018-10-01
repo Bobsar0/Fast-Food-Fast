@@ -1,20 +1,23 @@
-import db from '../index';
 
 export default class OrderControllerDB {
+  constructor(db) {
+    this.db = db;
+  }
+
   /**
    * Get All orders/specific order
    * @param {number || undefined} id
    * @returns {object} orders array if id is undefined or order object otherwise
    */
-  static async read(id = '') {
+  async read(id = '') {
     let result = {};
     if (id === '') {
       const getAllQuery = 'SELECT * FROM orders';
-      const { rows, rowCount } = await db.query(getAllQuery);
+      const { rows, rowCount } = await this.db.query(getAllQuery);
       result = { rows, rowCount };
     } else {
       const getQuery = 'SELECT * FROM orders WHERE orderid = $1';
-      const { rows } = await db.query(getQuery, [id]);
+      const { rows } = await this.db.query(getQuery, [id]);
       [result] = rows;
     }
     if (!result) {
@@ -28,7 +31,7 @@ export default class OrderControllerDB {
    * @param {object} order
    * @returns {object} order object
    */
-  static async create(order) {
+  async create(order) {
     const query = `INSERT INTO orders(name, quantity, price, userAddr, created_at, modified_at)
       VALUES($1, $2, $3, $4, $5, $6)
       returning *`;
@@ -40,7 +43,7 @@ export default class OrderControllerDB {
       new Date(),
       new Date(),
     ];
-    const { rows } = await db.query(query, values);
+    const { rows } = await this.db.query(query, values);
     return rows[0];
   }
 
@@ -50,9 +53,9 @@ export default class OrderControllerDB {
    * @param {object} attrs
    * @returns {object} updated order
    */
-  static async update(id, attrs) {
+  async update(id, attrs) {
     const findOneQuery = 'SELECT * FROM orders WHERE orderId=$1';
-    const { rows } = await db.query(findOneQuery, [id]);
+    const { rows } = await this.db.query(findOneQuery, [id]);
     if (rows.length === 0) {
       throw new Error(`Order with id ${id} not found`);
     }
@@ -68,7 +71,7 @@ export default class OrderControllerDB {
       new Date(),
       id,
     ];
-    const response = await db.query(updateOneQuery, values);
+    const response = await this.db.query(updateOneQuery, values);
     return response.rows[0];
   }
 
@@ -77,12 +80,12 @@ export default class OrderControllerDB {
    * @param {object} id
    * @returns {void} return status code 204
    */
-  static async delete(id) {
+  async delete(id) {
     if (!id) {
       throw new Error('orderid not specified');
     }
     const deleteQuery = 'DELETE FROM orders WHERE orderId=$1 returning *';
-    const { rows } = await db.query(deleteQuery, [id]);
+    const { rows } = await this.db.query(deleteQuery, [id]);
     if (!rows[0]) {
       throw new Error(`order with id ${id} not found`);
     }
@@ -91,7 +94,7 @@ export default class OrderControllerDB {
   // async delete(req, res) {
   //   const deleteQuery = 'DELETE FROM orders WHERE orderId=$1 returning *';
   //   try {
-  //     const { rows } = await db.query(deleteQuery, [req.params.orderId]);
+  //     const { rows } = await this.db.query(deleteQuery, [req.params.orderId]);
   //     if (!rows[0]) {
   //       return res.status(404).json({ message: 'order not found' });
   //     }

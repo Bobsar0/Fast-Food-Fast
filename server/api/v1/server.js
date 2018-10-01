@@ -4,7 +4,7 @@ import compression from 'compression';
 import logger from 'morgan';
 
 // OrdersController intance must be created and passed from outside
-export default (orderC) => {
+export default (orderC, userC) => {
   const server = express();
   const prefix = '/api/v1';
 
@@ -84,6 +84,12 @@ export default (orderC) => {
   server.delete(`${prefix}/orders/:orderId`, (req, res) => orderC.delete(req.params.orderId)
     .then(result => res.status(200).json(result))
     .catch(err => res.status(404).json({ status: 404, msg: err.message })));
+
+  // CREATE /user
+  server.post(`${prefix}/signup`, (req, res) => userC.create(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+
 
   // ==========POWER FRONT-END PAGES===============//
   // Compress the routes

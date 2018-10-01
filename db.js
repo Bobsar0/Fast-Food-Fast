@@ -1,71 +1,137 @@
 // This acts as dbmodel!!!. SHould include query
 
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
 const dotenv = require('dotenv');
 
 // Load .env into process.env
 dotenv.config();
 
-const pool = new Pool({
-  connectionString: process.env.DB_URL_LOCAL,
-});
+// const pool = new Pool({
+//   connectionString: process.env.DB_URL_LOCAL,
+// });
 
-// Connect to db
-pool.on('connect', () => {
-  console.log('connected to the db');
-});
-/**
- * Create Tables
+// // Connect to db
+// pool.on('connect', () => {
+//   console.log('connected to the db');
+// });
+
+
+export default class {
+  constructor(pool) {
+    this.pool = pool;
+  }
+
+  /**
+ * Create Orders Table
  */
-const createTables = () => {
-  console.log('created table');
-
-  const queryText = `CREATE TABLE IF NOT EXISTS
+  createOrdersTable() {
+    const queryText = `CREATE TABLE IF NOT EXISTS
       orders(
         orderId SERIAL PRIMARY KEY,
+        ownerId INTEGER NOT NULL,
         name VARCHAR(128) NOT NULL,
         quantity INTEGER NOT NULL,
         price INTEGER NOT NULL,
-        genre VARCHAR(128)
+        genre VARCHAR(128),
         userAddr VARCHAR(255),
         created_at TIMESTAMP default NOW(),
         modified_at TIMESTAMP default NOW(),
+        FOREIGN KEY (ownerId) REFERENCES users (userId) ON DELETE CASCADE
       )`;
-  pool.query(queryText)
-    .then((res) => {
-      console.log('created table: ', res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+    this.pool.query(queryText)
+      .then((res) => {
+        console.log('created orders table!: ', res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
-/**
- * Drop Tables
+  /**
+   * Drop Orders Tables
+   */
+  dropOrdersTables() {
+    const queryText = 'DROP TABLE IF EXISTS orders';
+    this.pool.query(queryText)
+      .then((res) => {
+        console.log(res);
+        this.pool.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.pool.end();
+      });
+  }
+
+  /**
+ * Create Users Table
  */
-const dropTables = () => {
-  console.log('dropped table: ');
-  const queryText = 'DROP TABLE IF EXISTS orders';
-  pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
+  createUsersTable() {
+    const queryText = `CREATE TABLE IF NOT EXISTS
+        users(
+          userId SERIAL PRIMARY KEY,
+          username VARCHAR(128) UNIQUE NOT NULL,
+          email VARCHAR(128) UNIQUE NOT NULL,
+          password VARCHAR(128) NOT NULL,
+          user_rank TEXT default anonymous,
+          created_date TIMESTAMP default NOW(),
+          modified_date TIMESTAMP default NOW()
+        )`;
+
+    this.pool.query(queryText)
+      .then((res) => {
+        console.log('created users table!', res);
+        // this.pool.end();
+      })
+      .catch((err) => {
+        console.log('err in creating users table', err);
+        // this.pool.end();
+      });
+  }
+
+  /**
+   * Drop Orders Tables
+   */
+  dropUsersTable() {
+    const queryText = 'DROP TABLE IF EXISTS users returning *';
+    this.pool.query(queryText)
+      .then((res) => {
+        console.log(res);
+        this.pool.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.pool.end();
+      });
+  }
+
+  /**
+   * DB Query Method
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} object
+   */
+  // Reference source
+  query(text, params) {
+    return new Promise((resolve, reject) => {
+      this.pool.query(text, params)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
-};
+  }
+}
 
-pool.on('remove', () => {
-  console.log('client removed');
-  process.exit(0);
-});
-module.exports = {
-  createTables,
-  dropTables,
-};
+// pool.on('remove', () => {
+//   console.log('client removed');
+//   process.exit(0);
+// });
+// module.exports = {
+//   createOrdersTables,
+//   dropTables,
+// };
 
-require('make-runnable');
+// require('make-runnable');

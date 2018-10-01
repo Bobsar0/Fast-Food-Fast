@@ -28,11 +28,12 @@
   },
   "homepage": "https://github.com/Bobsar0/Fast-Food-Fast#readme",
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcryptjs": "^2.4.3",
     "chai": "^4.1.2",
     "compression": "^1.7.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.10",
     "make-runnable": "^1.3.6",
     "morgan": "^1.9.1",
