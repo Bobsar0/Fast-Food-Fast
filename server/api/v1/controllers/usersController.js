@@ -12,7 +12,6 @@ class UsersController {
   /**
    * Create A User
    * @param {object} req
-   * @param {object} res
    * @returns {object} user object
    */
   async create(req) {
@@ -51,7 +50,8 @@ class UsersController {
 
     try {
       const { rows } = await this.db.query(createQuery, values);
-      const token = this.user.generateToken(rows[0].userid);
+      this.userId = rows[0].userid;
+      const token = this.user.generateToken(this.userId);
       return { status: 201, token };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
@@ -64,7 +64,6 @@ class UsersController {
   /**
    * Login
    * @param {object} req
-   * @param {object} res
    * @returns {object} user object
    */
   async login(req) {
@@ -83,6 +82,24 @@ class UsersController {
       }
       const token = this.user.generateToken(rows[0].userid);
       return { status: 200, token };
+    } catch (error) {
+      return { status: 400, error };
+    }
+  }
+
+  /**
+   * Delete A User
+   * @param {object} req
+   * @returns {void} return status code 204
+   */
+  async delete(req) {
+    const deleteQuery = 'DELETE FROM users WHERE userid=$1 returning *';
+    try {
+      const { rows } = await this.db.query(deleteQuery, [req.params.userId]);
+      if (!rows[0]) {
+        return { status: 404, message: 'user not found' };
+      }
+      return { status: 200, message: 'user deleted successfully' };
     } catch (error) {
       return { status: 400, error };
     }

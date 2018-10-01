@@ -96,6 +96,11 @@ export default (orderC, userC) => {
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
+  // Delete /user
+  server.delete(`${prefix}/users/:userId`, (req, res) => userC.delete(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+
 
   // ==========POWER FRONT-END PAGES===============//
   // Compress the routes
