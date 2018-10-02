@@ -10,7 +10,7 @@ describe('Validator', () => {
     expect(new Validator()).to.have.property('password');
   });
 
-  describe('checks for valid email', () => {
+  describe('Email Validator', () => {
     it('returns false for invalid email', () => {
       const email = 'bob';
       const user = new Validator(email, '');
@@ -20,6 +20,29 @@ describe('Validator', () => {
       const email = 'bob@gmail.com';
       const user = new Validator(email, '');
       expect(user.isValidEmail()).to.equal(true);
+    });
+  });
+
+  describe('Password Validator', () => {
+    it('returns false for password that does not contain an uppercase letter', () => {
+      const user = new Validator('', 'aa1!hhh');
+      expect(user.isValidPassword()).to.equal('Your password must contain at least one uppercase letter');
+    });
+    it('returns false for password that does not contain an lowercase letter', () => {
+      const user = new Validator('', 'ABC224!');
+      expect(user.isValidPassword()).to.equal('Your password must contain at least one lowercase letter');
+    });
+    it('returns false for password that does not contain a special character', () => {
+      const user = new Validator('', 'ABcc123');
+      expect(user.isValidPassword()).to.equal('Your password must contain at least one of these special characters: @, $, !, %, *, ?, &');
+    });
+    it('returns false for password that does not contain up to six characters', () => {
+      const user = new Validator('', 'aS1!0');
+      expect(user.isValidPassword()).to.equal('Your password must be composed of at least 6 characters');
+    });
+    it('returns true for a valid password', () => {
+      const user = new Validator('', 'Ab!2340');
+      expect(user.isValidPassword()).to.equal('true');
     });
   });
 });
