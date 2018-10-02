@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // Adapted from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5
 export default class {
@@ -39,7 +40,7 @@ export default class {
 
   /**
    * Hash Password Method
-   * @returns {string} returns hashed password
+   * @returns {string} hashed password
    */
   get hashedPassword() {
     return bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
@@ -52,5 +53,15 @@ export default class {
    */
   comparePassword(hashedPassword) {
     return bcrypt.compareSync(this.password, hashedPassword);
+  }
+
+  /**
+   * Generate Token
+   * @param {string} id
+   * @returns {string} token
+   */
+  generateToken(id, role) {
+    this.token = jwt.sign({ userId: id, role }, process.env.SECRET, { expiresIn: '1d' });
+    return this.token;
   }
 }
