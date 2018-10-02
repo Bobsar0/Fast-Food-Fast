@@ -72,7 +72,7 @@ export default class {
           username VARCHAR(128) UNIQUE NOT NULL,
           email VARCHAR(128) UNIQUE NOT NULL,
           password VARCHAR(128) NOT NULL,
-          user_rank VARCHAR(128),
+          role VARCHAR(16),
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()
         )`;
