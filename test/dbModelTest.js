@@ -6,9 +6,7 @@ import DB from '../server/api/models/dbModel';
 dotenv.config();
 
 describe('Database Model', () => {
-  const pool = new Pool({
-    connectionString: process.env.DB_URL_TEST,
-  });
+  const pool = new Pool();
   before(() => {
     pool.on('connect', () => {
     });
