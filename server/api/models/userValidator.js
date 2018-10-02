@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+
 // Adapted from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5
 export default class {
   constructor(email, password) {
@@ -33,5 +35,13 @@ export default class {
       return 'Your password must be composed of at least 6 characters';
     }
     return 'true';
+  }
+
+  /**
+   * Hash Password Method
+   * @returns {string} returns hashed password
+   */
+  get hashedPassword() {
+    return bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
   }
 }
