@@ -2,9 +2,10 @@ import express from 'express';
 import path from 'path';
 import compression from 'compression';
 import logger from 'morgan';
+// import Auth from './controllers/authontroller';
 
 // OrdersController intance must be created and passed from outside
-export default (orderC, userC) => {
+export default (orderC, auth, userC) => {
   const server = express();
   const prefix = '/api/v1';
 
@@ -16,18 +17,19 @@ export default (orderC, userC) => {
   // parse requests of content-type - application/x-www-form-urlencoded
   server.use(express.urlencoded({ extended: true }));
 
+  server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to FastFoodFast!' }));
   // GET /orders
-  server.get(`${prefix}/orders`, (_req, res) => orderC.read().then(result => res.status(200).json(result)));
+  server.get(`${prefix}/orders`, auth.verifyToken, (req, res) => orderC.read(req).then(result => res.status(200).json(result)));
 
   // GET /orders:orderId
-  server.get(`${prefix}/orders/:orderId`, (req, res) => {
-    orderC.read(req.params.orderId)
+  server.get(`${prefix}/orders/:orderId`, auth.verifyToken, (req, res) => {
+    orderC.read(req)
       .then(result => res.status(200).json(result))
       .catch(err => res.status(404).json({ status: 404, msg: err.message }));
   });
 
   // POST /orders
-  server.post(`${prefix}/orders`, (req, res, next) => {
+  server.post(`${prefix}/orders`, auth.verifyToken, (req, res, next) => {
     // kill the connection if someone tries to flood the RAM
     let body = '';
     req.on('data', (data) => {
@@ -56,13 +58,13 @@ export default (orderC, userC) => {
     if (!req.body.userAddr) {
       return res.status(400).json({ status: 400, message: 'Sorry, your delivery address cannot be empty' });
     }
-    return orderC.create(req.body)
+    return orderC.create(req)
       .then(order => res.status(201).json({ message: 'order created successfully', order }))
       .catch(err => res.status(400).json(err));
   });
 
   // PUT /orders/:orderId
-  server.put(`${prefix}/orders/:orderId`, (req, res, next) => {
+  server.put(`${prefix}/orders/:orderId`, auth.verifyToken, (req, res, next) => {
     // kill the connection if someone tries to flood the RAM
     let body = '';
     req.on('data', (data) => {
@@ -74,30 +76,30 @@ export default (orderC, userC) => {
       }
       return next();
     });
-    orderC.update(req.params.orderId, req.body)
+    orderC.update(req)
       .then(result => res.status(200).json(result))
     // Catch general error if uncaught by controller
       .catch(err => res.status(404).json({ status: 404, msg: err.message }));
   });
 
   // DELETE /orders/:orderId
-  server.delete(`${prefix}/orders/:orderId`, (req, res) => orderC.delete(req.params.orderId)
+  server.delete(`${prefix}/orders/:orderId`, auth.verifyToken, (req, res) => orderC.delete(req.params.orderId)
     .then(result => res.status(200).json(result))
     .catch(err => res.status(404).json({ status: 404, msg: err.message })));
 
   // ****** USER ROUTES **** //
   // CREATE /user
-  server.post(`${prefix}/signup`, (req, res) => userC.create(req)
+  server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
   // LOGIN /user
-  server.post(`${prefix}/login`, (req, res) => userC.login(req)
+  server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
   // Delete /user
-  server.delete(`${prefix}/users/:userId`, (req, res) => userC.delete(req)
+  server.delete(`${prefix}/users/:userId`, auth.verifyToken, (req, res) => userC.delete(req)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
@@ -132,5 +134,15 @@ export default (orderC, userC) => {
     res.sendFile(`${uiPath}/templates/history.html`);
   });
 
+  // error handler
+  server.use((err, req, res, next) => {
+    console.log('error handler!!!');
+    res.status(err.status || 500);
+    res.json({
+      message: err.message,
+      error: req.server.get('env') === 'development' ? err : {},
+    });
+    next();
+  });
   return server;
 };

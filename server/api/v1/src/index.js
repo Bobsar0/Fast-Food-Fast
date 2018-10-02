@@ -7,6 +7,8 @@ import OrdersControllerDB from '../db/controllers/ordersControllerDB';
 import UserModel from '../models/userModel';
 import DB from '../../../../db';
 import UsersControllerDB from '../controllers/usersController';
+// import AuthController from '../controllers/authController';
+import Auth from '../auth/authMiddleware';
 
 // Load .env into process.env
 dotenv.config();
@@ -42,8 +44,8 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   pool.on('connect', () => {
   });
   const db = new DB(pool);
-  db.createUsersTable();
-  db.createOrdersTable();
+  // db.createUsersTable();
+  // db.createOrdersTable();
 
   const user = new UserModel();
   orderC = new OrdersControllerDB(db);
@@ -52,7 +54,7 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   const order = new Order(store);
   orderC = new OrdersController(order, 'Anonymous');
 }
-const app = server(orderC, userC);
+const app = server(orderC, Auth, userC);
 const port = process.env.PORT || 5000;
 
 app.listen(port);

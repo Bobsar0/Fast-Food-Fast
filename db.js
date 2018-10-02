@@ -1,10 +1,10 @@
 // This acts as dbmodel!!!. SHould include query
 
 // const { Pool } = require('pg');
-const dotenv = require('dotenv');
+// import dotenv from 'dotenv'
 
-// Load .env into process.env
-dotenv.config();
+// // Load .env into process.env
+// dotenv.config();
 
 // const pool = new Pool({
 //   connectionString: process.env.DB_URL_LOCAL,
@@ -28,7 +28,7 @@ export default class {
     const queryText = `CREATE TABLE IF NOT EXISTS
       orders(
         orderId SERIAL PRIMARY KEY,
-        ownerId INTEGER NOT NULL,
+        owner_id INTEGER NOT NULL,
         name VARCHAR(128) NOT NULL,
         quantity INTEGER NOT NULL,
         price INTEGER NOT NULL,
@@ -36,7 +36,7 @@ export default class {
         userAddr VARCHAR(255),
         created_at TIMESTAMP default NOW(),
         modified_at TIMESTAMP default NOW(),
-        FOREIGN KEY (ownerId) REFERENCES users (userId) ON DELETE CASCADE
+        FOREIGN KEY (owner_id) REFERENCES users (userId) ON DELETE CASCADE
       )`;
     this.pool.query(queryText)
       .then((res) => {
@@ -54,12 +54,12 @@ export default class {
     const queryText = 'DROP TABLE IF EXISTS orders';
     this.pool.query(queryText)
       .then((res) => {
-        console.log(res);
-        this.pool.end();
+        console.log('dropped orders table', res);
+        // this.pool.end();
       })
       .catch((err) => {
         console.log(err);
-        this.pool.end();
+        // this.pool.end();
       });
   }
 
@@ -73,7 +73,7 @@ export default class {
           username VARCHAR(128) UNIQUE NOT NULL,
           email VARCHAR(128) UNIQUE NOT NULL,
           password VARCHAR(128) NOT NULL,
-          user_rank TEXT default anonymous,
+          user_rank VARCHAR(128),
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()
         )`;
@@ -93,15 +93,15 @@ export default class {
    * Drop Orders Tables
    */
   dropUsersTable() {
-    const queryText = 'DROP TABLE IF EXISTS users returning *';
+    const queryText = 'DROP TABLE IF EXISTS users';
     this.pool.query(queryText)
       .then((res) => {
-        console.log(res);
-        this.pool.end();
+        console.log('dropped users table!:', res);
+        // this.pool.end()
       })
       .catch((err) => {
         console.log(err);
-        this.pool.end();
+        // this.pool.end();
       });
   }
 

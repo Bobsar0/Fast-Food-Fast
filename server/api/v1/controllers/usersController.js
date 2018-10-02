@@ -67,13 +67,13 @@ class UsersController {
    * @returns {object} user object
    */
   async login(req) {
-    if (!req.body.user || !req.body.password) {
+    if ((!req.body.username && !req.body.email) || !req.body.password) {
       return { status: 400, message: 'Please input (username or email) and password' };
     }
     this.user.password = req.body.password;
     const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
     try {
-      const { rows } = await this.db.query(text, [req.body.user]);
+      const { rows } = await this.db.query(text, [req.body.username || req.body.email]);
       if (!rows[0]) {
         return { status: 400, message: 'The credentials you provided are incorrect' };
       }
