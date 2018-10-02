@@ -1,10 +1,13 @@
 language: node_js
 node_js:
   - "lts/*"
+branches:
+  - master
+  - develop
 services:
   - postgresql
-before_script:
-  - psql -c 'create database travisTestDB;' -U Steve
+addons:
+  postgresql: "10"
 after_success:
   - npm run coverage
   
