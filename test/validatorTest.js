@@ -45,4 +45,11 @@ describe('Validator', () => {
       expect(user.isValidPassword()).to.equal('true');
     });
   });
+
+  describe('Hash Password Method', () => {
+    it('returns hashed password', () => {
+      const user = new Validator('bob@gmail.com', 'aaB?0cd');
+      expect(user.hashedPassword).to.equal('$2a$08$jABDgOe/ZVfvif06t3reheWRTMYTPWEHwgp8Edm1oU54djzmhla1m');
+    });
+  });
 });
