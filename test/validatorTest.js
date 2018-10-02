@@ -38,7 +38,7 @@ describe('Validator', () => {
     });
     it('returns false for password that does not contain up to six characters', () => {
       const user = new Validator('', 'aS1!0');
-      expect(user.isValidPassword()).to.equal('Your password must be composed of at least 6 characters');
+      expect(user.isValidPassword().length).to.be.gte(6);
     });
     it('returns true for a valid password', () => {
       const user = new Validator('', 'Ab!2340');
@@ -47,9 +47,21 @@ describe('Validator', () => {
   });
 
   describe('Hash Password Method', () => {
-    it('returns hashed password', () => {
+    it('returns hashed password of type string', () => {
       const user = new Validator('bob@gmail.com', 'aaB?0cd');
-      expect(user.hashedPassword).to.equal('$2a$08$jABDgOe/ZVfvif06t3reheWRTMYTPWEHwgp8Edm1oU54djzmhla1m');
+      expect(user.hashedPassword).to.be.a('string');
+    });
+  });
+
+  describe('Compare Password Method', () => {
+    it('returns false if passwords are not equal', () => {
+      const user = new Validator('bob@gmail.com', 'aaB?0ce');
+      const password = 'ASHCJCJVKV';
+      expect(user.comparePassword(password)).to.equal(false);
+    });
+    it('returns true if passwords are equal', () => {
+      const user = new Validator('bob@gmail.com', 'aaB?0cd');
+      expect(user.comparePassword(user.hashedPassword)).to.equal(true);
     });
   });
 });
