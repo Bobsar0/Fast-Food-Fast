@@ -44,4 +44,13 @@ export default class {
   get hashedPassword() {
     return bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
   }
+
+  /**
+   * comparePassword
+   * @param {string} hashedPassword
+   * @returns {Boolean} True or False
+   */
+  comparePassword(hashedPassword) {
+    return bcrypt.compareSync(this.password, hashedPassword);
+  }
 }
