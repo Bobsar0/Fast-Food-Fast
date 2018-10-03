@@ -50,34 +50,4 @@ describe('Validator', () => {
       expect(user.isValidPassword()).to.equal('true');
     });
   });
-
-  describe('Hash Password Method', () => {
-    it('returns hashed password of type string', () => {
-      const user = new Validator('bob@gmail.com', 'aaB?0cd');
-      expect(user.hashedPassword).to.be.a('string');
-      expect(user.hashedPassword).to.has.lengthOf(60);
-    });
-  });
-
-  describe('Compare Password Method', () => {
-    it('returns false if passwords are not equal', () => {
-      const user = new Validator('bob@gmail.com', 'aaB?0ce');
-      const password = 'ASHCJCJVKV';
-      expect(user.comparePassword(password)).to.equal(false);
-    });
-    it('returns true if passwords are equal', () => {
-      const user = new Validator('bob@gmail.com', 'aaB?0cd');
-      expect(user.comparePassword(user.hashedPassword)).to.equal(true);
-    });
-  });
-
-  describe('Generate token', () => {
-    dotenv.config();
-    process.env.SECRET = 'some secret';
-    it('returns a valid token', () => {
-      const user = new Validator('bob@gmail.com', 'aaB?0cd');
-      expect(user.generateToken('1', 'user').length).to.be.gt(1);
-      expect(user.generateToken('1')).to.be.a('string');
-    });
-  });
 });
