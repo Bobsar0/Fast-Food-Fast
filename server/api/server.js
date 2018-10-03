@@ -56,10 +56,19 @@ export default (orderC, userC) => {
     .catch(() => res.sendStatus(404)));
 
   // ****** USER ROUTES **** //
-  // CREATE /user
+  // SIGNUP /user
   server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+    .catch(err => res.status(err.status).json({ error: err.message })));
+
+  // LOGIN /user
+  server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ error: err.message })));
+
+  server.post(`${prefix}/`, (req, res) => new Promise()
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(400).json({ error: err.message })));
 
   return server;
 };

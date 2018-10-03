@@ -6,6 +6,7 @@ import server from './server';
 import OrdersController from './controllers/ordersController';
 import UsersController from './controllers/usersController';
 import User from './models/userModel';
+import Auth from './models/authmodel';
 
 // Load .env into process.env
 dotenv.config();
@@ -28,11 +29,12 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   });
 
   const db = new DB(pool);
-  db.createUsersTable();
-  db.createOrdersTable();
+  // db.createUsersTable();
+  // db.createOrdersTable();
 
+  const auth = new Auth();
   const userM = new User();
-  userC = new UsersController(db, userM);
+  userC = new UsersController(db, userM, auth);
 } else {
   // API mock dB
   const dbMock = [{
@@ -57,5 +59,5 @@ if (process.env.CONTROLLER_TYPE === 'db') {
 }
 
 const app = server(orderC, userC);
-
-app.listen(process.env.PORT || 5000);
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log('listening at port', port));
