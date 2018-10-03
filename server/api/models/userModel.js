@@ -1,11 +1,11 @@
 import UserValidator from './userValidator';
 
 export default class extends UserValidator {
-  constructor(username, email, phone, password, address, rank) {
-    super(email, password);
-    this.username = username;
-    this.phone = phone;
-    this.address = address;
-    this.rank = rank;
+  constructor(attrs) {
+    super(attrs.email, attrs.password);
+    this.username = attrs.username;
+    this.phone = attrs.phone;
+    this.address = attrs.address;
+    this.rank = attrs.rank;
   }
 }
