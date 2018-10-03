@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import UserModel from '../server/api/models/userModel';
 
 describe('User Model', () => {
-  const user = new UserModel();
+  const attrs = {};
+  const user = new UserModel(attrs);
   it('creates a new model', () => {
     expect(user).to.be.an.instanceof(UserModel);
   });
