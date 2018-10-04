@@ -8,9 +8,10 @@ describe('Server', () => {
   const user = {};
   const request = supertest(server(orders, authC, user));
   // test data
-  const data = {
-    orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
-  };
+  // const data = {
+  // orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower', 
+  // name: 'Chicken', price: 'NGN 1000.00',
+  // };
   // check that server returns success response when 'GET /orders' is performed
   // describe('GET /orders', () => {
   //   // test method now returns test data
@@ -57,34 +58,34 @@ describe('Server', () => {
   //   });
   // });
 
-  // ======== PUT /orders/:orderId TEST =================//
-  describe('PUT /orders/:orderId', () => {
-    // Update action returns order attributes corresponding to the specified id
-    const attrNew = { name: 'Chicken', quantity: 3 };
-    context('when there is no order with the specified id', () => {
-      before(() => {
-        orders.update = id => new Promise((resolve, reject) => reject(id));
-      });
-      it('responds with 404 HTTP response', () => request
-        .put('/api/v1/orders/444')
-        .send({ order: {} })
-        .expect(404));
-    });
+  // // ======== PUT /orders/:orderId TEST =================//
+  // describe('PUT /orders/:orderId', () => {
+  //   // Update action returns order attributes corresponding to the specified id
+  //   const attrNew = { name: 'Chicken', quantity: 3 };
+  //   context('when there is no order with the specified id', () => {
+  //     before(() => {
+  //       orders.update = id => new Promise((resolve, reject) => reject(id));
+  //     });
+  //     it('responds with 404 HTTP response', () => request
+  //       .put('/api/v1/orders/444')
+  //       .send({ order: {} })
+  //       .expect(404));
+  //   });
 
-    context('when there is an order with the specified id', () => {
-      before(() => {
-        orders.update = (id, attrs) => new Promise(
-          resolve => resolve({ orderId: id, data, attrs }),
-        );
-      });
-      // test below verifies status and response data
-      it('responds with 200 OK and returns content of the updated order', () => request
-        .put('/api/v1/orders/234')
-        .send(attrNew)
-        .expect({ orderId: 234, data, attrs: attrNew })
-        .expect(200));
-    });
-  });
+  //   context('when there is an order with the specified id', () => {
+  //     before(() => {
+  //       orders.update = (id, attrs) => new Promise(
+  //         resolve => resolve({ orderId: id, data, attrs }),
+  //       );
+  //     });
+  //     // test below verifies status and response data
+  //     it('responds with 200 OK and returns content of the updated order', () => request
+  //       .put('/api/v1/orders/234')
+  //       .send(attrNew)
+  //       .expect({ orderId: 234, data, attrs: attrNew })
+  //       .expect(200));
+  //   });
+  // });
 
   // ======== DELETE /orders/:orderId TEST =================//
   describe('DELETE /orders/:orderId', () => {
