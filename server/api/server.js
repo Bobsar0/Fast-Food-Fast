@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import AuthC from './controllers/authController';
 
 // OrdersController intance must be created and passed from outside
 export default (orderC, userC) => {
@@ -22,25 +23,21 @@ export default (orderC, userC) => {
   });
 
   // POST /orders
-  server.post(`${prefix}/orders`, (req, res) => {
+  server.post(`${prefix}/orders`, AuthC.verifyToken, (req, res) => {
     // Validate request
-    if (req.body === {}) {
-      return res.status(400).json({ message: 'Sorry, order content cannot be empty' });
+    // The line below was adapted from this source: https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
+    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+      return res.status(400).json({ status: 400, message: 'Sorry, order content cannot be empty' });
     }
     if (!req.body.name) {
-      return res.status(400).json({ message: 'Sorry, name of order cannot be empty' });
+      return res.status(400).json({ status: 400, message: 'Sorry, name of order cannot be empty' });
     }
-    if (!req.body.userAddr) {
-      return res.status(400).json({ message: 'Sorry, your delivery address cannot be empty' });
+    if (!req.body.price) {
+      return res.status(400).json({ status: 400, message: 'Sorry, price of order cannot be empty' });
     }
-    return orderC.create(req.body)
-      .then((result) => {
-        if (result === undefined) {
-          return res.status(400).json({ message: 'Sorry invalid order request' });
-        }
-        return res.status(201).json(result);
-      })
-      .catch(() => res.sendStatus(404));
+    return orderC.create(req)
+      .then(result => res.status(201).json({ result }))
+      .catch(err => res.status(400).json({ err }));
   });
 
   // PUT /orders/:orderId
@@ -67,7 +64,7 @@ export default (orderC, userC) => {
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
   server.post(`${prefix}/`, (req, res) => new Promise()
-    .then(result => res.status(result.status).json(result))
+    .then(result => res.status(result.status).json('Fast-Food-Fast... coming your way soon.'))
     .catch(err => res.status(400).json({ error: err.message })));
 
   return server;

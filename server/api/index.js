@@ -4,9 +4,11 @@ import DB from './models/dbModel';
 import Order from './models/orderModel';
 import server from './server';
 import OrdersController from './controllers/ordersController';
+import OrdersDBController from './controllers/ordersDBcontroller';
 import UsersController from './controllers/usersController';
 import User from './models/userModel';
 import Auth from './models/authmodel';
+
 
 // Load .env into process.env
 dotenv.config();
@@ -35,6 +37,8 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   const auth = new Auth();
   const userM = new User();
   userC = new UsersController(db, userM, auth);
+
+  orderC = new OrdersDBController(db);
 } else {
   // API mock dB
   const dbMock = [{
