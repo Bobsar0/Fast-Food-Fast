@@ -53,4 +53,33 @@ export default class OrderDBController {
     }
     return { message: 'orders retrieved successfully', order: result };
   }
+
+  /**
+   * Update An Order
+   * @param {number} id
+   * @param {object} attrs
+   * @returns {object} updated order
+   */
+  async update(req) {
+    const findOneQuery = 'SELECT * FROM orders WHERE orderId=$1 AND owner_id = $2';
+    const { rows } = await this.db.query(findOneQuery, [req.params.orderId, req.user.userId]);
+    if (rows.length === 0) {
+      throw new Error(`Order with id ${req.params.orderId} not found`);
+    }
+    const updateOneQuery = `UPDATE orders
+      SET name=$1, quantity=$2, price=$3, userAddr=$4, modified_at= $5
+      WHERE orderid=$6 AND owner_id = $7 returning *`;
+
+    const values = [
+      req.body.name || rows[0].name,
+      req.body.quantity || rows[0].quantity,
+      req.body.price || rows[0].price,
+      req.body.userAddr || rows[0].userAddr,
+      new Date(),
+      req.params.orderId,
+      req.user.userId,
+    ];
+    const response = await this.db.query(updateOneQuery, values);
+    return { message: 'order updated successfully', order: response.rows[0] };
+  }
 }
