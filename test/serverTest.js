@@ -12,50 +12,50 @@ describe('Server', () => {
     orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
   };
   // check that server returns success response when 'GET /orders' is performed
-  describe('GET /orders', () => {
-    // test method now returns test data
-    before(() => {
-      orders.read = () => new Promise(resolve => resolve(data));
-    });
+  // describe('GET /orders', () => {
+  //   // test method now returns test data
+  //   before(() => {
+  //     orders.read = () => new Promise(resolve => resolve(data));
+  //   });
 
-    // checks that server responds with the proper HTTP code and exactly with the
-    // same data it received from the controller
-    it('responds with OK', () => request
-      .get('/api/v1/orders/')
-      .expect(data)
-      .expect(200));
-  });
+  //   // checks that server responds with the proper HTTP code and exactly with the
+  //   // same data it received from the controller
+  //   it('responds with OK', () => request
+  //     .get('/api/v1/orders/')
+  //     .expect(data)
+  //     .expect(200));
+  // });
 
   // ======== GET /orders/:orderId TEST =================//
-  describe('GET /orders/:orderId', () => {
-    context('when there is no order with the specified id', () => {
-      // Controller should return rejected promise when order with the specified id is not found
-      before(() => {
-        orders.read = id => new Promise((resolve, reject) => reject(id));
-      });
+  // describe('GET /orders/:orderId', () => {
+  //   context('when there is no order with the specified id', () => {
+  //     // Controller should return rejected promise when order with the specified id is not found
+  //     before(() => {
+  //       orders.read = id => new Promise((resolve, reject) => reject(id));
+  //     });
 
-      // test that server responds with 404 status code and custom error msg if order isn't found
-      it('responds with 404 Order NotFound', () => request
-        .get('/api/v1/orders/33')
-        .send(data)
-        .expect(404));
-    });
+  //     // test that server responds with 404 status code and custom error msg if order isn't found
+  //     it('responds with 404 Order NotFound', () => request
+  //       .get('/api/v1/orders/33')
+  //       .send(data)
+  //       .expect(404));
+  //   });
 
-    // Otherwise merge specified id with the predefined data to and send to the controller
-    context('when there is an order with the specified id', () => {
-      before(() => {
-        orders.read = id => new Promise(
-          resolve => resolve({ orderId: id, data }),
-        );
-      });
+  //   // Otherwise merge specified id with the predefined data to and send to the controller
+  //   context('when there is an order with the specified id', () => {
+  //     before(() => {
+  //       orders.read = id => new Promise(
+  //         resolve => resolve({ orderId: id, data }),
+  //       );
+  //     });
 
-      it('responds with OK and returns unique order corresponding to the id', () => request
-        .get('/api/v1/orders/234')
-        .send(data)
-        .expect({ orderId: 234, data })
-        .expect(200));
-    });
-  });
+  //     it('responds with OK and returns unique order corresponding to the id', () => request
+  //       .get('/api/v1/orders/234')
+  //       .send(data)
+  //       .expect({ orderId: 234, data })
+  //       .expect(200));
+  //   });
+  // });
 
   // ======== PUT /orders/:orderId TEST =================//
   describe('PUT /orders/:orderId', () => {
