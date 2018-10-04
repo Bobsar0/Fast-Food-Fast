@@ -7,6 +7,7 @@
   "description": "A food delivery service app for a restaurant | Andela Developer Challenge",
   "main": "./server/api/index.js",
   "scripts": {
+    "lint": "eslint ./server --fix",
     "pretest": "eslint --ignore-path .gitignore",
     "test": "cross-env NODE_ENV=test nyc mocha --timeout=3000 --compilers js:babel-core/register --require should",
     "start": "nodemon --exec babel-node ./server/api/index.js",
