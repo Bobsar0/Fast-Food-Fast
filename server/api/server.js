@@ -68,9 +68,7 @@ export default (orderC, userC) => {
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
-  server.post(`${prefix}/`, (req, res) => new Promise()
-    .then(result => res.status(result.status).json('Fast-Food-Fast... coming your way soon.'))
-    .catch(err => res.status(400).json({ error: err.message })));
+  server.get('*', (req, res) => res.status(404).json({ message: 'invalid route endpoint' }));
 
   return server;
 };
