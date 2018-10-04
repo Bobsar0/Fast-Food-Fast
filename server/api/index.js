@@ -37,9 +37,8 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   });
 
   const db = new DB(pool);
-  // db.createUsersTable();
-  // db.createOrdersTable();
-  db.dropMenuTable();
+  db.createUsersTable();
+  db.createOrdersTable();
   db.createMenuTable();
 
   const auth = new Auth();

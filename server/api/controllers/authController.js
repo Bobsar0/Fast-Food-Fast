@@ -28,7 +28,7 @@ const authController = {
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(400).json({ status: 400, message: 'Token is not provided' });
+      return res.status(401).json({ status: 401, message: 'Token is not provided' });
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
@@ -47,12 +47,12 @@ const authController = {
   async verifyAdminToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(400).json({ status: 400, message: 'Please provide a valid token' });
+      return res.status(401).json({ status: 401, message: 'Please provide a valid token' });
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
       if (decoded.rank !== 'admin') {
-        return res.status(403).json({ status: 404, message: 'Only admins are authorized' });
+        return res.status(403).json({ status: 403, message: 'Sorry, only admins are authorized' });
       }
       const text = 'SELECT * FROM users WHERE userid = $1';
       const { rows } = await db.query(text, [decoded.userId]);
@@ -62,7 +62,7 @@ const authController = {
       req.user = { userId: decoded.userId };
       return next();
     } catch (error) {
-      return res.status(400).json({ status: 400, messsage: error.message });
+      return res.status(500).json({ status: 500, messsage: error.message });
     }
   },
 };
