@@ -41,10 +41,10 @@ export default (orderC, userC) => {
   });
 
   // PUT /orders/:orderId
-  server.put(`${prefix}/orders/:orderId`, (req, res) => {
-    orderC.update(req.params.orderId, req.body)
+  server.put(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
+    orderC.updateStatus(req)
       .then(result => res.status(200).json(result))
-      .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order not found' } }));
+      .catch(err => res.status(404).json({ status: err.status, msg: err.error || err.message }));
   });
 
   // DELETE /orders/:orderId
@@ -66,9 +66,10 @@ export default (orderC, userC) => {
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+    .catch(err => res.status(err.status)
+      .json({ status: err.status, msg: err.message || err.error })));
 
-  server.get('*', (req, res) => res.status(404).json({ message: 'invalid route endpoint' }));
+  server.get('*', (req, res) => res.status(404).json({ message: 'Sorry, this route is not available' }));
 
   return server;
 };
