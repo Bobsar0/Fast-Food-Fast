@@ -64,7 +64,7 @@ export default class {
       if (error.routine === '_bt_check_unique') {
         return { status: 409, message: error.detail };
       }
-      return { status: 400, error };
+      return { status: 500, error: error.message };
     }
   }
 
@@ -87,7 +87,7 @@ export default class {
       const token = this.auth.generateToken(rows[0].userid, rows[0].rank);
       return { status: 200, message: 'login successful', token };
     } catch (error) {
-      return { error };
+      return { error: error.message };
     }
   }
 
@@ -110,7 +110,7 @@ export default class {
       }
       return { status: 200, message: 'orders retrieved successfully', orders: response.rows };
     } catch (error) {
-      return { status: 400, error };
+      return { status: 400, error: error.message };
     }
   }
 }
