@@ -20,13 +20,13 @@ describe('Auth', () => {
 
   describe('Compare Password Method', () => {
     it('returns false if passwords are not equal', () => {
-      const auth = new Auth('aaB?0ce');
-      const password = 'ASHCJCJVKV';
-      expect(auth.comparePassword(password)).to.equal(false);
+      const auth = new Auth('aaB0ce');
+      const hashedPassword = 'ASHCJCJVKV';
+      expect(auth.comparePassword('aaB0ce', hashedPassword)).to.equal(false);
     });
     it('returns true if passwords are equal', () => {
       const auth = new Auth('aaB?0cd');
-      expect(auth.comparePassword(auth.hashPassword('aaB?0cd'))).to.equal(true);
+      expect(auth.comparePassword('aaB?0cd', auth.hashPassword('aaB?0cd'))).to.equal(true);
     });
   });
 

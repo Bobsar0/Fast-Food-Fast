@@ -5,11 +5,18 @@ import DB from '../models/dbModel';
 
 dotenv.config();
 
+let connectionString = '';
+
+if (process.env.NODE_ENV === 'test') {
+  connectionString = process.env.DB_URL_TEST;
+} else {
+  connectionString = process.env.DB_URL_LOCAL;
+}
 const pool = new Pool({
-  connectionString: process.env.DB_URL_LOCAL,
+  connectionString,
 });
 const db = new DB(pool);
-const AuthController = {
+const authController = {
   // Adapted from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5
   /**
    * Verify Token
@@ -38,4 +45,4 @@ const AuthController = {
   },
 };
 
-export default AuthController;
+export default authController;

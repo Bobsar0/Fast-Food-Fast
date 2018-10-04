@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import dotenv from 'dotenv';
 import Validator from '../server/api/models/userValidator';
 
 describe('Validator', () => {

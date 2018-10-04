@@ -8,7 +8,6 @@ import OrdersDBController from './controllers/ordersDBcontroller';
 import UsersController from './controllers/usersController';
 import User from './models/userModel';
 import Auth from './models/authmodel';
-import AuthC from './controllers/authController';
 
 
 // Load .env into process.env
@@ -63,6 +62,6 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   orderC = new OrdersController(orderM);
 }
 
-const app = server(orderC, AuthC, userC);
+const app = server(orderC, userC);
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('listening at port', port));

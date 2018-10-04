@@ -1,10 +1,12 @@
 import 'babel-polyfill';
 import supertest from 'supertest';
 import server from '../server/api/server';
+import authC from '../server/api/controllers/authController';
 
 describe('Server', () => {
   const orders = {};
-  const request = supertest(server(orders));
+  const user = {};
+  const request = supertest(server(orders, authC, user));
   // test data
   const data = {
     orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower', name: 'Chicken', price: 'NGN 1000.00',
@@ -53,20 +55,6 @@ describe('Server', () => {
         .expect({ orderId: 234, data })
         .expect(200));
     });
-  });
-
-  // ======== POST /orders TEST =================//
-  describe('POST /orders', () => {
-    before(() => {
-      // we expect server to merge id attribute to the order and return attributes for the new order
-      orders.create = attrs => new Promise(resolve => resolve(attrs));
-    });
-
-    it('responds with CREATED and returns content of the newly created order with id attached', () => request
-      .post('/api/v1/orders/')
-      .send(data)
-      .expect(data)
-      .expect(201));
   });
 
   // ======== PUT /orders/:orderId TEST =================//

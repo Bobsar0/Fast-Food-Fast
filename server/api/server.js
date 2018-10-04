@@ -1,8 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
+import AuthC from './controllers/authController';
 
 // OrdersController intance must be created and passed from outside
-export default (orderC, AuthC, userC) => {
+export default (orderC, userC) => {
   const server = express();
   const prefix = '/api/v1';
 
