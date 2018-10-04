@@ -90,4 +90,27 @@ export default class {
       return { error };
     }
   }
+
+  /**
+   * Get All orders/specific user
+   * @param {object} request
+   * @returns {object} orders
+   */
+  async findOrdersByUserId(req) {
+    try {
+      const getUserQuery = 'SELECT * FROM users WHERE userId = $1';
+      const { rows } = await this.db.query(getUserQuery, [req.params.userId]);
+      if (!rows[0]) {
+        return { status: 404, message: 'user not found' };
+      }
+      const getAllOrdersQuery = 'SELECT * FROM orders WHERE userId = $1';
+      const response = await this.db.query(getAllOrdersQuery, [req.params.userId]);
+      if (response.rowCount === 0) {
+        return { status: 200, message: 'user has not made an order yet' };
+      }
+      return { status: 200, message: 'orders retrieved successfully', orders: response.rows };
+    } catch (error) {
+      return { status: 400, error };
+    }
+  }
 }
