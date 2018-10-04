@@ -31,4 +31,26 @@ export default class OrderDBController {
       return error.message;
     }
   }
+
+  /**
+   * Admin Get All orders or specific order
+   * @param {number || undefined} id
+   * @returns {object} orders array if id is undefined or order object otherwise
+   */
+  async read(req) {
+    let result = {};
+    if (!req) {
+      const getAllQuery = 'SELECT * FROM orders';
+      const { rows, rowCount } = await this.db.query(getAllQuery);
+      result = { rows, rowCount };
+    } else {
+      const getQuery = 'SELECT * FROM orders WHERE orderid = $1';
+      const { rows } = await this.db.query(getQuery, [req.params.orderId]);
+      [result] = rows;
+    }
+    if (!result) {
+      throw new Error(`order with id ${req.params.orderId} not found`);
+    }
+    return { message: 'orders retrieved successfully', order: result };
+  }
 }
