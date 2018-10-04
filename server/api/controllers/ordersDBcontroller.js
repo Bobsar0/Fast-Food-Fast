@@ -26,7 +26,7 @@ export default class OrderDBController {
     ];
     try {
       const { rows } = await this.db.query(query, values);
-      return { message: 'order created successfully', order: rows[0] };
+      return { status: 201, message: 'Order created successfully', order: rows[0] };
     } catch (error) {
       return error.message;
     }
@@ -49,9 +49,9 @@ export default class OrderDBController {
       [result] = rows;
     }
     if (!result) {
-      throw new Error(`order with id ${req.params.orderId} not found`);
+      throw new Error(`Order with id ${req.params.orderId} not found`);
     }
-    return { message: 'orders retrieved successfully', order: result };
+    return { message: 'Orders retrieved successfully', order: result };
   }
 
   /**
@@ -60,26 +60,40 @@ export default class OrderDBController {
    * @param {object} attrs
    * @returns {object} updated order
    */
-  async update(req) {
-    const findOneQuery = 'SELECT * FROM orders WHERE orderId=$1 AND owner_id = $2';
-    const { rows } = await this.db.query(findOneQuery, [req.params.orderId, req.user.userId]);
-    if (rows.length === 0) {
+  async updateStatus(req) {
+    const findOneQuery = 'SELECT * FROM orders WHERE orderId=$1';
+    const { rows } = await this.db.query(findOneQuery, [req.params.orderId]);
+    if (!rows[0]) {
       throw new Error(`Order with id ${req.params.orderId} not found`);
     }
-    const updateOneQuery = `UPDATE orders
-      SET name=$1, quantity=$2, price=$3, userAddr=$4, modified_at= $5
-      WHERE orderid=$6 AND owner_id = $7 returning *`;
+    const updateStatusQuery = `UPDATE orders
+      SET status=$1, modified_at= $2
+      WHERE orderid=$3 returning *`;
 
+    const status = req.body.status.toUpperCase();
+
+    if (!status) {
+      return ({ status: 400, message: 'Please update order status' });
+    }
+    if (Object.keys(req.body).length > 1) {
+      return ({ status: 400, message: 'Please update only order status' });
+    }
+    if (status !== 'NEW' && status !== 'PROCESSING' && status !== 'CANCELLED' && status !== 'COMPLETE') {
+      return ({ status: 400, message: ' Status can only be New, Processing, Cancelled or Complete' });
+    }
+    if (status === rows[0].status) {
+      return ({ status: 200, message: 'Order status was not modified', order: rows[0] });
+    }
     const values = [
-      req.body.name || rows[0].name,
-      req.body.quantity || rows[0].quantity,
-      req.body.price || rows[0].price,
-      req.body.userAddr || rows[0].userAddr,
+      status.toUpperCase(),
       new Date(),
       req.params.orderId,
-      req.user.userId,
     ];
-    const response = await this.db.query(updateOneQuery, values);
-    return { message: 'order updated successfully', order: response.rows[0] };
+    try {
+      const response = await this.db.query(updateStatusQuery, values);
+      return { status: 200, message: 'Status updated successfully', order: response.rows[0] };
+    } catch (error) {
+      return error.message;
+    }
   }
 }
