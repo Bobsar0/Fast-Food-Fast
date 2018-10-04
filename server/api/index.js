@@ -7,7 +7,7 @@ import OrdersController from './controllers/ordersController';
 import OrdersDBController from './controllers/ordersDBcontroller';
 import UsersController from './controllers/usersController';
 import User from './models/userModel';
-import Auth from './models/authmodel';
+import Auth from './models/authModel';
 
 
 // Load .env into process.env
@@ -34,6 +34,7 @@ if (process.env.CONTROLLER_TYPE !== 'db') {
   const db = new DB(pool);
   // db.createUsersTable();
   // db.createOrdersTable();
+  db.createMenuTable();
 
   const auth = new Auth();
   const userM = new User();
