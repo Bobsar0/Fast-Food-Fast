@@ -13,11 +13,11 @@ export default (orderC, userC) => {
   server.use(express.urlencoded({ extended: true }));
 
   // GET /orders
-  server.get(`${prefix}/orders`, (_req, res) => orderC.read().then(result => res.status(200).json(result)));
+  server.get(`${prefix}/orders`, AuthC.verifyAdminToken, (_req, res) => orderC.read().then(result => res.status(200).json(result)));
 
   // GET /orders:orderId
-  server.get(`${prefix}/orders/:orderId`, (req, res) => {
-    orderC.read(req.params.orderId)
+  server.get(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
+    orderC.read(req)
       .then(result => res.status(200).json(result))
       .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order Not Found' } }));
   });
