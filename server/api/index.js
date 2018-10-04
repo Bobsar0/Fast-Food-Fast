@@ -6,6 +6,7 @@ import server from './server';
 import OrdersController from './controllers/ordersController';
 import OrdersDBController from './controllers/ordersDBcontroller';
 import UsersController from './controllers/usersController';
+import MenuController from './controllers/menuController';
 import User from './models/userModel';
 import Auth from './models/authModel';
 
@@ -15,18 +16,22 @@ dotenv.config();
 
 let userC = {};
 let orderC = {};
+let menuC = {};
 let connectionString = '';
 
-if (process.env.CONTROLLER_TYPE !== 'db') {
+if (process.env.CONTROLLER_TYPE !== 'local') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
     connectionString = process.env.DB_URL_TEST;
+  } else if (process.env.NODE_ENV === 'development') {
+    connectionString = process.env.DB_URL_LOCAL;
   } else {
     connectionString = process.env.DATABASE_URL;
   }
   const pool = new Pool({
     connectionString,
-    ssl: true,
+    // UNCOMMENT FOR HEROKU
+    // ssl: true,
   });
   pool.on('connect', () => {
   });
@@ -34,13 +39,14 @@ if (process.env.CONTROLLER_TYPE !== 'db') {
   const db = new DB(pool);
   // db.createUsersTable();
   // db.createOrdersTable();
+  db.dropMenuTable();
   db.createMenuTable();
 
   const auth = new Auth();
   const userM = new User();
   userC = new UsersController(db, userM, auth);
-
   orderC = new OrdersDBController(db);
+  menuC = new MenuController(db);
 } else {
   // API mock dB
   const dbMock = [{
@@ -64,6 +70,6 @@ if (process.env.CONTROLLER_TYPE !== 'db') {
   orderC = new OrdersController(orderM);
 }
 
-const app = server(orderC, userC);
+const app = server(orderC, userC, menuC);
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('listening at port', port));

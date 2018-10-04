@@ -9,7 +9,7 @@ export default class {
    * @param {object} req
    * @returns {object} order object
    */
-  async readMenu() {
+  async read() {
     const getAllQuery = 'SELECT * FROM menu';
     try {
       const { rows, rowCount } = await this.db.query(getAllQuery);

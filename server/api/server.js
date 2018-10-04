@@ -3,7 +3,7 @@ import logger from 'morgan';
 import AuthC from './controllers/authController';
 
 // OrdersController intance must be created and passed from outside
-export default (orderC, userC) => {
+export default (orderC, userC, menuC) => {
   const server = express();
   const prefix = '/api/v1';
 
@@ -69,7 +69,12 @@ export default (orderC, userC) => {
     .catch(err => res.status(err.status)
       .json({ status: err.status, msg: err.message || err.error })));
 
-  server.get('*', (req, res) => res.status(404).json({ message: 'Sorry, this route is not available' }));
+  // ****** USER ROUTES **** //
+  // GET /orders
+  server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read().then(result => res.status(200).json(result)));
+
+
+  server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
 
   return server;
 };

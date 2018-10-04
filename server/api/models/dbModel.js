@@ -107,7 +107,9 @@ export default class {
         menuId SERIAL PRIMARY KEY,
         name VARCHAR(128) UNIQUE NOT NULL,
         price INTEGER NOT NULL,
-        genre VARCHAR NOT NULL
+        genre VARCHAR(16) NOT NULL,
+        img TEXT,
+        isAvailable BOOLEAN NOT NULL,
         created_date TIMESTAMP default NOW(),
         modified_date TIMESTAMP default NOW()
       )`;
