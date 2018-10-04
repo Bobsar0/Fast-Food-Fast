@@ -1,0 +1,37 @@
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+export default class {
+  constructor(password) {
+    this.password = password;
+  }
+
+  /**
+   * Hash Password Method
+   * @returns {string} hashed password
+   */
+
+  hashPassword(password) {
+    this.password = password;
+    return bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
+  }
+
+  /**
+   * comparePassword
+   * @param {string} hashedPassword
+   * @returns {Boolean} True or False
+   */
+  comparePassword(hashedPassword) {
+    return bcrypt.compareSync(this.password, hashedPassword);
+  }
+
+  /**
+   * Generate Token
+   * @param {string} id
+   * @returns {string} token
+   */
+  generateToken(id, rank) {
+    this.token = jwt.sign({ userId: id, rank }, process.env.SECRET, { expiresIn: '1d' });
+    return this.token;
+  }
+}

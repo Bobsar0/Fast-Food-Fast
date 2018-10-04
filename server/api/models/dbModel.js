@@ -72,7 +72,9 @@ export default class {
           username VARCHAR(128) UNIQUE NOT NULL,
           email VARCHAR(128) UNIQUE NOT NULL,
           password VARCHAR(128) NOT NULL,
-          user_rank VARCHAR(128),
+          address TEXT,
+          phone VARCHAR(16),
+          rank VARCHAR(16) default 'user',
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()
         )`;
@@ -89,11 +91,12 @@ export default class {
     const queryText = 'DROP TABLE IF EXISTS users';
     this.pool.query(queryText)
       .then(() => {
-        this.pool.end();
+        console.log('dropped users table');
+        // this.pool.end();
       })
       .catch((err) => {
-        console.log(err);
-        this.pool.end();
+        console.log('err in dropping users table', err);
+        // this.pool.end();
       });
   }
 }

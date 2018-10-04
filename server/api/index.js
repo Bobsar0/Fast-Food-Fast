@@ -4,15 +4,19 @@ import DB from './models/dbModel';
 import Order from './models/orderModel';
 import server from './server';
 import OrdersController from './controllers/ordersController';
+import UsersController from './controllers/usersController';
+import User from './models/userModel';
+import Auth from './models/authmodel';
 
 // Load .env into process.env
 dotenv.config();
 
+let userC = {};
 let orderC = {};
 let connectionString = '';
 
 if (process.env.CONTROLLER_TYPE === 'db') {
-  // Connect to db
+  // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
     connectionString = process.env.DB_URL_TEST;
   } else {
@@ -25,8 +29,12 @@ if (process.env.CONTROLLER_TYPE === 'db') {
   });
 
   const db = new DB(pool);
-  db.createUsersTable();
-  db.createOrdersTable();
+  // db.createUsersTable();
+  // db.createOrdersTable();
+
+  const auth = new Auth();
+  const userM = new User();
+  userC = new UsersController(db, userM, auth);
 } else {
   // API mock dB
   const dbMock = [{
@@ -46,10 +54,10 @@ if (process.env.CONTROLLER_TYPE === 'db') {
     userAddr: 'Somewhere',
   }];
   // Order uses CRUD helper functions and JS data structures to deal with order
-  const order = new Order(dbMock);
-  orderC = new OrdersController(order);
+  const orderM = new Order(dbMock);
+  orderC = new OrdersController(orderM);
 }
 
-const app = server(orderC);
-
-app.listen(process.env.PORT || 5000);
+const app = server(orderC, userC);
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log('listening at port', port));

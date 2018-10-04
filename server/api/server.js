@@ -2,7 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 // OrdersController intance must be created and passed from outside
-export default (orderC) => {
+export default (orderC, userC) => {
   const server = express();
   const prefix = '/api/v1';
 
@@ -54,6 +54,21 @@ export default (orderC) => {
   server.delete(`${prefix}/orders/:orderId`, (req, res) => orderC.delete(req.params.orderId)
     .then(result => res.status(200).json(result))
     .catch(() => res.sendStatus(404)));
+
+  // ****** USER ROUTES **** //
+  // SIGNUP /user
+  server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ error: err.message })));
+
+  // LOGIN /user
+  server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(err.status).json({ error: err.message })));
+
+  server.post(`${prefix}/`, (req, res) => new Promise()
+    .then(result => res.status(result.status).json(result))
+    .catch(err => res.status(400).json({ error: err.message })));
 
   return server;
 };
