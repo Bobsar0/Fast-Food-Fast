@@ -17,12 +17,10 @@ let userC = {};
 let orderC = {};
 let connectionString = '';
 
-if (process.env.CONTROLLER_TYPE === 'db') {
+if (process.env.CONTROLLER_TYPE !== 'db') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
     connectionString = process.env.DB_URL_TEST;
-  } else if (process.env.NODE_ENV === 'development') {
-    connectionString = process.env.DB_URL_LOCAL;
   } else {
     connectionString = process.env.DATABASE_URL;
   }
