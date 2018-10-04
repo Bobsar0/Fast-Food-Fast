@@ -58,13 +58,36 @@ export default class {
       this.user.userId = rows[0].userid;
       const token = this.auth.generateToken(rows[0].userid, rows[0].rank);
       return {
-        status: 201, message: 'user account successfully created', user: this.user, token,
+        status: 201, message: 'signup successful', user: this.user, token,
       };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        return { status: 400, message: error.detail };
+        return { status: 409, message: error.detail };
       }
       return { status: 400, error };
+    }
+  }
+
+  /**
+    * Login
+    * @param {object} req
+    * @returns {object} user object
+    */
+  async login(req) {
+    const { email, username, password } = req.body;
+    if ((!username && !email) || !password) {
+      return { status: 400, message: 'Please input (username or email) and password' };
+    }
+    const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
+    try {
+      const { rows } = await this.db.query(text, [username || email]);
+      if (!rows[0] || !this.auth.comparePassword(password, rows[0].password)) {
+        return { status: 400, message: 'The credentials you provided are incorrect' };
+      }
+      const token = this.auth.generateToken(rows[0].userid, rows[0].rank);
+      return { status: 200, message: 'login successful', token };
+    } catch (error) {
+      return { error };
     }
   }
 }

@@ -21,8 +21,9 @@ export default class {
    * @param {string} hashedPassword
    * @returns {Boolean} True or False
    */
-  comparePassword(hashedPassword) {
-    return bcrypt.compareSync(this.password, hashedPassword);
+  comparePassword(password, hashedDBPassword) {
+    this.password = password;
+    return bcrypt.compareSync(this.password, hashedDBPassword);
   }
 
   /**
