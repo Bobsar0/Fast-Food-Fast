@@ -1,9 +1,9 @@
+# Fast-Food-Fast
+
+*An Andela Developer Challenge Project*  
 [![Build Status](https://travis-ci.com/Bobsar0/Fast-Food-Fast.svg?branch=develop)](https://travis-ci.com/Bobsar0/Fast-Food-Fast)
-[![Coverage Status](https://coveralls.io/repos/github/Bobsar0/Fast-Food-Fast/badge.svg?branch=develop)](https://coveralls.io/github/Bobsar0/Fast-Food-Fast?branch=develop)
 [![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/Bobsar0/Fast-Food-Fast)
 [![Heroku](https://img.shields.io/badge/heroku-deployed-green.svg)](https://fast-food-fast-bobsar0.herokuapp.com)
-# Fast-Food-Fast 
-*An Andela Developer Challenge Project*  
 
 ## Description
 Fast-Food-Fast is a food delivery service app challenge built using plain HTML5, CSS, JS for front end and Node.js for the backend. The project is divided into **UI implementation** and **API Endpoints** sections with features for both demonstrated below. The overall solution is hosted on [Heroku](https://fast-food-fast-bobsar0.herokuapp.com/)
