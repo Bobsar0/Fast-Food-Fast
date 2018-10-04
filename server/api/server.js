@@ -59,12 +59,12 @@ export default (orderC, userC) => {
   // SIGNUP /user
   server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ error: err.message })));
+    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
   // LOGIN /user
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ error: err.message })));
+    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
 
   server.post(`${prefix}/`, (req, res) => new Promise()
     .then(result => res.status(result.status).json(result))
