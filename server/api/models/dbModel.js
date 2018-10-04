@@ -92,11 +92,44 @@ export default class {
     this.pool.query(queryText)
       .then(() => {
         console.log('dropped users table');
-        // this.pool.end();
       })
       .catch((err) => {
         console.log('err in dropping users table', err);
-        // this.pool.end();
+      });
+  }
+
+  /**
+ * Create Users Table
+ */
+  createMenuTable() {
+    const queryText = `CREATE TABLE IF NOT EXISTS
+      menu(
+        menuId SERIAL PRIMARY KEY,
+        name VARCHAR(128) UNIQUE NOT NULL,
+        price INTEGER NOT NULL,
+        genre VARCHAR(16) NOT NULL,
+        img TEXT,
+        isAvailable BOOLEAN NOT NULL,
+        created_date TIMESTAMP default NOW(),
+        modified_date TIMESTAMP default NOW()
+      )`;
+
+    this.pool.query(queryText)
+      .then(res => console.log('created users table!', res))
+      .catch(err => console.log('err in creating users table', err));
+  }
+
+  /**
+ * Delete Users Tables
+ */
+  dropMenuTable() {
+    const queryText = 'DROP TABLE IF EXISTS menu';
+    this.pool.query(queryText)
+      .then(() => {
+        console.log('dropped menu table');
+      })
+      .catch((err) => {
+        console.log('err in dropping menu table', err);
       });
   }
 }
