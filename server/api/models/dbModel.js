@@ -109,7 +109,7 @@ export default class {
         price INTEGER NOT NULL,
         genre VARCHAR(16) NOT NULL,
         img TEXT,
-        isAvailable BOOLEAN NOT NULL,
+        isAvailable BOOLEAN,
         created_date TIMESTAMP default NOW(),
         modified_date TIMESTAMP default NOW()
       )`;

@@ -69,12 +69,30 @@ export default (orderC, userC, menuC) => {
     .catch(err => res.status(err.status)
       .json({ status: err.status, msg: err.message || err.error })));
 
-  // ****** USER ROUTES **** //
+  // ****** MENU ROUTES **** //
   // GET /orders
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read().then(result => res.status(200).json(result)));
+  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => {
+    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+      return res.status(400).json({ status: 400, message: 'Sorry, menu content cannot be empty' });
+    }
+    if (!req.body.name) {
+      return res.status(400).json({ status: 400, message: 'Sorry, name of food item cannot be empty' });
+    }
+    if (!req.body.price) {
+      return res.status(400).json({ status: 400, message: 'Sorry, price of food item cannot be empty' });
+    }
+    if (!req.body.genre) {
+      return res.status(400).json({ status: 400, message: 'Sorry, genre of food item cannot be empty' });
+    }
+    return menuC.create(req)
+      .then(result => res.status(result.status).json({ result }))
+      .catch(err => res.status(400).json({ err }));
+  });
 
-
+  // CATCH ALL OTHER ROUTES
   server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
+  server.post('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
 
   return server;
 };
