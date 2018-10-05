@@ -66,7 +66,7 @@ export default class {
           return { status: 409, message: `Username ${this.user.username} already exists` };
         }
         if (error.detail.includes('email')) {
-          return { status: 409, message: `Email address ${this.user.username} already exists` };
+          return { status: 409, message: `Email address ${this.user.email} already exists` };
         }
       }
       return { status: 500, error: error.message };
