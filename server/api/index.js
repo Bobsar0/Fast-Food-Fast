@@ -23,8 +23,6 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
     connectionString = process.env.DB_URL_TEST;
-  } else if (process.env.NODE_ENV === 'development') {
-    connectionString = process.env.DB_URL_LOCAL;
   } else {
     // For Heroku
     connectionString = process.env.DATABASE_URL;
@@ -42,7 +40,7 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   // db.dropOrdersTables();
   // db.dropUsersTable();
   // COMMENT BELOW 4 LINES AFTER RUNNING FOR THE FIRST TIME
-  db.alterTableColumn('users', 'rank', 'role');
+  // db.alterTableColumn('users', 'rank', 'role');
   db.createUsersTable();
   db.createOrdersTable();
   db.createMenuTable();
