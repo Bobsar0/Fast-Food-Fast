@@ -40,7 +40,7 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
     totalPrice += Number(price);
     total.innerHTML = totalPrice.toFixed(2);
     // alert user of successful cart addition
-    alert(`${qty}x ${name} successfully added to cart`);
+    // alert(`${qty}x ${name} successfully added to cart`);
 
     // create a tablerow node
     const tr = document.createElement('TR');
