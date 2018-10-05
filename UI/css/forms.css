@@ -25,7 +25,7 @@ form {
     padding: 15px;
     margin-bottom: 150px;
     border-radius: 15px;
-    background-color: goldenrod;
+    background-color: darkgoldenrod;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 .white, .white a{
@@ -75,4 +75,8 @@ button:hover {
     border-radius: 100%;
     padding: 10px;
     margin-bottom: 10px;;
+}
+
+#emailErr, #passwordErr{
+    color: red;
 }
