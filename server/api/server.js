@@ -91,6 +91,8 @@ export default (orderC, userC, menuC) => {
       .catch(err => res.status(400).json({ err }));
   });
 
+  server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
+
   // CATCH ALL OTHER ROUTES
   server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
   server.post('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
