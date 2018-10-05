@@ -59,9 +59,6 @@ button {
     opacity: 0.6;
     width: 250px;
 }
-button:hover {
-    cursor: not-allowed;
-}
 
 #checkbox{
     height: 15px;
