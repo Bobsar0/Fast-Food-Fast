@@ -83,6 +83,9 @@ export default class {
     if ((!username && !email) || !password) {
       return { status: 400, message: 'Please input (username or email) and password' };
     }
+    if (Object.keys(req.body).length > 3) {
+      return ({ status: 400, message: 'Please login with only (username or email) and password' });
+    }
     const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
     try {
       const { rows } = await this.db.query(text, [username || email]);
