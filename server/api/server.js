@@ -56,7 +56,8 @@ export default (orderC, userC, menuC) => {
   // SIGNUP /user
   server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+    .catch(err => res.status(err.status)
+      .json({ status: err.status, msg: err.error || err.message })));
 
   // LOGIN /user
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)

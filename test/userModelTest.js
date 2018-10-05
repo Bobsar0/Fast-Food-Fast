@@ -11,7 +11,7 @@ describe('User Model', () => {
     expect(user).to.have.property('password');
     expect(user).to.have.property('phone');
     expect(user).to.have.property('address');
-    expect(user).to.have.property('rank');
+    expect(user).to.have.property('role');
     expect(user).to.have.property('password');
   });
 });

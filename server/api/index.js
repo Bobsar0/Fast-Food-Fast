@@ -26,17 +26,23 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   } else if (process.env.NODE_ENV === 'development') {
     connectionString = process.env.DB_URL_LOCAL;
   } else {
+    // For Heroku
     connectionString = process.env.DATABASE_URL;
   }
   const pool = new Pool({
     connectionString,
-    // UNCOMMENT FOR HEROKU
-    // ssl: true,
+    // COMMENT LINE BELOW IF ON LOCAL HOST
+    ssl: true,
   });
   pool.on('connect', () => {
   });
 
   const db = new DB(pool);
+  // db.dropMenuTable();
+  // db.dropOrdersTables();
+  // db.dropUsersTable();
+  // COMMENT BELOW 4 LINES AFTER RUNNING FOR THE FIRST TIME
+  db.alterTableColumn('users', 'rank', 'role');
   db.createUsersTable();
   db.createOrdersTable();
   db.createMenuTable();

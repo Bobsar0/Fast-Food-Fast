@@ -31,8 +31,8 @@ export default class {
    * @param {string} id
    * @returns {string} token
    */
-  generateToken(id, rank) {
-    this.token = jwt.sign({ userId: id, rank }, process.env.SECRET, { expiresIn: '1d' });
+  generateToken(id, role) {
+    this.token = jwt.sign({ userId: id, role }, process.env.SECRET, { expiresIn: '1d' });
     return this.token;
   }
 }

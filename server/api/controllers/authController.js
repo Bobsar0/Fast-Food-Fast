@@ -51,7 +51,7 @@ const authController = {
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
-      if (decoded.rank !== 'admin') {
+      if (decoded.role !== 'admin') {
         return res.status(403).json({ status: 403, message: 'Sorry, only admins are authorized' });
       }
       const text = 'SELECT * FROM users WHERE userid = $1';
