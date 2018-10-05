@@ -43,7 +43,7 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   // db.alterTableColumn('users', 'rank', 'role');
   // db.createUsersTable();
   // db.createOrdersTable();
-  db.createMenuTable();
+  // db.createMenuTable();
 
   const auth = new Auth();
   const userM = new User();
