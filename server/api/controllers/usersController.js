@@ -109,14 +109,14 @@ export default class {
       const getUserQuery = 'SELECT * FROM users WHERE userId = $1';
       const { rows } = await this.db.query(getUserQuery, [req.params.userId]);
       if (!rows[0]) {
-        return { status: 404, message: 'user not found' };
+        return { status: 404, message: 'User not found' };
       }
       const getAllOrdersQuery = 'SELECT * FROM orders WHERE userId = $1';
       const response = await this.db.query(getAllOrdersQuery, [req.params.userId]);
       if (response.rowCount === 0) {
-        return { status: 200, message: 'user has not made an order yet' };
+        return { status: 200, message: 'User has not made an order yet' };
       }
-      return { status: 200, message: 'orders retrieved successfully', orders: response.rows };
+      return { status: 200, message: 'Orders retrieved successfully', orders: response.rows };
     } catch (error) {
       return { status: 400, error: error.message };
     }
