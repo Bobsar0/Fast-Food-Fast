@@ -40,7 +40,7 @@ export default class {
     this.user.password = this.auth.hashPassword(this.user.password);
 
     const createQuery = `INSERT INTO
-          users(username, email, password, phone, address, rank, created_date, modified_date)
+          users(username, email, password, phone, address, role, created_date, modified_date)
           VALUES($1, $2, $3, $4, $5, $6, $7, $8)
           returning *`;
     const values = [
@@ -49,20 +49,25 @@ export default class {
       this.user.password,
       this.user.phone,
       this.user.address,
-      this.user.rank,
+      this.user.role,
       new Date(),
       new Date(),
     ];
     try {
       const { rows } = await this.db.query(createQuery, values);
       this.user.userId = rows[0].userid;
-      const token = this.auth.generateToken(rows[0].userid, rows[0].rank);
+      const token = this.auth.generateToken(rows[0].userid, rows[0].role);
       return {
-        status: 201, message: 'signup successful', user: this.user, token,
+        status: 201, message: 'Signup successful', user: this.user, token,
       };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        return { status: 409, message: error.detail };
+        if (error.detail.includes('username')) {
+          return { status: 409, message: `Username ${this.user.username} already exists` };
+        }
+        if (error.detail.includes('email')) {
+          return { status: 409, message: `Email address ${this.user.username} already exists` };
+        }
       }
       return { status: 500, error: error.message };
     }
@@ -84,7 +89,7 @@ export default class {
       if (!rows[0] || !this.auth.comparePassword(password, rows[0].password)) {
         return { status: 400, message: 'The credentials you provided are incorrect' };
       }
-      const token = this.auth.generateToken(rows[0].userid, rows[0].rank);
+      const token = this.auth.generateToken(rows[0].userid, rows[0].role);
       return { status: 200, message: 'login successful', token };
     } catch (error) {
       return { error: error.message };

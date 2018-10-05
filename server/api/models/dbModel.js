@@ -74,7 +74,7 @@ export default class {
           password VARCHAR(128) NOT NULL,
           address TEXT,
           phone VARCHAR(16),
-          rank VARCHAR(16) default 'user',
+          role VARCHAR(16) default 'user',
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()
         )`;
@@ -110,8 +110,8 @@ export default class {
         genre VARCHAR(16) NOT NULL,
         img TEXT,
         isAvailable BOOLEAN,
-        created_date TIMESTAMP default NOW(),
-        modified_date TIMESTAMP default NOW()
+        created_date TIMESTAMP DEFAULT NOW(),
+        modified_date TIMESTAMP DEFAULT NOW()
       )`;
 
     this.pool.query(queryText)
@@ -130,6 +130,17 @@ export default class {
       })
       .catch((err) => {
         console.log('err in dropping menu table', err);
+      });
+  }
+
+  alterTableColumn(tableName, oldCol, newCol) {
+    const query = `ALTER TABLE ${tableName} RENAME COLUMN ${oldCol} TO ${newCol}`;
+    this.pool.query(query)
+      .then(() => {
+        console.log(`altered  ${tableName}`);
+      })
+      .catch((err) => {
+        console.log(`err in altering  ${tableName}`, err);
       });
   }
 }
