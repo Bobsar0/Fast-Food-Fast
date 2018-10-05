@@ -41,8 +41,8 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   // db.dropUsersTable();
   // COMMENT BELOW 4 LINES AFTER RUNNING FOR THE FIRST TIME
   // db.alterTableColumn('users', 'rank', 'role');
-  db.createUsersTable();
-  db.createOrdersTable();
+  // db.createUsersTable();
+  // db.createOrdersTable();
   db.createMenuTable();
 
   const auth = new Auth();
