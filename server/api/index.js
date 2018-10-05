@@ -39,8 +39,6 @@ if (process.env.CONTROLLER_TYPE !== 'local') {
   // db.dropMenuTable();
   // db.dropOrdersTables();
   // db.dropUsersTable();
-  // COMMENT BELOW 4 LINES AFTER RUNNING FOR THE FIRST TIME
-  // db.alterTableColumn('users', 'rank', 'role');
   // db.createUsersTable();
   // db.createOrdersTable();
   // db.createMenuTable();
