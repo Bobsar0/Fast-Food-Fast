@@ -73,7 +73,7 @@ export default class {
           email VARCHAR(128) UNIQUE NOT NULL,
           password VARCHAR(128) NOT NULL,
           address TEXT,
-          phone VARCHAR(16),
+          phone VARCHAR(20),
           role VARCHAR(16) default 'user',
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()
