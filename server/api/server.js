@@ -63,13 +63,13 @@ export default (orderC, userC, menuC) => {
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
     .catch(err => res.status(err.status || 500)
-      .json({ status: err.status, msg: err.message || err.error })));
+      .json({ status: err.status, message: err.message || err.error })));
 
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
-    .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status)
-      .json({ status: err.status, msg: err.message || err.error })));
+    .then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(err.statusCode || 500)
+      .json({ status: err.status, message: err.message || err.error })));
 
   // ****** MENU ROUTES **** //
   // GET /orders

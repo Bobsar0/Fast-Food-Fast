@@ -49,20 +49,6 @@ export default class {
   }
 
   /**
-   * Delete Orders Tables
-   */
-  dropOrdersTables() {
-    const queryText = 'DROP TABLE IF EXISTS orders';
-    this.pool.query(queryText)
-      .then((res) => {
-        console.log('dropped orders table', res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  /**
  * Create Users Table
  */
   createUsersTable() {
@@ -82,20 +68,6 @@ export default class {
     this.pool.query(queryText)
       .then(res => console.log('created users table!', res))
       .catch(err => console.log('err in creating users table', err));
-  }
-
-  /**
-   * Delete Users Tables
-   */
-  dropUsersTable() {
-    const queryText = 'DROP TABLE IF EXISTS users';
-    this.pool.query(queryText)
-      .then(() => {
-        console.log('dropped users table');
-      })
-      .catch((err) => {
-        console.log('err in dropping users table', err);
-      });
   }
 
   /**
@@ -122,14 +94,14 @@ export default class {
   /**
  * Delete Users Tables
  */
-  dropMenuTable() {
-    const queryText = 'DROP TABLE IF EXISTS menu';
+  dropTable(tableName) {
+    const queryText = `DROP TABLE IF EXISTS ${tableName}`;
     this.pool.query(queryText)
       .then(() => {
-        console.log('dropped menu table');
+        console.log(`dropped ${tableName} table`);
       })
       .catch((err) => {
-        console.log('err in dropping menu table', err);
+        console.log(`err in dropping ${tableName} table: ${err}`);
       });
   }
 

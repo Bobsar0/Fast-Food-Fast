@@ -31,7 +31,7 @@ const authController = {
       return res.status(401).json({ status: 401, message: 'Token is not provided' });
     }
     try {
-      const decoded = await jwt.verify(token, process.env.SECRET);
+      const decoded = await jwt.verify(token, 'fastFoodFast');
       const text = 'SELECT * FROM users WHERE userid = $1';
       const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
@@ -40,7 +40,7 @@ const authController = {
       req.user = { userId: decoded.userId };
       return next();
     } catch (error) {
-      return res.status(400).json({ status: 400, messsage: error.message });
+      return res.status(500).json({ status: 500, messsage: error.message });
     }
   },
 
@@ -50,7 +50,7 @@ const authController = {
       return res.status(401).json({ status: 401, message: 'Please provide a valid token' });
     }
     try {
-      const decoded = await jwt.verify(token, process.env.SECRET);
+      const decoded = await jwt.verify(token, 'fastFoodFast');
       if (decoded.role !== 'admin') {
         return res.status(403).json({ status: 403, message: 'Sorry, only admins are authorized' });
       }

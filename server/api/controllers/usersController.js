@@ -54,14 +54,13 @@ export default class {
       this.user.createdDate,
       this.user.modifiedDate,
     ];
-    const user = { ...this.user };
-    user.password = undefined;
     try {
       const { rows } = await this.db.query(createQuery, values);
       this.user.userId = rows[0].userid;
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
+      this.user.password = undefined;
       return {
-        status: 201, message: 'Signup successful', user, token,
+        status: 201, message: 'Signup successful', user: this.user, token,
       };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
@@ -112,16 +111,20 @@ export default class {
       const getUserQuery = 'SELECT * FROM users WHERE userId = $1';
       const { rows } = await this.db.query(getUserQuery, [req.params.userId]);
       if (!rows[0]) {
-        return { status: 404, message: 'User not found' };
+        return { statusCode: 404, status: 'fail', message: 'User not found' };
       }
       const getAllOrdersQuery = 'SELECT * FROM orders WHERE userId = $1';
       const response = await this.db.query(getAllOrdersQuery, [req.params.userId]);
       if (response.rowCount === 0) {
-        return { status: 200, message: 'User has not made an order yet' };
+        return {
+          statusCode: 200, status: 'success', message: 'User has not made an order yet', orders: response.rows,
+        };
       }
-      return { status: 200, message: 'Orders retrieved successfully', orders: response.rows };
+      return {
+        statusCode: 200, status: 'success', message: 'Orders retrieved successfully', orders: response.rows,
+      };
     } catch (error) {
-      return { status: 400, error: error.message };
+      return { statusCode: 400, status: 'fail', error: error.message };
     }
   }
 }
