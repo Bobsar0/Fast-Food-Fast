@@ -18,19 +18,22 @@ let userC = {};
 let orderC = {};
 let menuC = {};
 let connectionString = '';
+let ssl = false;
 
-if (process.env.CONTROLLER_TYPE !== 'local') {
+if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
     connectionString = process.env.DB_URL_TEST;
+  } else if (process.env.NODE_ENV === 'local') {
+    connectionString = process.env.DB_URL_LOCAL;
   } else {
     // For Heroku
     connectionString = process.env.DATABASE_URL;
+    ssl = true;
   }
   const pool = new Pool({
     connectionString,
-    // COMMENT LINE BELOW IF ON LOCAL HOST
-    ssl: true,
+    ssl,
   });
   pool.on('connect', () => {
   });
