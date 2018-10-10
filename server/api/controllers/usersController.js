@@ -95,7 +95,7 @@ export default class {
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
       return { status: 200, message: 'login successful', token };
     } catch (error) {
-      return { error: error.message };
+      return { status: 'fail', error: error.message };
     }
   }
 

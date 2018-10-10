@@ -62,7 +62,7 @@ export default (orderC, userC, menuC) => {
   // LOGIN /user
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(err.status).json({ status: err.status, msg: err.error })));
+    .catch(err => res.status(500).json({ status: err.status, msg: err.message || err.error })));
 
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
@@ -90,6 +90,8 @@ export default (orderC, userC, menuC) => {
       .then(result => res.status(result.status).json({ result }))
       .catch(err => res.status(400).json({ err }));
   });
+
+  server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
 
   // CATCH ALL OTHER ROUTES
   server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));

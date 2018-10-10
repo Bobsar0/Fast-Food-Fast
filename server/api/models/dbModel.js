@@ -35,8 +35,8 @@ export default class {
         price INTEGER NOT NULL,
         genre VARCHAR(64),
         status VARCHAR(64),
-        created_at TIMESTAMP default NOW(),
-        modified_at TIMESTAMP default NOW(),
+        created_date TIMESTAMP default NOW(),
+        modified_date TIMESTAMP default NOW(),
         FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
       )`;
     this.pool.query(queryText)
@@ -73,7 +73,7 @@ export default class {
           email VARCHAR(128) UNIQUE NOT NULL,
           password VARCHAR(128) NOT NULL,
           address TEXT,
-          phone VARCHAR(16),
+          phone VARCHAR(20),
           role VARCHAR(16) default 'user',
           created_date TIMESTAMP default NOW(),
           modified_date TIMESTAMP default NOW()

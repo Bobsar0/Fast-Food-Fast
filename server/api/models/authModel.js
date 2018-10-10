@@ -32,7 +32,7 @@ export default class {
    * @returns {string} token
    */
   generateToken(id, role) {
-    this.token = jwt.sign({ userId: id, role }, process.env.SECRET, { expiresIn: '1d' });
+    this.token = jwt.sign({ userId: id, role }, 'fastFoodFast', { expiresIn: '2d' });
     return this.token;
   }
 }
