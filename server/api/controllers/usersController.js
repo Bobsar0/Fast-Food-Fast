@@ -38,10 +38,12 @@ export default class {
       return { status: 400, message: this.user.isValidPassword() };
     }
     this.user.password = this.auth.hashPassword(this.user.password);
+    this.user.createdDate = new Date();
+    this.user.modifiedDate = new Date();
 
     const createQuery = `INSERT INTO
-          users(username, email, password, phone, address, role, created_date, modified_date)
-          VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+          users(username, email, password, phone, address, created_date, modified_date)
+          VALUES($1, $2, $3, $4, $5, $6, $7)
           returning *`;
     const values = [
       this.user.username,
@@ -49,16 +51,17 @@ export default class {
       this.user.password,
       this.user.phone,
       this.user.address,
-      this.user.role,
-      new Date(),
-      new Date(),
+      this.user.createdDate,
+      this.user.modifiedDate,
     ];
+    const user = { ...this.user };
+    user.password = undefined;
     try {
       const { rows } = await this.db.query(createQuery, values);
       this.user.userId = rows[0].userid;
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
       return {
-        status: 201, message: 'Signup successful', user: this.user, token,
+        status: 201, message: 'Signup successful', user, token,
       };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {

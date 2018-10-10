@@ -143,4 +143,15 @@ export default class {
         console.log(`err in altering  ${tableName}`, err);
       });
   }
+
+  deleteRows(tableName) {
+    const query = `DELETE FROM ${tableName}`;
+    this.query(query)
+      .then(() => {
+        console.log(`deleted all rows from ${tableName}`);
+      })
+      .catch((err) => {
+        console.log(`err in deleting rows from ${tableName}`, err);
+      });
+  }
 }
