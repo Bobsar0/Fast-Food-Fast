@@ -96,7 +96,7 @@ export default class {
         return { status: 400, message: 'The credentials you provided are incorrect' };
       }
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
-      return { status: 200, message: 'login successful', token };
+      return { status: 200, message: 'Login successful', token };
     } catch (error) {
       return { status: 'fail', error: error.message };
     }

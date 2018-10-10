@@ -62,7 +62,8 @@ export default (orderC, userC, menuC) => {
   // LOGIN /user
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.status).json(result))
-    .catch(err => res.status(500).json({ status: err.status, msg: err.message || err.error })));
+    .catch(err => res.status(err.status || 500)
+      .json({ status: err.status, msg: err.message || err.error })));
 
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
