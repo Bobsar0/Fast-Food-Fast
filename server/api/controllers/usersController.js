@@ -16,28 +16,28 @@ export default class {
      * @returns {object} user object
      */
   async create(req) {
-    const { email, username, password } = req.body;
+    const {
+      email, username, password, phone,
+    } = req.body;
     if (!username || !email || !password) {
-      return { status: 400, message: 'Please input username, email and password' };
+      return { status: 'fail', statusCode: 400, message: 'Please input username, email and password' };
     }
-    if (!username) {
-      return { status: 400, message: 'Please input username' };
+    if (!username || username.trim().length === 0) {
+      return { status: 'fail', statusCode: 400, message: 'Please input valid username' };
     }
-    if (!email) {
-      return { status: 400, message: 'Please input email' };
-    }
-    if (!password) {
-      return { status: 400, message: 'Please input password' };
-    }
-    this.user = Object.assign(this.user, req.body);
+
+    this.user.email = email.trim().toLowerCase();
+    this.user.username = username.trim().toLowerCase();
+    this.user.password = password;
 
     if (!this.user.isValidEmail()) {
-      return { status: 400, message: 'Please enter a valid email address' };
+      return { status: 'fail', statusCode: 400, message: 'Please enter a valid email address' };
     }
     if (this.user.isValidPassword() !== 'true') {
-      return { status: 400, message: this.user.isValidPassword() };
+      return { status: 'fail', statusCode: 400, message: this.user.isValidPassword() };
     }
     this.user.password = this.auth.hashPassword(this.user.password);
+    this.user.phone = phone;
     this.user.createdDate = new Date();
     this.user.modifiedDate = new Date();
 
@@ -60,18 +60,23 @@ export default class {
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
       this.user.password = undefined;
       return {
-        status: 201, message: 'Signup successful', user: this.user, token,
+        status: 'success', statusCode: 201, message: 'Signup successful', user: this.user, token,
       };
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
+        let message = '';
         if (error.detail.includes('username')) {
-          return { status: 409, message: `Username ${this.user.username} already exists` };
+          message = `Username ${this.user.username} already exists`;
         }
         if (error.detail.includes('email')) {
-          return { status: 409, message: `Email address ${this.user.email} already exists` };
+          message = `Email address ${this.user.email} already exists`;
         }
+        if (error.detail.includes('phone')) {
+          message = `Phone number ${this.user.phone} already exists`;
+        }
+        return { status: 'fail', statusCode: 409, message };
       }
-      return { status: 500, error: error.message };
+      return { status: 'fail', statusCode: 500, error: error.message };
     }
   }
 
@@ -82,22 +87,24 @@ export default class {
     */
   async login(req) {
     const { email, username, password } = req.body;
-    if ((!username && !email) || !password) {
-      return { status: 400, message: 'Please input (username or email) and password' };
+    if ((!username && !email) || !password || Object.keys(req.body).length > 2) {
+      return { status: 'fail', statusCode: 400, message: 'Please login with either (username or email) and password' };
     }
-    if (Object.keys(req.body).length > 3) {
-      return ({ status: 400, message: 'Please login with only (username or email) and password' });
-    }
+    if (username) username.trim().toLowerCase();
     const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
     try {
-      const { rows } = await this.db.query(text, [username || email]);
+      const { rows } = await this.db.query(
+        text, [username || email.trim().toLowerCase()],
+      );
       if (!rows[0] || !this.auth.comparePassword(password, rows[0].password)) {
-        return { status: 400, message: 'The credentials you provided are incorrect' };
+        return { status: 'fail', statusCode: 400, message: 'The credentials you provided are incorrect' };
       }
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
-      return { status: 200, message: 'Login successful', token };
+      return {
+        status: 'success', statusCode: 200, message: 'Login successful', token,
+      };
     } catch (error) {
-      return { status: 'fail', error: error.message };
+      return { status: 'fail', statusCode: 500, error: error.message };
     }
   }
 
@@ -115,16 +122,12 @@ export default class {
       }
       const getAllOrdersQuery = 'SELECT * FROM orders WHERE userId = $1';
       const response = await this.db.query(getAllOrdersQuery, [req.params.userId]);
-      if (response.rowCount === 0) {
-        return {
-          statusCode: 200, status: 'success', message: 'User has not made an order yet', orders: response.rows,
-        };
-      }
+      const message = response.rowCount === 0 ? 'User has not made an order yet' : 'Orders retrieved successfully';
       return {
-        statusCode: 200, status: 'success', message: 'Orders retrieved successfully', orders: response.rows,
+        statusCode: 200, status: 'success', message, orders: response.rows,
       };
     } catch (error) {
-      return { statusCode: 400, status: 'fail', error: error.message };
+      return { statusCode: 500, status: 'fail', error: error.message };
     }
   }
 }

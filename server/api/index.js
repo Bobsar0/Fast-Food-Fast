@@ -39,9 +39,9 @@ if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   });
 
   const db = new DB(pool);
-  // db.dropMenuTable();
-  // db.dropOrdersTables();
-  // db.dropUsersTable();
+  // db.dropTable('menu');
+  // db.dropTable('orders');
+  // db.dropTable('users');
   // db.createUsersTable();
   // db.createOrdersTable();
   // db.createMenuTable();

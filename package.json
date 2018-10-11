@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint ./server --fix",
     "pretest": "eslint --ignore-path .gitignore",
-    "test": "cross-env NODE_ENV=test nyc mocha --timeout=3000 --compilers js:babel-core/register --require should",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout=5000 --compilers js:babel-core/register --require should",
     "start": "nodemon --exec babel-node ./server/api/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

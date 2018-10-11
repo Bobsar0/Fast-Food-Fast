@@ -28,41 +28,41 @@ const authController = {
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(401).json({ status: 401, message: 'Token is not provided' });
+      return res.status(401).json({ error: { status: 'fail', statusCode: 401, message: 'Token is not provided' } });
     }
     try {
       const decoded = await jwt.verify(token, 'fastFoodFast');
       const text = 'SELECT * FROM users WHERE userid = $1';
       const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
-        return res.status(404).json({ status: 404, message: 'User not found' });
+        return res.status(404).json({ error: { status: 'fail', statusCode: 404, message: 'User not found' } });
       }
       req.user = { userId: decoded.userId };
       return next();
     } catch (error) {
-      return res.status(500).json({ status: 500, messsage: error.message });
+      return res.status(500).json({ error: { status: 'fail', statusCode: 500, message: error.message } });
     }
   },
 
   async verifyAdminToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(401).json({ status: 401, message: 'Please provide a valid token' });
+      return res.status(401).json({ status: 'fail', statusCode: 401, message: 'Please provide a valid token' });
     }
     try {
       const decoded = await jwt.verify(token, 'fastFoodFast');
       if (decoded.role !== 'admin') {
-        return res.status(403).json({ status: 403, message: 'Sorry, only admins are authorized' });
+        return res.status(403).json({ status: 'fail', statusCode: 403, message: 'Sorry, only admins are authorized' });
       }
       const text = 'SELECT * FROM users WHERE userid = $1';
       const { rows } = await db.query(text, [decoded.userId]);
       if (!rows[0]) {
-        return res.status(404).json({ status: 404, message: 'Admin details not found' });
+        return res.status(404).json({ status: 'fail', statusCode: 404, message: 'Admin details not found' });
       }
       req.user = { userId: decoded.userId };
       return next();
     } catch (error) {
-      return res.status(500).json({ status: 500, messsage: error.message });
+      return res.status(500).json({ status: 'fail', statusCode: 500, messsage: error.message });
     }
   },
 };
