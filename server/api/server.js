@@ -13,38 +13,27 @@ export default (orderC, userC, menuC) => {
   server.use(express.urlencoded({ extended: true }));
 
   // GET /orders
-  server.get(`${prefix}/orders`, AuthC.verifyAdminToken, (_req, res) => orderC.read().then(result => res.status(200).json(result)));
+  server.get(`${prefix}/orders`, AuthC.verifyAdminToken, (_req, res) => orderC.read().then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(500).json({ status: 'fail', message: err.error || err.message })));
 
   // GET /orders:orderId
   server.get(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
-    orderC.read(req)
-      .then(result => res.status(200).json(result))
-      .catch(() => res.status(404).json({ Error: { status: `${res.statusCode}`, msg: 'Order Not Found' } }));
+    orderC.read(req).then(result => res.status(result.statusCode).json(result))
+      .catch(err => res.status(404)
+        .json({ status: 'fail', message: err.error || err.message }));
   });
 
   // POST /orders
-  server.post(`${prefix}/orders`, AuthC.verifyToken, (req, res) => {
-    // Validate request
-    // The line below was adapted from this source: https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
-    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
-      return res.status(400).json({ status: 400, message: 'Sorry, order content cannot be empty' });
-    }
-    if (!req.body.name) {
-      return res.status(400).json({ status: 400, message: 'Sorry, name of order cannot be empty' });
-    }
-    if (!req.body.price) {
-      return res.status(400).json({ status: 400, message: 'Sorry, price of order cannot be empty' });
-    }
-    return orderC.create(req)
-      .then(result => res.status(201).json({ result }))
-      .catch(err => res.status(400).json({ err }));
-  });
+  server.post(`${prefix}/orders`, AuthC.verifyToken, (req, res) => orderC.create(req)
+    .then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.json({ err })));
 
   // PUT /orders/:orderId
   server.put(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
     orderC.updateStatus(req)
       .then(result => res.status(200).json(result))
-      .catch(err => res.status(404).json({ status: err.status, msg: err.error || err.message }));
+      .catch(err => res.status(404)
+        .json({ status: err.status, message: err.error || err.message }));
   });
 
   // DELETE /orders/:orderId
