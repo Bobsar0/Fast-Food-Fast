@@ -51,7 +51,9 @@ export default class OrderDBController {
     if (!result) {
       throw new Error(`Order with id ${req.params.orderId} not found`);
     }
-    return { message: 'Orders retrieved successfully', order: result };
+    return {
+      status: 'success', statusCode: 200, message: 'Orders retrieved successfully', result,
+    };
   }
 
   /**
