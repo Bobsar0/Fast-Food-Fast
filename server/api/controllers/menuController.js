@@ -10,28 +10,51 @@ export default class {
    * @returns {object} menu object
    */
   async create(req) {
+    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+      return { status: 'fail', statusCode: 400, message: 'Sorry, menu content cannot be empty' };
+    }
+    const { name, price, img } = req.body;
+    let { genre } = req.body;
+
+    if (!name || !name.trim()) {
+      return { status: 'fail', statusCode: 400, message: 'Please enter the name of your menu item' };
+    }
+    if (!price) {
+      return { status: 'fail', statusCode: 400, message: 'Please enter the price of your menu item' };
+    }
+    if (!genre || !genre.trim()) {
+      return { status: 'fail', statusCode: 400, message: 'Please enter the genre of your menu item' };
+    }
+    genre = genre.trim().toUpperCase();
+    if (genre !== 'MEAL' && genre !== 'SNACK' && genre !== 'DRINK' && genre !== 'COMBO') {
+      return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK or COMBO' };
+    }
+    if (!img || !img.trim()) {
+      return { status: 'fail', statusCode: 400, message: 'Please enter an image url for your item' };
+    }
     const query = `INSERT INTO menu(name, price, genre, img, isAvailable, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7)
       returning *`;
-    const menu = { ...req.body };
-    const genre = menu.genre.toUpperCase();
-    if (genre !== 'MEAL' && genre !== 'SNACKS' && genre !== 'DRINKS' && genre !== 'COMBO') {
-      return { status: 400, message: 'Food genre must be either MEAL, SNACKS, DRINKS or COMBO' };
-    }
+
     const values = [
-      menu.name,
-      menu.price,
+      name.trim().toUpperCase(),
+      price,
       genre,
-      menu.img,
-      menu.isAvailable,
+      img,
+      true,
       new Date(),
       new Date(),
     ];
     try {
       const { rows } = await this.db.query(query, values);
-      return { status: 201, message: 'Menu created successfully', menu: rows[0] };
+      return {
+        status: 'success', statusCode: 201, message: 'New menu item added successfully', product: rows[0],
+      };
     } catch (error) {
-      return { status: 500, error: error.message };
+      if (error.routine === 'pg_atoi') {
+        return { status: 'fail', statusCode: 400, message: 'Please enter price in integer format' };
+      }
+      return { status: 'fail', statusCode: 400, error: error.message };
     }
   }
 

@@ -76,7 +76,7 @@ export default class {
   createMenuTable() {
     const queryText = `CREATE TABLE IF NOT EXISTS
       menu(
-        menuId SERIAL PRIMARY KEY,
+        productId SERIAL PRIMARY KEY,
         name VARCHAR(128) UNIQUE NOT NULL,
         price INTEGER NOT NULL,
         genre VARCHAR(16) NOT NULL,
@@ -87,8 +87,8 @@ export default class {
       )`;
 
     this.pool.query(queryText)
-      .then(res => console.log('created users table!', res))
-      .catch(err => console.log('err in creating users table', err));
+      .then(res => console.log('created menu table!', res))
+      .catch(err => console.log('err in creating menu table', err));
   }
 
   /**

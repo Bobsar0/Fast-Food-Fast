@@ -57,29 +57,14 @@ export default (orderC, userC, menuC) => {
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
     .then(result => res.status(result.statusCode).json(result))
-    .catch(err => res.status(err.error.statusCode || 500)
-      .json({ status: err.error.statusCode, error: err.error || err.message })));
+    .catch(err => res.status(err.statusCode || 500)
+      .json({ status: err.statusCode, error: err.error || err.message })));
 
   // ****** MENU ROUTES **** //
-  // GET /orders
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read().then(result => res.status(200).json(result)));
-  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => {
-    if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
-      return res.status(400).json({ status: 400, message: 'Sorry, menu content cannot be empty' });
-    }
-    if (!req.body.name) {
-      return res.status(400).json({ status: 400, message: 'Sorry, name of food item cannot be empty' });
-    }
-    if (!req.body.price) {
-      return res.status(400).json({ status: 400, message: 'Sorry, price of food item cannot be empty' });
-    }
-    if (!req.body.genre) {
-      return res.status(400).json({ status: 400, message: 'Sorry, genre of food item cannot be empty' });
-    }
-    return menuC.create(req)
-      .then(result => res.status(result.status).json({ result }))
-      .catch(err => res.status(400).json({ err }));
-  });
+  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => menuC.create(req)
+    .then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(err.statusCode || 500).json(err)));
 
   server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
 
