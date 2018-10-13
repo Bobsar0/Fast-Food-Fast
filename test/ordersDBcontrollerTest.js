@@ -533,5 +533,33 @@ describe('Order and Menu Endpoints', () => {
           });
       });
     });
+
+    // GET ALL MENU
+    describe('GET ALL MENU ITEMS (GET /menu)', () => {
+      it('does not retrieve orders with null/invalid token', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .get(path)
+          .end((err, res) => {
+            res.status.should.equal(401);
+            res.body.should.have.property('error');
+            res.body.error.should.have.property('status').eql('fail');
+            res.body.error.should.have.property('message').eql('Token is not provided');
+            done();
+          });
+      });
+      it('should allow a logged in user to  successfully GET all menu items', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .get(path)
+          .set({ 'x-access-token': userToken })
+          .end((err, res) => {
+            res.status.should.equal(200);
+            res.body.should.have.property('status').eql('success');
+            res.body.should.have.property('message').eql('Menu items retrieved successfully');
+            res.body.should.have.property('products');
+            res.body.should.have.property('productCount').eql(res.body.products.length);
+            done();
+          });
+      });
+    });
   });
 });
