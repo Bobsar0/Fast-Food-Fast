@@ -61,7 +61,9 @@ export default (orderC, userC, menuC) => {
       .json({ status: err.statusCode, error: err.error || err.message })));
 
   // ****** MENU ROUTES **** //
-  server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read().then(result => res.status(200).json(result)));
+  server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read()
+    .then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(err.statusCode || 500).json(err)));
   server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => menuC.create(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));

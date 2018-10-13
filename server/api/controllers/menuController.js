@@ -67,9 +67,11 @@ export default class {
     const getAllQuery = 'SELECT * FROM menu';
     try {
       const { rows, rowCount } = await this.db.query(getAllQuery);
-      return { message: 'Menu retrieved successfully', menu: { rows, rowCount } };
+      return {
+        status: 'success', statusCode: 200, message: 'Menu items retrieved successfully', products: rows, productCount: rowCount,
+      };
     } catch (error) {
-      return error.message;
+      return { status: 'fail', statusCode: 500, message: error.message };
     }
   }
 }

@@ -62,7 +62,7 @@ const authController = {
       req.user = { userId: decoded.userId };
       return next();
     } catch (error) {
-      return res.status(500).json({ status: 'fail', statusCode: 500, message: error.message });
+      return res.status(500).json({ status: 'fail', statusCode: 400, message: error.message });
     }
   },
 };
