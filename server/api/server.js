@@ -31,9 +31,9 @@ export default (orderC, userC, menuC) => {
   // PUT /orders/:orderId
   server.put(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
     orderC.updateStatus(req)
-      .then(result => res.status(200).json(result))
-      .catch(err => res.status(404)
-        .json({ status: err.status, message: err.error || err.message }));
+      .then(result => res.status(result.statusCode).json(result))
+      .catch(err => res.status(400)
+        .json({ status: 'fail', message: err.error || err.message }));
   });
 
   // DELETE /orders/:orderId

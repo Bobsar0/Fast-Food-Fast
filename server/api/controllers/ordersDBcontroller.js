@@ -86,36 +86,42 @@ export default class OrderDBController {
     const findOneQuery = 'SELECT * FROM orders WHERE orderId=$1';
     const { rows } = await this.db.query(findOneQuery, [req.params.orderId]);
     if (!rows[0]) {
-      throw new Error(`Order with id ${req.params.orderId} not found`);
+      return ({ status: 'fail', statusCode: 404, message: `Order with id ${req.params.orderId} not found` });
     }
     const updateStatusQuery = `UPDATE orders
-      SET status=$1, modified_at= $2
+      SET status=$1, modified_date= $2
       WHERE orderid=$3 returning *`;
 
-    const status = req.body.status.toUpperCase();
+    let { status } = req.body;
 
-    if (!status) {
-      return ({ status: 400, message: 'Please update order status' });
+    if (!status || !status.trim()) {
+      return ({ status: 'fail', statusCode: 400, message: 'Please update order status' });
     }
+    status = status.trim().toUpperCase();
+
     if (Object.keys(req.body).length > 1) {
-      return ({ status: 400, message: 'Please update only order status' });
+      return ({ status: 'fail', statusCode: 400, message: 'Please update only order status' });
     }
     if (status !== 'NEW' && status !== 'PROCESSING' && status !== 'CANCELLED' && status !== 'COMPLETE') {
-      return ({ status: 400, message: ' Status can only be New, Processing, Cancelled or Complete' });
+      return ({ status: 'fail', statusCode: 400, message: 'Status can only be updated to NEW, PROCESSING, CANCELLED or COMPLETE' });
     }
     if (status === rows[0].status) {
-      return ({ status: 200, message: 'Order status was not modified', order: rows[0] });
+      return ({
+        status: 'success', statusCode: 200, message: 'Order status was not modified', order: rows[0],
+      });
     }
     const values = [
-      status.toUpperCase(),
+      status,
       new Date(),
       req.params.orderId,
     ];
     try {
       const response = await this.db.query(updateStatusQuery, values);
-      return { status: 200, message: 'Status updated successfully', order: response.rows[0] };
+      return {
+        status: 'success', statusCode: 200, message: 'Status updated successfully', order: response.rows[0],
+      };
     } catch (error) {
-      return error.message;
+      return { message: error.message };
     }
   }
 }
