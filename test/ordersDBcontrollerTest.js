@@ -279,4 +279,113 @@ describe('Order Endpoints', () => {
         });
     });
   });
+
+  describe('UPDATE STATUS (PUT /orders/orderId)', () => {
+    it('does not retrieve an order with null token', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .end((err, res) => {
+          res.status.should.equal(401);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Please provide a valid token');
+          done();
+        });
+    });
+    it('does not grant access to non-admins', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': userToken })
+        .end((err, res) => {
+          res.status.should.equal(403);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('statusCode').eql(403);
+          res.body.should.have.property('message').eql('Sorry, only admins are authorized');
+          done();
+        });
+    });
+    it('rejects request with invalid orderId', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put('/api/v1/orders/xyz')
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'PROCESSING' })
+        .end((err, res) => {
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('invalid input syntax for integer: "xyz"');
+          done();
+        });
+    });
+    it('rejects request with non-existent orderId', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put('/api/v1/orders/10000000')
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'PROCESSING' })
+        .end((err, res) => {
+          res.status.should.equal(404);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Order with id 10000000 not found');
+          done();
+        });
+    });
+    it('rejects request with null status parameter', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': adminToken })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Please update order status');
+          done();
+        });
+    });
+    it('rejects request that contains any other order parameter', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'PROCESSING', price: 100 })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Please update only order status');
+          done();
+        });
+    });
+    it('rejects request that contains invalid update action', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'DANCING' })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Status can only be updated to NEW, PROCESSING, CANCELLED or COMPLETE');
+          done();
+        });
+    });
+    it('returns error message status parameter of the same order status value', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'NEW' })
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('message').eql('Order status was not modified');
+          done();
+        });
+    });
+    it('should allow an admin to successfully update an order', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .put(`/api/v1/orders/${orderId}`)
+        .set({ 'x-access-token': adminToken })
+        .send({ status: 'PROCESSING' })
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('message').eql('Status updated successfully');
+          res.body.should.have.property('order');
+          res.body.order.should.have.property('status').eql('PROCESSING');
+          done();
+        });
+    });
+  });
 });
