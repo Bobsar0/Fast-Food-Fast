@@ -75,5 +75,5 @@ if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
 }
 
 const app = server(orderC, userC, menuC);
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 9999;
 app.listen(port, () => console.log('listening at port', port));
