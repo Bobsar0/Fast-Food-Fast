@@ -25,96 +25,109 @@ export default class {
   /**
  * Create Orders Table
  */
-  createOrdersTable() {
-    const queryText = `CREATE TABLE IF NOT EXISTS
-      orders(
-        orderId SERIAL PRIMARY KEY,
-        userId INTEGER NOT NULL,
-        name VARCHAR(128) NOT NULL,
-        quantity INTEGER NOT NULL,
-        price INTEGER NOT NULL,
-        genre VARCHAR(64),
-        status VARCHAR(64),
-        created_date TIMESTAMP default NOW(),
-        modified_date TIMESTAMP default NOW(),
-        FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
-      )`;
-    this.pool.query(queryText)
-      .then((res) => {
-        console.log('created orders table!: ', res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // Uncomment to create orders table
+  // createOrdersTable() {
+  //   return new Promise((resolve, reject) => {
+  //     const queryText = `CREATE TABLE IF NOT EXISTS
+  //     orders(
+  //       orderId SERIAL PRIMARY KEY,
+  //       userId INTEGER NOT NULL,
+  //       name VARCHAR(128) NOT NULL,
+  //       quantity INTEGER NOT NULL,
+  //       price INTEGER NOT NULL,
+  //       genre VARCHAR(64),
+  //       status VARCHAR(64),
+  //       created_date TIMESTAMP default NOW(),
+  //       modified_date TIMESTAMP default NOW(),
+  //       FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
+  //     )`;
+  //     this.pool.query(queryText)
+  //       .then((res) => {
+  //         console.log('created orders table!: ', res);
+  //         resolve(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         reject(err);
+  //       });
+  //   });
+  // }
 
   /**
  * Create Users Table
  */
-  createUsersTable() {
-    const queryText = `CREATE TABLE IF NOT EXISTS
-        users(
-          userId SERIAL PRIMARY KEY,
-          username VARCHAR(128) UNIQUE NOT NULL,
-          email VARCHAR(128) UNIQUE NOT NULL,
-          password VARCHAR(128) NOT NULL,
-          address TEXT,
-          phone VARCHAR(20) UNIQUE,
-          role VARCHAR(16) default 'user',
-          created_date TIMESTAMP default NOW(),
-          modified_date TIMESTAMP default NOW()
-        )`;
+  // // Uncomment to create users table
+  // createUsersTable() {
+  //   const queryText = `CREATE TABLE IF NOT EXISTS
+  //       users(
+  //         userId SERIAL PRIMARY KEY,
+  //         username VARCHAR(128) UNIQUE NOT NULL,
+  //         email VARCHAR(128) UNIQUE NOT NULL,
+  //         password VARCHAR(128) NOT NULL,
+  //         address TEXT,
+  //         phone VARCHAR(20) UNIQUE,
+  //         role VARCHAR(16) default 'user',
+  //         created_date TIMESTAMP default NOW(),
+  //         modified_date TIMESTAMP default NOW()
+  //       )`;
 
-    this.pool.query(queryText)
-      .then(res => console.log('created users table!', res))
-      .catch(err => console.log('err in creating users table', err));
-  }
+  //   this.pool.query(queryText)
+  //     .then((res) => {
+  //       console.log('created users table!', res);
+  //       return res;
+  //     })
+  //     .catch((err) => {
+  //       console.log('err in creating users table', err);
+  //       return err;
+  //     });
+  // }
 
   /**
- * Create Users Table
+ * Create Menu Table
  */
-  createMenuTable() {
-    const queryText = `CREATE TABLE IF NOT EXISTS
-      menu(
-        productId SERIAL PRIMARY KEY,
-        name VARCHAR(128) UNIQUE NOT NULL,
-        price INTEGER NOT NULL,
-        genre VARCHAR(16) NOT NULL,
-        img TEXT,
-        isAvailable BOOLEAN,
-        created_date TIMESTAMP DEFAULT NOW(),
-        modified_date TIMESTAMP DEFAULT NOW()
-      )`;
+  // createMenuTable() {
+  //   const queryText = `CREATE TABLE IF NOT EXISTS
+  //     menu(
+  //       productId SERIAL PRIMARY KEY,
+  //       name VARCHAR(128) UNIQUE NOT NULL,
+  //       price INTEGER NOT NULL,
+  //       genre VARCHAR(16) NOT NULL,
+  //       img TEXT,
+  //       isAvailable BOOLEAN,
+  //       created_date TIMESTAMP DEFAULT NOW(),
+  //       modified_date TIMESTAMP DEFAULT NOW()
+  //     )`;
 
-    this.pool.query(queryText)
-      .then(res => console.log('created menu table!', res))
-      .catch(err => console.log('err in creating menu table', err));
-  }
+  //   this.pool.query(queryText)
+  //     .then(res => console.log('created menu table!', res))
+  //     .catch(err => console.log('err in creating menu table', err));
+  // }
 
   /**
  * Delete Users Tables
  */
-  dropTable(tableName) {
-    const queryText = `DROP TABLE IF EXISTS ${tableName}`;
-    this.pool.query(queryText)
-      .then(() => {
-        console.log(`dropped ${tableName} table`);
-      })
-      .catch((err) => {
-        console.log(`err in dropping ${tableName} table: ${err}`);
-      });
-  }
+  // Uncomment to drop any table
+  // dropTable(tableName) {
+  //   const queryText = `DROP TABLE IF EXISTS ${tableName}`;
+  //   this.pool.query(queryText)
+  //     .then(() => {
+  //       console.log(`dropped ${tableName} table`);
+  //     })
+  //     .catch((err) => {
+  //       console.log(`err in dropping ${tableName} table: ${err}`);
+  //     });
+  // }
 
-  alterTableColumn(tableName, oldCol, newCol) {
-    const query = `ALTER TABLE ${tableName} RENAME COLUMN ${oldCol} TO ${newCol}`;
-    this.pool.query(query)
-      .then(() => {
-        console.log(`altered  ${tableName}`);
-      })
-      .catch((err) => {
-        console.log(`err in altering  ${tableName}`, err);
-      });
-  }
+  // alterTableColumn(tableName, oldCol, newCol) {
+  //   const query = `ALTER TABLE ${tableName} RENAME COLUMN ${oldCol} TO ${newCol}`;
+  //   this.pool.query(query)
+  //     .then(() => {
+  //       console.log(`altered  ${tableName}`);
+  //     })
+  //     .catch((err) => {
+  //       console.log(`err in altering  ${tableName}`, err);
+  //     });
+  // }
 
   deleteRows(tableName) {
     const query = `DELETE FROM ${tableName}`;
