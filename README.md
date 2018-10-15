@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/Bobsar0/Fast-Food-Fast.svg?branch=develop)](https://travis-ci.com/Bobsar0/Fast-Food-Fast)
-[![Coverage Status](https://coveralls.io/repos/github/Bobsar0/Fast-Food-Fast/badge.svg?branch=develop)](https://coveralls.io/github/Bobsar0/Fast-Food-Fast?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/Bobsar0/Fast-Food-Fast/badge.svg?branch=develop&service=github)](https://coveralls.io/github/Bobsar0/Fast-Food-Fast?branch=develop)
 [![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/Bobsar0/Fast-Food-Fast)
 [![Heroku](https://img.shields.io/badge/heroku-deployed-green.svg)](https://fast-food-fast-bobsar0.herokuapp.com)
 # Fast-Food-Fast 
