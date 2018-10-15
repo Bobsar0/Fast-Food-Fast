@@ -1,3 +1,7 @@
+.formTitle{
+    margin-top: 100px;
+}
+
 #signupForm, #loginForm {
     padding: 100px 0;
     margin: 200px 0 250px;
@@ -5,16 +9,15 @@
 }
 
 #loginForm {
-    padding: 200px;
-    margin: 50px 0;
-    position: relative;
+    margin: 150px 0;
+    margin-bottom: 100px;
 }
 
 /* SignUp and Login forms */
 form {
     width: 300px;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -23,7 +26,8 @@ form {
     justify-content: center;
     border: 1px solid #2ec371;
     padding: 15px;
-    margin-bottom: 150px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     border-radius: 15px;
     background-color: darkgoldenrod;
     box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);
