@@ -23,7 +23,7 @@ let ssl = false;
 if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
-    connectionString = process.env.DB_URL_TEST;
+    connectionString = 'postgres://postgres:Atib0b00@127.0.0.1:5432/postgres';
   } else if (process.env.NODE_ENV === 'local') {
     connectionString = process.env.DB_URL_LOCAL;
   } else {

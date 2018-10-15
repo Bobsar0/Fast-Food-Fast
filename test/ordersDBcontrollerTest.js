@@ -10,7 +10,7 @@ import OrdersDBController from '../server/api/controllers/ordersDBcontroller';
 import MenuController from '../server/api/controllers/menuController';
 
 const pool = new Pool({
-  connectionString: process.env.DB_URL_TEST,
+  connectionString: 'postgres://postgres:Atib0b00@127.0.0.1:5432/postgres',
 });
 pool.on('connect', () => {
 });
