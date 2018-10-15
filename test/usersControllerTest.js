@@ -29,11 +29,6 @@ describe('User Endpoints', () => {
 
   before((done) => {
     // Uncomment the 2 lines below when running for the first time to create tables
-    // db.dropTable('users');
-    // db.dropTable('orders')
-
-    // db.dropTable('menu')
-
     // db.createUsersTable();
     // db.createOrdersTable();
     db.deleteRows('users');
@@ -248,7 +243,6 @@ describe('User Endpoints', () => {
     it('should not login with empty request body', (done) => {
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
-        // .send(user)
         .end((err, res) => {
           res.status.should.equal(400);
           res.body.status.should.equal('fail');
