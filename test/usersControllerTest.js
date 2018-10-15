@@ -10,7 +10,7 @@ import OrdersDBController from '../server/api/controllers/ordersDBcontroller';
 import MenuController from '../server/api/controllers/menuController';
 
 const pool = new Pool({
-  connectionString: process.env.DB_URL_TEST,
+  connectionString: 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo',
 });
 pool.on('connect', () => {
 });
@@ -29,6 +29,11 @@ describe('User Endpoints', () => {
 
   before((done) => {
     // Uncomment the 2 lines below when running for the first time to create tables
+    // db.dropTable('users');
+    // db.dropTable('orders')
+
+    // db.dropTable('menu')
+
     // db.createUsersTable();
     // db.createOrdersTable();
     db.deleteRows('users');
@@ -240,7 +245,17 @@ describe('User Endpoints', () => {
           done();
         });
     });
-
+    it('should not login with empty request body', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .post('/api/v1/auth/login')
+        // .send(user)
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.status.should.equal('fail');
+          res.body.should.have.property('message').eql('Please login with either (username or email) and password');
+          done();
+        });
+    });
     it('should not login a user with any information other than username/email) and password', (done) => {
       const user = { username: 'foo', password: 'bar', role: 'admin' };
       chai.request(server(orderC, userC, menuC))
@@ -266,21 +281,6 @@ describe('User Endpoints', () => {
           done();
         });
     });
-
-    // it('catches all other errors', (done) => {
-    //   const user = {
-    //     username: 'bobo', email: 'bobo@gmail.com', password: 'Pass!2', phone: '01234890',
-    //   };
-    //   chai.request(server(orderC, userC, menuC))
-    //     .post('/api/v1/auth/login')
-    //     // .send(user)
-    //     .end((err, res) => {
-    //       res.status.should.equal(500);
-    //       res.body.status.should.equal('fail');
-    //       res.body.should.have.property('error');
-    //       done();
-    //     });
-    // });
 
     it('should successfully login an existing user with valid username and password', (done) => {
       const user = { username: 'bobo', password: 'Password!2' };

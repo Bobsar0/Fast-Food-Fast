@@ -10,7 +10,7 @@ import OrdersDBController from '../server/api/controllers/ordersDBcontroller';
 import MenuController from '../server/api/controllers/menuController';
 
 const pool = new Pool({
-  connectionString: process.env.DB_URL_TEST,
+  connectionString: 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo',
 });
 pool.on('connect', () => {
 });
@@ -27,6 +27,8 @@ describe('Order and Menu Endpoints', () => {
   const menuC = new MenuController(db);
 
   let adminToken = '';
+  // let admin2Token = '';
+  // let admin2Id = '';
   let userToken = '';
   let id = '';
   let orderId = '';
@@ -40,6 +42,9 @@ describe('Order and Menu Endpoints', () => {
     const admin = new User(
       'testAdmin', 'admin@gmail.com', 'Password!2', '080000000', 'Andela Epic tower',
     );
+    // const admin2 = new User(
+    //   'testAdmin2', 'admin2@gmail.com', 'Password!2', '081000000', 'Andela Epic tower',
+    // );
     admin.password = auth.hashPassword(admin.password);
     const createQuery = `INSERT INTO
     users(username, email, password, phone, address, role, created_date, modified_date)
@@ -61,6 +66,24 @@ describe('Order and Menu Endpoints', () => {
         adminToken = auth.generateToken(res.rows[0].userid, res.rows[0].role);
       })
       .catch(err => console.log('err in creating admin', err));
+
+    // const values2 = [
+    //   admin2.username,
+    //   admin2.email,
+    //   auth.hashPassword(admin2.password),
+    //   admin2.phone,
+    //   admin2.address,
+    //   'admin',
+    //   new Date(),
+    //   new Date(),
+    // ];
+    // db.query(createQuery, values2)
+    //   .then((res) => {
+    //     console.log('admin2 created successfully');
+    //     admin2Id = res.rows[0].userid;
+    //     admin2Token = auth.generateToken(admin2Id, res.rows[0].role);
+    //   })
+    //   .catch(err => console.log('err in creating admin2', err));
 
     const testUser = {
       username: 'BoboUser', email: 'user@gmail.com', password: 'Password!2', phone: '01234567890',
@@ -105,16 +128,40 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
+      it('rejects null token', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post(path)
+          .end((err, res) => {
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Please provide a token');
+            done();
+          });
+      });
       it('rejects invalid token', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
-          .set({ 'x-access-token': adminToken.slice(0, userToken.length - 1) })
+          .set({ 'x-access-token': adminToken.slice(0, adminToken.length - 1) })
           .end((err, res) => {
             res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('message').eql('invalid signature');
             done();
           });
       });
+      // it('rejects token of a expired/deleted admin', (done) => {
+      //   const query = `DELETE FROM users WHERE userid = ${admin2Id}`;
+      //   db.query(query)
+      //     .then(() => console.log('Admin2 deleted successfully'))
+      //     .catch(err => console.log('Error in deleting admin2', err));
+      //   chai.request(server(orderC, userC, menuC))
+      //     .post(path)
+      //     .set({ 'x-access-token': admin2Token })
+      //     .end((err, res) => {
+      //       res.status.should.equal(404);
+      //       res.body.should.have.property('status').eql('fail');
+      //       res.body.should.have.property('message').eql('Admin details not found');
+      //       done();
+      //     });
+      // });
       it('rejects null request body', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
@@ -363,7 +410,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(401);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please provide a valid token');
+            res.body.should.have.property('message').eql('Please provide a token');
             done();
           });
       });
@@ -396,13 +443,13 @@ describe('Order and Menu Endpoints', () => {
     });
 
     describe('GET A SPECIFIC ORDER (GET /order/orderId)', () => {
-      it('does not retrieve an order with invalid token', (done) => {
+      it('does not retrieve an order with null token', (done) => {
         chai.request(server(orderC, userC, menuC))
           .get(`/api/v1/orders/${orderId}`)
           .end((err, res) => {
             res.status.should.equal(401);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please provide a valid token');
+            res.body.should.have.property('message').eql('Please provide a token');
             done();
           });
       });
@@ -461,7 +508,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(401);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please provide a valid token');
+            res.body.should.have.property('message').eql('Please provide a token');
             done();
           });
       });

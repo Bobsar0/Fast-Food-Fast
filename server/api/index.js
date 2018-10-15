@@ -23,7 +23,7 @@ let ssl = false;
 if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
-    connectionString = process.env.DB_URL_TEST;
+    connectionString = 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo';
   } else if (process.env.NODE_ENV === 'local') {
     connectionString = process.env.DB_URL_LOCAL;
   } else {

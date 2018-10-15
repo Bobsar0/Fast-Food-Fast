@@ -1,14 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { Pool } from 'pg';
-import dotenv from 'dotenv';
 import DB from '../models/dbModel';
 
-dotenv.config();
 
 let connectionString = '';
 
 if (process.env.NODE_ENV === 'test') {
-  connectionString = process.env.DB_URL_TEST;
+  connectionString = 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo';
 } else {
   connectionString = process.env.DB_URL_LOCAL;
 }
@@ -47,15 +45,16 @@ const authController = {
   async verifyAdminToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if (!token) {
-      return res.status(401).json({ status: 'fail', statusCode: 401, message: 'Please provide a valid token' });
+      return res.status(401).json({ status: 'fail', statusCode: 401, message: 'Please provide a token' });
     }
     try {
       const decoded = await jwt.verify(token, 'fastFoodFast');
+
       if (decoded.role !== 'admin') {
         return res.status(403).json({ status: 'fail', statusCode: 403, message: 'Sorry, only admins are authorized' });
       }
-      const text = 'SELECT * FROM users WHERE userid = $1';
-      const { rows } = await db.query(text, [decoded.userId]);
+      const text = `SELECT * FROM users WHERE userid = ${decoded.userId}`;
+      const { rows } = await db.query(text);
       if (!rows[0]) {
         return res.status(404).json({ status: 'fail', statusCode: 404, message: 'Admin details not found' });
       }
