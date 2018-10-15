@@ -5,6 +5,7 @@ const checkoutBtn = document.getElementById('checkoutBtn');
 
 // Total price for cart items
 const total = document.getElementById('totalPrice');
+const totalItems = document.getElementById('totalItems');
 let totalPrice = 0;
 
 // Hold all the cells in an array so as to transfer to order history
@@ -27,6 +28,7 @@ let count = 0;
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
     count += 1;
+    totalItems.innerHTML = count;
 
     const btnID = cartBtn.id;
     // the last 2-digits in the id corresponds to the last digit in btnID
@@ -63,6 +65,8 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 
     // *** If cancel btn is clicked *** //
     cancelBtn.onclick = () => {
+      count -= 1;
+      totalItems.innerHTML = count;
       // remove row from cartTable
       cartTable.removeChild(tr);
       // remove row from trArr
@@ -124,6 +128,7 @@ const orderHistory = document.getElementById('tableHistory');
 // // If submit btn is clicked
 checkoutBtn.onclick = () => {
   count = 0;
+  totalItems.innerHTML = 0;
   if (totalPrice > 0) {
     alert('Your order has been successfully placed! We will contact you shortly with further details.');
     totalPrice = 0;

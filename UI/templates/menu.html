@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="container">
-    <header> 
+  <header> 
       <div id="title">
         <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
@@ -28,7 +28,13 @@
         </div>
         <a href="./login">Login</a>
         <a href="./signup">Signup</a>
-        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"> Cart</i>
+        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+        <a class="search">
+          <form action="#">
+            <input type="text" placeholder="Search for food.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </a>
         <a href="javascript:void(0);" class="icon">&#9776;</a>
       </nav>
     </header> 
@@ -192,8 +198,19 @@
             <button class="cartBtn" id="btn04">Add to Cart</button>
         </div>
       </div>
-		</div> 
-		
+    </div>
+    <div class="center"> 
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a class="current" href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
 		<div class="clearfix"></div>
 	</section>
   <!-- SNACKS -->
@@ -310,8 +327,19 @@
           <button class="cartBtn" id="btn08">Add to Cart</button>
         </div>			
       </div>
-    </div> 
-    
+    </div>
+    <div class="center">
+      <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#">1</a>
+          <a class="current" href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+          <a href="#">6</a>
+          <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
 
     
@@ -432,8 +460,19 @@
             <button class="cartBtn" id="btn12">Add to Cart</button>
         </div>			
       </div>
-		</div> 
-
+    </div> 
+    <div class="center">
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a href="#">1</a>
+        <a class="current" href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
   </section>
 
@@ -552,6 +591,18 @@
         </div>      
       </div>
     </div> 
+    <div class="center">
+      <div class="pagination">
+        <a href="#">&laquo;</a>
+        <a class="current" href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">&raquo;</a>
+      </div>
+    </div>
     <div class="clearfix"></div>
   </section> 
 

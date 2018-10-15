@@ -1,9 +1,5 @@
-import _ from 'lodash';
-import BaseController from './baseController';
-
-export default class extends BaseController {
-  constructor(client, username) {
-    super(client, username);
+export default class {
+  constructor(client) {
     this.orders = client;
   }
 
@@ -13,7 +9,7 @@ export default class extends BaseController {
   read(id = '') {
     if (id === '') {
       return this.orders.getAll()
-        .then(store => _.map(store, order => _.merge({ orderId: order.orderId }, order)));
+        .then(store => store.map(order => (order)));
     }
     return this.orders.get(id)
       .then(res => new Promise((resolve, reject) => {
@@ -22,7 +18,7 @@ export default class extends BaseController {
         }
         return reject(id);
       }))
-      .catch(orderId => _.merge({ status: 404 }, { error: `Invalid order Id ${orderId}` }));
+      .catch(orderId => ({ status: 404, error: `Invalid order Id ${orderId}` }));
   }
 
   // POST /orders
@@ -31,8 +27,8 @@ export default class extends BaseController {
     return this.orders.save({
       body: order,
     }) // Merge the results obtained from save() which will be rendered by server
-      .then(res => _.merge(res, { orderId: res.orderId, order: res.order }))
-      .catch(id => _.merge({ error: `Id ${id} already exists!` }));
+      .then(res => (res))
+      .catch(id => ({ error: `Id ${id} already exists!` }));
   }
 
   // PUT /orders/:orderId
@@ -44,11 +40,11 @@ export default class extends BaseController {
     })
       .then(res => new Promise((resolve, reject) => {
         if (res.orderId) {
-          return resolve(_.merge({ orderId: res.orderId }, res));
+          return resolve(res);
         }
         return reject(attrs);
       }))
-      .catch(resId => _.merge({ status: '404', error: `Order of ID ${resId} does not exist` }));
+      .catch(resId => ({ status: '404', error: `Order of ID ${resId} does not exist` }));
   }
 
   // DELETE /orders/:id
@@ -60,7 +56,6 @@ export default class extends BaseController {
         }
         return reject(id);
       }))
-      .catch(resId => _.merge({ status: '404', error: `Order of ID ${resId} does not exist` }));
+      .catch(resId => ({ status: '404', error: `Order of ID ${resId} does not exist` }));
   }
-  // End controller class
 }
