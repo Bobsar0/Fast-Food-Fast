@@ -4,15 +4,22 @@ import DB from '../models/dbModel';
 
 
 let connectionString = '';
+let ssl = false;
 
 if (process.env.NODE_ENV === 'test') {
   connectionString = 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo';
-} else {
+} else if (process.env.NODE_ENV === 'local') {
   connectionString = process.env.DB_URL_LOCAL;
+} else {
+  // For Heroku
+  connectionString = process.env.DATABASE_URL;
+  ssl = true;
 }
 const pool = new Pool({
   connectionString,
+  ssl,
 });
+
 const db = new DB(pool);
 const authController = {
   // Adapted from https://www.codementor.io/olawalealadeusi896/building-a-simple-api-with-nodejs-expressjs-postgresql-db-and-jwt-3-mke10c5c5
