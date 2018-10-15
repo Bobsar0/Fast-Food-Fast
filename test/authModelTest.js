@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import dotenv from 'dotenv';
-import Auth from '../server/api/models/authmodel';
+import Auth from '../server/api/models/authModel';
 
 describe('Auth', () => {
   it('creates a new model', () => {
