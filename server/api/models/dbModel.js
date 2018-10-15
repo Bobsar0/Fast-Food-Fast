@@ -35,7 +35,6 @@ export default class {
   //       name VARCHAR(128) NOT NULL,
   //       quantity INTEGER NOT NULL,
   //       price INTEGER NOT NULL,
-  //       genre VARCHAR(64),
   //       status VARCHAR(64),
   //       created_date TIMESTAMP default NOW(),
   //       modified_date TIMESTAMP default NOW(),
@@ -115,17 +114,6 @@ export default class {
   //     })
   //     .catch((err) => {
   //       console.log(`err in dropping ${tableName} table: ${err}`);
-  //     });
-  // }
-
-  // alterTableColumn(tableName, oldCol, newCol) {
-  //   const query = `ALTER TABLE ${tableName} RENAME COLUMN ${oldCol} TO ${newCol}`;
-  //   this.pool.query(query)
-  //     .then(() => {
-  //       console.log(`altered  ${tableName}`);
-  //     })
-  //     .catch((err) => {
-  //       console.log(`err in altering  ${tableName}`, err);
   //     });
   // }
 

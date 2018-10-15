@@ -14,38 +14,43 @@ export default class OrderDBController {
     if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
       return { status: 'fail', statusCode: 400, message: 'Sorry, order content cannot be empty' };
     }
-    const { name, quantity, price } = req.body;
-    if (!name || !name.trim()) {
+    const { name, quantity } = req.body;
+    if (!name || !name.trim() || typeof name !== 'string') {
       return { status: 'fail', statusCode: 400, message: 'Please enter the name of your order' };
-    }
-    if (!price) {
-      return { status: 'fail', statusCode: 400, message: 'Please enter the price of your order' };
     }
     if (!quantity) {
       return { status: 'fail', statusCode: 400, message: 'Please enter the quantity of your order' };
     }
-    const query = `INSERT INTO orders(name, quantity, price, status, userid, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
-      returning *`;
-    const values = [
-      name.trim(),
-      quantity,
-      price,
-      'NEW',
-      req.user.userId,
-      new Date(),
-      new Date(),
-    ];
+    const itemName = name.trim().toUpperCase();
     try {
+      const menuQuery = 'SELECT * from menu WHERE name = $1';
+      const response = await this.db.query(menuQuery, [itemName]);
+      if (response.rows.length === 0) {
+        return { status: 'fail', statusCode: 404, message: `Sorry, ${name} is not available on the menu` };
+      }
+      const totalPrice = Number(response.rows[0].price) * Number(quantity);
+      const query = `INSERT INTO orders(name, quantity, price, status, userid, created_date, modified_date)
+        VALUES($1, $2, $3, $4, $5, $6, $7)
+        returning *`;
+      const values = [
+        itemName,
+        quantity,
+        totalPrice,
+        'NEW',
+        req.user.userId,
+        new Date(),
+        new Date(),
+      ];
+
       const { rows } = await this.db.query(query, values);
       return {
         status: 'success', statusCode: 201, message: 'Order created successfully', order: rows[0],
       };
     } catch (error) {
       if (error.routine === 'pg_atoi') {
-        return { status: 'fail', statusCode: 400, message: 'Please enter price/quantity in integer format' };
+        return { status: 'fail', statusCode: 400, message: 'Please enter quantity in integer format' };
       }
-      return { status: 'fail', message: error.message };
+      return { status: 'fail', statusCode: 500, message: error.message };
     }
   }
 
@@ -55,24 +60,24 @@ export default class OrderDBController {
    * @returns {object} orders array if id is undefined or order object otherwise
    */
   async read(req) {
-    let result = {};
+    let data = {};
     let message = '';
     if (!req) {
       const getAllQuery = 'SELECT * FROM orders';
       const { rows, rowCount } = await this.db.query(getAllQuery);
-      result = { rows, rowCount };
+      data = { orders: rows, totalOrders: rowCount };
       message = 'Orders retrieved successfully';
     } else {
       const getQuery = 'SELECT * FROM orders WHERE orderid = $1';
       const { rows } = await this.db.query(getQuery, [req.params.orderId]);
-      [result] = rows;
-      if (!result) {
+      [data] = rows;
+      if (!data) {
         throw new Error(`Order with id ${req.params.orderId} not found`);
       }
       message = 'Order retrieved successfully';
     }
     return {
-      status: 'success', statusCode: 200, message, result,
+      status: 'success', statusCode: 200, message, data,
     };
   }
 

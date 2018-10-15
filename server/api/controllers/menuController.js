@@ -25,8 +25,8 @@ export default class {
     if (!genre || !genre.trim()) {
       return { status: 'fail', statusCode: 400, message: 'Please enter the genre of your menu item' };
     }
-    genre = genre.trim().toUpperCase();
-    if (genre !== 'MEAL' && genre !== 'SNACK' && genre !== 'DRINK' && genre !== 'COMBO') {
+    genre = genre.trim().toLowerCase();
+    if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo') {
       return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK or COMBO' };
     }
     if (!img || !img.trim()) {

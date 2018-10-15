@@ -17,12 +17,12 @@ export default class {
      */
   async create(req) {
     const {
-      email, username, password, phone,
+      email, username, password, phone, address,
     } = req.body;
     if (!username || !email || !password) {
       return { status: 'fail', statusCode: 400, message: 'Please input username, email and password' };
     }
-    if (!username || username.trim().length === 0) {
+    if (!username || username.toString().startsWith('0') || typeof username !== 'string' || username.trim().length === 0) {
       return { status: 'fail', statusCode: 400, message: 'Please input valid username' };
     }
 
@@ -38,6 +38,7 @@ export default class {
     }
     this.user.password = this.auth.hashPassword(this.user.password);
     this.user.phone = phone;
+    this.user.address = address;
     this.user.createdDate = new Date();
     this.user.modifiedDate = new Date();
 
