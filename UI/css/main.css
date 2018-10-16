@@ -197,5 +197,4 @@ footer a{
 /* On smaller screens, decrease text size */
 @media screen and (max-width: 500px) {
   .text {font-size: 18px}
-
 }

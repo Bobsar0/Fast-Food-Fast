@@ -32,9 +32,6 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
     // the last 2-digits in the id corresponds to the last digit in btnID
     const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
     const img = document.getElementById(`img${btnID.slice(-2)}`);
-    console.log('img:', img)
- 
-
     const qty = document.querySelector(`select#selectQty${btnID.slice(-2)}`).value;
     let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
     price = Number(qty) * Number(price.slice(4));
@@ -69,6 +66,7 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 
     cartImg.style.height = '100px';
     cartImg.style.width = '100px';
+
     const cell1 = document.createTextNode(name);
     const cell2 = document.createTextNode(qty);
     const cell3 = document.createTextNode(price);

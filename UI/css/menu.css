@@ -150,33 +150,6 @@ div.gallery img {
     }
 }
 
-/* @media only screen and (max-width: 400px) {
-    body{
-        font: 12px/20px "Helvetica neue", Helvetica, Arial, sans-serif;
-        text-align: center;
-        font-weight: normal;
-        overflow: hidden;
-        overflow-y: auto;
-    }
-    .responsive {
-        width: 100%;
-    }
-    div.gallery img {
-        height: 220px;
-    }    
-    .desc h1{
-        font: 25px Arial, Helvetica, sans-serif;
-    }
-    h1{font-size: 20px;}
-    .menu h2, h2{
-        font-size: 15px;
-        text-align: center;
-    }
-    
-    .menu h3, p{font-size: 10px;}
-} */
-
-
 .clearfix:after {
     content: "";
     display: table;
