@@ -78,6 +78,7 @@ button {
     margin-bottom: 10px;;
 }
 
-#emailErr, #passwordErr{
+#usernameErr, #emailErr, #passwordErr, #password2Err{
     color: red;
+    text-shadow: 1px 1px 1px #000000;
 }

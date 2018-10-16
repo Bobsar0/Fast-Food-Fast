@@ -8,6 +8,8 @@
     "globals": {
 			"window": true,
 			"document": true,
-			"alert": true
+			"alert": true,
+			"fetch": true,
+			"Request": true
     }
 }
