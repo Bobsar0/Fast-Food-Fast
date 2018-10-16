@@ -135,7 +135,7 @@ div.gallery img {
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media screen and (max-width: 500px) {
     .responsive {
         width: 100%;
     }
@@ -145,7 +145,7 @@ div.gallery img {
     .desc h1{
         font: 25px Arial, Helvetica, sans-serif;
     }
-    .menu h2{
+    h2{
         font-size: 20px;
     }
 }
@@ -167,7 +167,7 @@ th, td {
     border-bottom: 0.2px solid #747474;
 }
 
-.cancelOdr, #approveBtn, #declineBtn{
+.cancelOdr, .reorder, #approveBtn, #declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;

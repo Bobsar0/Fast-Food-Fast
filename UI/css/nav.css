@@ -148,7 +148,6 @@
   .topNav a, #cartInfo{
     display: none;
     font-size: 14px;
-    /* padding-right: 20px */
   }
   .dropdown .dropbtn{
     display: none;
@@ -210,7 +209,6 @@
     position: fixed;
     background: #212121;
   }
-  /* .responsiveNav.stickyNav a:not(:first-child) {display: none;} */
 
   .responsiveNav.stickyNav a:hover{
     background: #cccccca6
@@ -221,6 +219,11 @@
 }
 
 @media screen and (max-width: 550px){
+  body, html{
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   header #title h1 a{
     font-size: 32px;
     margin-right: 300px;
@@ -235,7 +238,15 @@
   }
   .stickyNav{
     margin-top: 0;
-    /* left: 50%;
-    transform: translate(-50%, 0); */
+  }
+  .formTitle{
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  body, html{
+      font: 12px/20px "Helvetica neue", Helvetica, Arial, sans-serif;
+      font-weight: normal;
   }
 }

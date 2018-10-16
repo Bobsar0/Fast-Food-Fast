@@ -27,24 +27,46 @@ let count = 0;
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
-    count += 1;
-    totalItems.innerHTML = count;
 
     const btnID = cartBtn.id;
     // the last 2-digits in the id corresponds to the last digit in btnID
     const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
+    const img = document.getElementById(`img${btnID.slice(-2)}`);
     const qty = document.querySelector(`select#selectQty${btnID.slice(-2)}`).value;
     let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
     price = Number(qty) * Number(price.slice(4));
 
     totalPrice += Number(price);
     total.innerHTML = totalPrice.toFixed(2);
-    // alert user of successful cart addition
-    alert(`${qty}x ${name} successfully added to cart`);
+    //Open a modal
+    const add2CartModal = document.getElementById('add2CartModal'); // Get the modal
+    const span = document.getElementsByClassName('close')[1]; // Get the <span> element that closes the modal
+    const msg = document.getElementById('add2CartInfo')
+
+    msg.innerHTML = (`${qty}x ${name} successfully added to cart`)
+    
+    add2CartModal.style.display = 'block';
+    // Close the modal when the user clicks on <span> (x)
+    span.onclick = () => {
+      add2CartModal.style.display = 'none';
+    };
+    window.onclick = (event) => {
+      if (event.target === add2CartModal) {
+        add2CartModal.style.display = 'none';
+      }
+    };
+
+    count += 1;
+    totalItems.innerHTML = count;
 
     // create a tablerow node
     const tr = document.createElement('TR');
     // Create contents for the table data cells in each row
+    const cartImg = img.cloneNode();
+
+    cartImg.style.height = '100px';
+    cartImg.style.width = '100px';
+
     const cell1 = document.createTextNode(name);
     const cell2 = document.createTextNode(qty);
     const cell3 = document.createTextNode(price);
@@ -56,7 +78,7 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
     const cancel = document.createTextNode('Delete Item');
     cancelBtn.appendChild(cancel);
 
-    const cells = [cell1, cell2, cell3, cancelBtn];
+    const cells = [cartImg, cell1, cell2, cell3, cancelBtn];
     appendtoTable(cells, tr, cartTable);
     // append row to array to be used to delete cart table upon checkout
     trArr.push(tr);
@@ -114,6 +136,7 @@ cart.onclick = () => {
 // Close the modal when the user clicks on <span> (x)
 span.onclick = () => {
   modal.style.display = 'none';
+  add2CartModal.style.display = 'none';
 };
 
 // Also close the modal when the user clicks anywhere outside of the modal,
