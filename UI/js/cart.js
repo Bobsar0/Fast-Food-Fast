@@ -27,8 +27,6 @@ let count = 0;
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
-    count += 1;
-    totalItems.innerHTML = count;
 
     const btnID = cartBtn.id;
     // the last 2-digits in the id corresponds to the last digit in btnID
@@ -39,8 +37,26 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 
     totalPrice += Number(price);
     total.innerHTML = totalPrice.toFixed(2);
-    // alert user of successful cart addition
-    // alert(`${qty}x ${name} successfully added to cart`);
+    //Open a modal
+    const add2CartModal = document.getElementById('add2CartModal'); // Get the modal
+    const span = document.getElementsByClassName('close')[1]; // Get the <span> element that closes the modal
+    const msg = document.getElementById('add2CartInfo')
+
+    msg.innerHTML = (`${qty}x ${name} successfully added to cart`)
+    
+    add2CartModal.style.display = 'block';
+    // Close the modal when the user clicks on <span> (x)
+    span.onclick = () => {
+      add2CartModal.style.display = 'none';
+    };
+    window.onclick = (event) => {
+      if (event.target === add2CartModal) {
+        add2CartModal.style.display = 'none';
+      }
+    };
+
+    count += 1;
+    totalItems.innerHTML = count;
 
     // create a tablerow node
     const tr = document.createElement('TR');
@@ -114,6 +130,7 @@ cart.onclick = () => {
 // Close the modal when the user clicks on <span> (x)
 span.onclick = () => {
   modal.style.display = 'none';
+  add2CartModal.style.display = 'none';
 };
 
 // Also close the modal when the user clicks anywhere outside of the modal,
