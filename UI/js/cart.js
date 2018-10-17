@@ -3,6 +3,10 @@ const cartBtns = document.getElementsByClassName('cartBtn');
 const cartTable = document.getElementById('cartTable');
 const checkoutBtn = document.getElementById('checkoutBtn');
 
+const generalModal = document.getElementById('generalModal');
+const msg = document.getElementById('generalInfo');
+const span1 = document.getElementsByClassName('close')[1]; // Get the <span> element that closes the modal
+
 // Total price for cart items
 const total = document.getElementById('totalPrice');
 const totalItems = document.getElementById('totalItems');
@@ -22,12 +26,30 @@ function appendtoTable(cellArr, tr, tableName) {
   tableName.appendChild(tr); // append to table
 }
 
+function displayModal(modal, span1) {
+  modal.style.display = 'block';
+  // Close the modal when the user clicks on <span> (x)
+  span1.onclick = () => {
+    modal.style.display = 'none';
+  };
+  // Also close when anywhere in the window is clicked
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
 // Assign count to each event
 let count = 0;
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
-
+    if (!document.getElementById('menuWelcome').textContent.includes('Welcome ')) {
+      // open modal asking user to sign up
+      msg.innerHTML = ('Please <a href="/signup"><b>signup</b></a> or <a href="/login"><b>login</b></a> to continue with your order');
+      displayModal(generalModal, span1);
+      return;
+    }
     const btnID = cartBtn.id;
     // the last 2-digits in the id corresponds to the last digit in btnID
     const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
@@ -38,23 +60,10 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 
     totalPrice += Number(price);
     total.innerHTML = totalPrice.toFixed(2);
-    //Open a modal
-    const add2CartModal = document.getElementById('add2CartModal'); // Get the modal
-    const span = document.getElementsByClassName('close')[1]; // Get the <span> element that closes the modal
-    const msg = document.getElementById('add2CartInfo')
 
-    msg.innerHTML = (`${qty}x ${name} successfully added to cart`)
-    
-    add2CartModal.style.display = 'block';
-    // Close the modal when the user clicks on <span> (x)
-    span.onclick = () => {
-      add2CartModal.style.display = 'none';
-    };
-    window.onclick = (event) => {
-      if (event.target === add2CartModal) {
-        add2CartModal.style.display = 'none';
-      }
-    };
+    // Open a modal
+    msg.innerHTML = (`<b>${qty}x ${name}</b> successfully added to cart`);
+    displayModal(generalModal, span1);
 
     count += 1;
     totalItems.innerHTML = count;
@@ -132,18 +141,8 @@ cart.onclick = () => {
   checkoutBtn.style.backgroundColor = condition ? '#212121' : '#2ec371';
   checkoutBtn.style.color = condition ? 'goldenrod' : 'white';
   checkoutBtn.style.opacity = condition ? 0.6 : 1;
-};
-// Close the modal when the user clicks on <span> (x)
-span.onclick = () => {
-  modal.style.display = 'none';
-  add2CartModal.style.display = 'none';
-};
 
-// Also close the modal when the user clicks anywhere outside of the modal,
-window.onclick = (event) => {
-  if (event.target === modal) {
-    modal.style.display = 'none';
-  }
+  displayModal(modal, span);
 };
 
 // Order History

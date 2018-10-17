@@ -16,7 +16,7 @@
         <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
       <nav class="topNav" id="menuNav">
-        <a href="./index.html">Home</a>
+        <a href="./index">Home</a>
         <div class="dropdown">
           <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
           <div class="dropdown-content">
@@ -26,9 +26,8 @@
               <a href="#combo">Combo</a>
           </div>
         </div>
-        <a href="./login.html">Login</a>
-        <a href="./signup.html">Signup</a>
-        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+        <a href="./login">Login</a>
+        <a href="./signup">Signup</a>
         <a class="search">
           <form action="#">
             <input type="text" placeholder="Search for food.." name="search">
@@ -40,7 +39,7 @@
     </header> 
 	<!--Image Gallery-->
     <div class="menu">
-      <h1><i>What's on the Menu?</i></h1>
+      <h1 id="menuWelcome"><i>What's on the Menu?</i></h1>
       <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
       <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
     </div>		
@@ -199,18 +198,6 @@
         </div>
       </div>
     </div>
-    <div class="center"> 
-      <div class="pagination">
-        <a href="#">&laquo;</a>
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a class="current" href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">&raquo;</a>
-      </div>
-    </div>
 		<div class="clearfix"></div>
 	</section>
   <!-- SNACKS -->
@@ -366,18 +353,6 @@
           </p>
           <button class="cartBtn" id="btn08">Add to Cart</button>
         </div>			
-      </div>
-    </div>
-    <div class="center">
-      <div class="pagination">
-          <a href="#">&laquo;</a>
-          <a href="#">1</a>
-          <a class="current" href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a href="#">6</a>
-          <a href="#">&raquo;</a>
       </div>
     </div>
     <div class="clearfix"></div>
@@ -772,12 +747,12 @@
       </div>
     </div>
      <!-- Add To Cart Modal -->
-     <div id="add2CartModal" class="modal">
+     <div id="generalModal" class="modal">
       <!-- Modal content -->
       <div class="modalContent">
         <span class="close">&times;</span>
-        <h1>ITEM SUCCESSFULLY ADDED</h1>
-        <h3 id="add2CartInfo"></h3>
+        <h1>Message From FastFoodFast</h1>
+        <h3 id="generalInfo"></h3>
       </div>
     </div>
    <!-- End container div -->
