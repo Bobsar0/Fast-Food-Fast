@@ -69,7 +69,7 @@ export default (orderC, userC, menuC) => {
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
 
-  server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
+  server.get('/api/v1', (req, res) => res.status(200).json({ message: 'Welcome to API version 1 of FastFoodFast' }));
 
   // ==========POWER FRONT-END PAGES===============//
   const uiPath = path.join(__dirname, '../../UI');
@@ -81,16 +81,16 @@ export default (orderC, userC, menuC) => {
   server.get('/index', (_req, res) => {
     res.sendFile(`${uiPath}/templates/index.html`);
   });
-  server.get('/userIndex', (_req, res) => {
-    res.sendFile(`${uiPath}/app/userTemplates/userIndex.html`);
-  });
+  // server.get('/userIndex', (_req, res) => {
+  //   res.sendFile(`${uiPath}/templates/userIndex.html`);
+  // });
 
   server.get('/menu', (_req, res) => {
     res.sendFile(`${uiPath}/templates/menu.html`);
   });
-  server.get('/userMenu', (_req, res) => {
-    res.sendFile(`${uiPath}/templates/userMenu.html`);
-  });
+  // server.get('/userMenu', (_req, res) => {
+  //   res.sendFile(`${uiPath}/templates/userMenu.html`);
+  // });
 
   server.get('/signup', (_req, res) => {
     res.sendFile(`${uiPath}/templates/signup.html`);
