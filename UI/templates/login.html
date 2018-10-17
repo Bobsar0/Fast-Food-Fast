@@ -31,12 +31,16 @@
 			<div id="loginForm">
 				<form>
 					<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-					<label for="email">Email</label>
-					<input class="userForm" id="email" name="email" type="email" placeholder="Enter your email address">
+					<div id="usernameErr"></div>
+					<label for="usernameEmail">Username/Email</label>
+					<input class="userForm" id="usernameEmail" name="usernameEmail" placeholder="Enter your username or email" required>
+					<div id="emailErr"></div>
 					<label for="password">Password</label>
-					<input class="userForm" id="password" name="password" type="password" placeholder="Enter your password">
+					<input class="userForm" id="password" name="password" type="password" placeholder="Enter your password" required>
+					<div id="passwordErr"></div>
 					<div><input type="checkbox" id="checkbox" onclick="togglePassword()">Show Password</div>
-					<button id="loginBtn">Login</button>
+					<div id="password2Err"></div>
+					<button id="loginBtn" type="button">Login</button>
 					<a href="#" class="white">Forgot Password?</a>
 				</form>
 			</div>
@@ -58,5 +62,7 @@
             }
 		</script>
 		<script src="../js/scripts.js"></script>
+		<script src="../app/js/login.js"></script>
+		<script src="../app/js/username.js"></script>
 	</body>
 </html>

@@ -49,13 +49,13 @@ A token is generated which can be used to access other endpoints.
 You may log into the site using this action. It takes a JSON object containing username or email, and password used during signup.
 A token is generated which can be used to access other endpoints.
 
-+ username/email (required, string) - The username or email address that was used to signup.
++ usernameEmail (required, string) - The username or email address that was used to signup.
 + password (required, string) - The password that was used to signup.
 
 + Request (application/json)
 
         {   
-            "username": "Mma",
+            "usernameEmail": "Mma",
             "password": "Abc123!", 
         }
         
@@ -65,6 +65,15 @@ A token is generated which can be used to access other endpoints.
             "status": "success",
             "statusCode": 200,
             "message": "Login successful",
+            "user": {
+                "user": {
+                "email": "chioma@gmail.com",
+                "username": "mma",
+                "phone": "01234567890",
+                "createdDate": "2018-10-14T17:16:16.512Z",
+                "modifiedDate": "2018-10-14T17:16:16.512Z",
+                "userId": 1
+            }
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzOTU0MDA2NywiZXhwIjoxNTM5NzEyODY3fQ.AvFWUAqjIk5Xfq5P7ux2Dkt2M1yAB9m0M8awXCzaH5x"
         }
         

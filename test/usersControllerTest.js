@@ -230,7 +230,7 @@ describe('User Endpoints', () => {
 
   describe('POST /auth/login', () => {
     it('should not login a user with null or incorrect username or email and password', (done) => {
-      const user = { username: 'foo', password: 'bar' };
+      const user = { usernameEmail: 'foo', password: 'bar' };
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
         .send(user)
@@ -250,8 +250,8 @@ describe('User Endpoints', () => {
           done();
         });
     });
-    it('should not login a user with any information other than username/email) and password', (done) => {
-      const user = { username: 'foo', password: 'bar', role: 'admin' };
+    it('should not login a user with any information other than username/email and password', (done) => {
+      const user = { usernameEmail: 'foo', password: 'bar', role: 'admin' };
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
         .send(user)
@@ -264,7 +264,7 @@ describe('User Endpoints', () => {
     });
 
     it('should not login a user with correct username/email but incorrect password', (done) => {
-      const user = { username: 'bobo', password: 'bar' };
+      const user = { usernameEmail: 'bobo', password: 'bar' };
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
         .send(user)
@@ -277,7 +277,7 @@ describe('User Endpoints', () => {
     });
 
     it('should successfully login an existing user with valid username and password', (done) => {
-      const user = { username: 'bobo', password: 'Password!2' };
+      const user = { usernameEmail: 'bobo', password: 'Password!2' };
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
         .send(user)
@@ -285,13 +285,14 @@ describe('User Endpoints', () => {
           res.status.should.equal(200);
           res.body.status.should.equal('success');
           res.body.should.have.property('message').eql('Login successful');
+          res.body.should.have.property('user');
           res.body.should.have.property('token');
           done();
         });
     });
 
     it('should successfully login an existing user with valid email and password', (done) => {
-      const user = { email: 'bobo@gmail.com', password: 'Password!2' };
+      const user = { usernameEmail: 'bobo@gmail.com', password: 'Password!2' };
       chai.request(server(orderC, userC, menuC))
         .post('/api/v1/auth/login')
         .send(user)
@@ -299,6 +300,7 @@ describe('User Endpoints', () => {
           res.status.should.equal(200);
           res.body.status.should.equal('success');
           res.body.should.have.property('message').eql('Login successful');
+          res.body.should.have.property('user');
           res.body.should.have.property('token');
           done();
         });

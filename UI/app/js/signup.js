@@ -47,9 +47,6 @@ password2.oninput = () => {
   password2Err.innerHTML = password2.value === password.value ? '' : 'Passwords don\'t match';
 };
 
-const localhost = 'http://localhost:9999/api/v1';
-// COMMENT ABOVE AND UNCOMMENT BELOW FOR HEROKU
-// const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 signupBtn.onmouseover = () => {
   if (emailErr.innerHTML !== '' || passwordErr.innerHTML !== '' || password2Err.innerHTML !== '') {
     signupBtn.style.opacity = 0.6;
@@ -59,13 +56,20 @@ signupBtn.onmouseover = () => {
   }
 };
 
+let host = '';
+if (process.env.NODE_ENV === 'local') {
+  host = 'http://localhost:9999/api/v1';
+} else {
+  host = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+}
+
 signupBtn.onclick = () => {
   if (emailErr.innerHTML !== '' || passwordErr.innerHTML !== '' || password2Err.innerHTML !== '') {
     usernameErr.innerHTML = 'Please correct the errors in red below';
   } else {
     const username = name.value;
     usernameErr.innerHTML = '';
-    const req = new Request(`${localhost}/auth/signup`, {
+    const req = new Request(`${host}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

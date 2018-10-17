@@ -87,22 +87,23 @@ export default class {
     * @returns {object} user object
     */
   async login(req) {
-    const { email, username, password } = req.body;
-    if ((!username && !email) || !password || Object.keys(req.body).length > 2) {
+    const { usernameEmail, password } = req.body;
+    if ((!usernameEmail) || !password || Object.keys(req.body).length > 2) {
       return { status: 'fail', statusCode: 400, message: 'Please login with either (username or email) and password' };
     }
-    if (username) username.trim().toLowerCase();
+    if (usernameEmail) usernameEmail.trim().toLowerCase();
     const text = 'SELECT * FROM users WHERE email = $1 OR username = $1';
     try {
       const { rows } = await this.db.query(
-        text, [username || email.trim().toLowerCase()],
+        text, [usernameEmail.trim().toLowerCase()],
       );
       if (!rows[0] || !this.auth.comparePassword(password, rows[0].password)) {
         return { status: 'fail', statusCode: 400, message: 'The credentials you provided are incorrect' };
       }
       const token = this.auth.generateToken(rows[0].userid, rows[0].role);
+      rows[0].password = undefined;
       return {
-        status: 'success', statusCode: 200, message: 'Login successful', token,
+        status: 'success', statusCode: 200, message: 'Login successful', user: rows[0], token,
       };
     } catch (error) {
       return { status: 'fail', statusCode: 500, error: error.message };
