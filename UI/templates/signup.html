@@ -31,16 +31,21 @@
 			<br>
 			<div id="signupForm">
 					<form>
+						<i style="color: red; text-shadow: 1.2px 1.2px 1px black;">All fields below are required</i>
 						<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-						<label for="userName">Username</label>
-							<input id="userName" name="userName" placeholder="Enter a username" autocomplete="off" autofocus>
+						<div id="usernameErr"></div>
+						<label for="username">Username</label>
+							<input id="username" name="username" placeholder="Enter a username" autocomplete="off" autofocus required>
 						<label for="email">Email</label>
-							<input id="email" name="email" type="email" placeholder="Enter your email address">
-						<label for="password">Password</label>
-							<input id="password" name="password" type="password" placeholder="Create your password">
-						<label for="password2">Confirm Password</label>
-							<input id="password2" name="password2" type="password" placeholder="Retype your password">
-						<button id="signupBtn">Create Account</button>
+							<input id="email" name="email" type="email" placeholder="Enter your email address" required>
+							<div id="emailErr"></div>
+							<label for="password">Password</label>
+							<input id="password" name="password" type="password" placeholder="Create your password" required>
+							<div id="passwordErr"></div>
+							<label for="password2">Confirm Password</label>
+							<input id="password2" name="password2" type="password" placeholder="Retype your password" required>
+							<div id="password2Err"></div>
+						<button id="signupBtn" type="button">Create Account</button>
 						<span class="white">Already registered? <a href="./login">Login</a> instead</span>
 					</form>
 				</div>
@@ -51,7 +56,8 @@
         <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
-    </footer>
+		</footer>
 		<script src="../js/scripts.js"></script>
+		<script src="../app/js/user.js" type="module"></script>
 	</body>
 </html>

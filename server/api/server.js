@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import path from 'path';
 import AuthC from './controllers/authController';
 
 // OrdersController intance must be created and passed from outside
@@ -69,6 +70,40 @@ export default (orderC, userC, menuC) => {
     .catch(err => res.status(err.statusCode || 500).json(err)));
 
   server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
+
+  // ==========POWER FRONT-END PAGES===============//
+  const uiPath = path.join(__dirname, '../../UI');
+  server.use(express.static(uiPath));
+
+  server.get('/', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/index.html`);
+  });
+  server.get('/index', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/index.html`);
+  });
+  server.get('/userIndex', (_req, res) => {
+    res.sendFile(`${uiPath}/app/userTemplates/userIndex.html`);
+  });
+
+  server.get('/menu', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/menu.html`);
+  });
+  server.get('/userMenu', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/userMenu.html`);
+  });
+
+  server.get('/signup', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/signup.html`);
+  });
+  server.get('/login', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/login.html`);
+  });
+  server.get('/admin', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/admin.html`);
+  });
+  server.get('/history', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/history.html`);
+  });
 
   // CATCH ALL OTHER ROUTES
   server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
