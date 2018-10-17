@@ -8,7 +8,5 @@ document.addEventListener('DOMContentLoaded', () => {
         me.textContent = name;
       });
     }
-  } else {
-    window.location.href = '../../templates/menu.html';
   }
 });
