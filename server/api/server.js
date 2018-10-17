@@ -1,6 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
-import path from 'path'
+import path from 'path';
 import AuthC from './controllers/authController';
 
 // OrdersController intance must be created and passed from outside
@@ -71,9 +71,7 @@ export default (orderC, userC, menuC) => {
 
   server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
 
-    // ==========POWER FRONT-END PAGES===============//
-
-
+  // ==========POWER FRONT-END PAGES===============//
   const uiPath = path.join(__dirname, '../../UI');
   server.use(express.static(uiPath));
 
@@ -83,8 +81,15 @@ export default (orderC, userC, menuC) => {
   server.get('/index', (_req, res) => {
     res.sendFile(`${uiPath}/templates/index.html`);
   });
+  server.get('/userIndex', (_req, res) => {
+    res.sendFile(`${uiPath}/app/userTemplates/userIndex.html`);
+  });
+
   server.get('/menu', (_req, res) => {
     res.sendFile(`${uiPath}/templates/menu.html`);
+  });
+  server.get('/userMenu', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/userMenu.html`);
   });
 
   server.get('/signup', (_req, res) => {
