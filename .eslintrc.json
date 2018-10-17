@@ -10,6 +10,7 @@
 			"document": true,
 			"alert": true,
 			"fetch": true,
-			"Request": true
+			"Request": true,
+			"localStorage": true
     }
 }

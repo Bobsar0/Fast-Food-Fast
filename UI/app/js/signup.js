@@ -1,5 +1,6 @@
-// IMPLEMENT SIGNUP
+// CONSUME SIGNUP ENDPOINT
 const signupBtn = document.getElementById('signupBtn');
+const name = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
@@ -8,16 +9,6 @@ const usernameErr = document.querySelector('div#usernameErr');
 const emailErr = document.querySelector('div#emailErr');
 const passwordErr = document.querySelector('div#passwordErr');
 const password2Err = document.querySelector('div#password2Err');
-
-// let msg = '';
-
-// function appendErrMsg(errDiv, errMsg) {
-//   const para = document.createElement('P');
-//   para.innerText = errMsg;
-//   errDiv.appendChild(para);
-//   console.log('errdiv:', errDiv);
-// }
-
 
 /**
  * isValidPassword method
@@ -40,8 +31,13 @@ function isValidPassword(value) {
   return 'true';
 }
 
+name.onchange = () => {
+  password2Err.innerHTML = '';
+};
 email.onchange = () => {
   emailErr.innerHTML = /\S+@\S+\.\S+/.test(email.value) ? '' : 'Please enter a valid email';
+  usernameErr.innerHTML = '';
+  password2Err.innerHTML = '';
 };
 password.onchange = () => {
   passwordErr.innerHTML = isValidPassword(password.value) === 'true' ? '' : isValidPassword(password.value);
@@ -54,11 +50,20 @@ password2.oninput = () => {
 const localhost = 'http://localhost:9999/api/v1';
 // COMMENT ABOVE AND UNCOMMENT BELOW FOR HEROKU
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+signupBtn.onmouseover = () => {
+  if (emailErr.innerHTML !== '' || passwordErr.innerHTML !== '' || password2Err.innerHTML !== '') {
+    signupBtn.style.opacity = 0.6;
+  } else {
+    signupBtn.style.opacity = 1;
+    signupBtn.style.cursor = 'pointer';
+  }
+};
+
 signupBtn.onclick = () => {
   if (emailErr.innerHTML !== '' || passwordErr.innerHTML !== '' || password2Err.innerHTML !== '') {
-    usernameErr.innerHTML = 'Please correct the browser errors in red below';
+    usernameErr.innerHTML = 'Please correct the errors in red below';
   } else {
-    const username = document.getElementById('username').value;
+    const username = name.value;
     usernameErr.innerHTML = '';
     const req = new Request(`${localhost}/auth/signup`, {
       method: 'POST',
@@ -68,27 +73,24 @@ signupBtn.onclick = () => {
       // mode: 'no-cors',
       body: JSON.stringify({ username, email: email.value, password: password.value }),
     });
-    console.log('req:', req);
-
     fetch(req).then(resp => resp.json().then((res) => {
-      console.log('SUCCESSFUL:', res);
       if (res.status === 'fail') {
         password2Err.innerHTML = res.message;
       }
       if (res.status === 'success' && res.token) {
-        password2Err.innerHTML = `<span style='color: green'>${res.message}</span>`;
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('username', res.user.username);
+        password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}</span>`;
+
         setTimeout(() => {
-          window.location.href = '../../templates/menu.html';
+          window.location.href = '../../templates/userMenu.html';
         }, 2000);
       }
-    })
-      .catch((err) => {
-        console.log('error in signup:', err);
-        password2Err.innerHTML = err.message;
-      }))
+    }).catch((err) => {
+      password2Err.innerHTML = err.message;
+    }))
       .catch(((fetchErr) => {
-        console.log('error in fetching api:', fetchErr);
-        usernameErr.innerHTML = fetchErr;
+        usernameErr.innerHTML = `Error: ${fetchErr}... Offline?`;
       }));
   }
 };
