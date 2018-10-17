@@ -15,5 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
 const logout = document.getElementById('logout');
 logout.addEventListener('click', () => {
   localStorage.clear();
-  window.location.href = '../../templates/index.html';
+  window.location.href = '/';
 });
