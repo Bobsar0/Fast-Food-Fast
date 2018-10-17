@@ -10,3 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+// IMPLEMENT LOGOUT
+const logout = document.getElementById('logout');
+logout.addEventListener('click', () => {
+  localStorage.clear();
+  window.location.href = '../../templates/index.html';
+});
