@@ -217,6 +217,9 @@ checkoutBtn.onclick = () => {
   count = 0;
   totalItems.innerHTML = 0;
   if (totalPrice > 0) {
+    msg.innerHTML = `<span style="color: green"><b>Your order has been successfully placed!</b></span>
+    <br> We will contact you shortly with further details.`;
+    displayModal(generalModal, span1);
     totalPrice = 0;
     total.innerHTML = totalPrice.toFixed(2);
 
