@@ -482,42 +482,43 @@
         
     <div class="responsive">
 			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks" id="img12">
-          
+        <div class="flip-box">
+          <div class="flip-box-inner">
+            <div class="flip-box-front">
+              <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks" id="img12">
+      
+            </div>
+            <div class="flip-box-back">
+              <h2>Description:</h2>
+              <p>Chilled soft drinks.</p>
+            </div>
+          </div>
         </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Chilled soft drinks.</p>
-        </div>
-      </div>
-  </div>
-  <div class="desc">
-            <h1 id="item12">Soft drinks</h1>
-            <p class="price" id="price12">NGN 150.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty12">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="cartBtn" id="btn12">Add to Cart</button>
+        <div class="desc">
+          <h1 id="item12">Soft drinks</h1>
+          <p class="price" id="price12">NGN 150.00</p>
+          <p><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p>
+            Select Quantity: 
+              <select id="selectQty12">
+                <option id="qty01">1</option>
+                <option id="qty02">2</option>
+                <option id="qty03">3</option>
+                <option id="qty04">4</option>
+                <option id="qty05">5</option>
+                <option id="qty06">6</option>
+              </select>
+          </p>
+          <button class="cartBtn" id="btn12">Add to Cart</button>
         </div>			
       </div>
     </div> 
+
     <div class="clearfix"></div>
   </section>
 
@@ -527,41 +528,41 @@
 
   <div class="responsive">
     <div class="gallery">
-        <div class="flip-box">
-            <div class="flip-box-inner">
-              <div class="flip-box-front">
-          <img src="../imgs/combo/delicacy.jpg" alt="special_rice" id="img15">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Delicious rice made specially with vegetarians in mind.</p>
+      <div class="flip-box">
+        <div class="flip-box-inner">
+          <div class="flip-box-front">
+            <img src="../imgs/combo/delicacy.jpg" alt="special_rice" id="img15">
+          </div>
+          <div class="flip-box-back">
+            <h2>Description:</h2>
+            <p>Delicious rice made specially with vegetarians in mind.</p>
+          </div>
         </div>
       </div>
+      <div class="desc">
+          <h1 id="item15">Special Veggie Rice</h1>
+          <p class="price" id="price15">NGN 1500.00</p>
+          <p><span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p>
+            Select Quantity: 
+              <select id="selectQty15">
+                <option id="qty01">1</option>
+                <option id="qty02">2</option>
+                <option id="qty03">3</option>
+                <option id="qty04">4</option>
+                <option id="qty05">5</option>
+                <option id="qty06">6</option>
+              </select>
+          </p>
+          <button class="cartBtn" id="btn15">Add to Cart</button>
+      </div>
+    </div>
   </div>
-          <div class="desc">
-            <h1 id="item15">Special Veggie Rice</h1>
-            <p class="price" id="price15">NGN 1500.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty15">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="cartBtn" id="btn15">Add to Cart</button>
-        </div>
-      </div>
-    </div> 
       
     <div class="responsive">
 			<div class="gallery">
@@ -692,9 +693,9 @@
   </section> 
 
 <!--ORDER HISTORY-->
-<div style="display: none" class="last">
+<div class="last">
   <div class="menu" id="history" style="padding-bottom: 10px">
-    <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
+    <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Recent Order History</i></h1>
     <ul id="hist"></ul>
   </div>
   <div>
@@ -703,9 +704,9 @@
       <tr>
         <th>Date</th>
         <th>Item</th>
+        <th>Name</th>
         <th>Quantity</th>
         <th>Price</th>
-        <th>Action</th>
       </tr>
       </thead>
     </table>
@@ -732,6 +733,7 @@
         <h3>
           TOTAL PRICE: NGN <span id="totalPrice">0.00</span>
         </h3>
+        <div id="cartErr" class="err"></div>
         <button type="submit" id="checkoutBtn">Submit Order</button>
       </div>
     </div>
