@@ -1,3 +1,8 @@
+const localhost = 'http://localhost:9999/api/v1';
+// UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
+// const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+
+
 /** **BUY NOW & ADD TO CART IMPLEMENTATION*** */
 const buyBtns = document.getElementsByClassName('buyBtn');
 
@@ -88,7 +93,46 @@ function displayModal(modal, span1) {
       }
       if (!phone.value || phone.value === 'null') {
         buyErr.innerHTML = 'Please fill in your phone number';
+        return;
       }
+
+      const req = new Request(`${localhost}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': localStorage.token,
+        },
+        body: JSON.stringify({
+          name, quantity, address: address.value, phone: phone.value,
+        }),
+      });
+      fetch(req).then((resp) => {
+        resp.json().then((res) => {
+          if (res.error) {
+            msg.innerHTML = `<p style="color: red">Error: ${res.error.message || res.error}</p>`;
+            displayModal(generalModal, span1);
+          } else if (res.status === 'fail') {
+            buyErr.innerHTML = `<p>${res.message}</p>`;
+          } else if (res.status === 'success') {
+            msg.innerHTML = `<span style="color: green"><b>${res.message}!</b></span>
+            <h4 style="text-decoration: underline"> YOUR ORDER DETAILS: </h4>
+            <p><span style="color: blue">Order ID</span>: <b>${res.order.orderid}</b></p>
+            <span style="color: blue">Food</span>: <b>${res.order.food}</b>
+            <p><span style="color: blue">Quantity</span>: <b>${res.order.quantity}</b></p>
+            <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
+            <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
+            <h6 style="color: red"><i>For any queries, contact us on 08146509343 and quote your Order ID.</i></h6>`;
+
+            displayModal(generalModal, span1);
+          }
+        }).catch((err) => {
+          console.log('err in json:', err);
+          buyErr.innerHTML = `${err.message}`;
+        });
+      }).catch((fetchErr) => {
+        console.error('err in fetch:', fetchErr);
+        buyErr.innerHTML = `${fetchErr.message}`;
+      });
     };
   });
 });
@@ -288,10 +332,6 @@ checkoutBtn.onclick = () => {
   }
   cartErr.innerHTML = '';
   if (totalPrice > 0) {
-    const localhost = 'http://localhost:9999/api/v1';
-    // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
-    // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
-
     if (!orders) {
       orders = JSON.parse(localStorage.orders);
     }
@@ -300,8 +340,6 @@ checkoutBtn.onclick = () => {
       foodArray = JSON.parse(localStorage.foodArray);
     }
 
-    const body = { foodArray, address: address.value, phone: phone.value };
-    console.log('body:', body, JSON.stringify(body));
     const req = new Request(`${localhost}/orders`, {
       method: 'POST',
       headers: {
@@ -336,7 +374,7 @@ checkoutBtn.onclick = () => {
           <p><span style="color: blue">Total Quantity</span>: <b>${res.order.quantity}</b></p>
           <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
           <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
-          <h6 style="color: red"><i>Please store your Order ID for reference purposes.</i></h6>`;
+          <h6 style="color: red"><i>Please note your Order ID for any correspondence related to this order.</i></h6>`;
 
           msg.appendChild(div);
           displayModal(generalModal, span1);

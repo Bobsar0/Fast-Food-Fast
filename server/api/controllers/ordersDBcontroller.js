@@ -28,14 +28,14 @@ export default class OrderDBController {
             throw new Error('Please enter a valid name for your food');
           }
           const foodName = name.trim().toUpperCase();
-          const res = await this.db.query('SELECT * from menu WHERE food = $1', [foodName]);
+          const res = await this.db.query('SELECT * from menu WHERE name = $1', [foodName]);
 
           if (res.rowCount === 0) {
             throw new Error(`Sorry, ${foodName} is not available on the menu. Contact us on 08146509343 if needed urgently`);
           }
           const totalPrice = Number(res.rows[0].price) * Number(quantity);
           values = [
-            foodName,
+            JSON.stringify(foodName),
             quantity,
             totalPrice,
             'NEW',
@@ -107,6 +107,7 @@ export default class OrderDBController {
       returning *`;
       try {
         const { rows } = await this.db.query(insertQuery, values);
+        console.log('rows:', rows);
         rows[0].food = JSON.parse(rows[0].food);
         rows[0].orderid = `#${rows[0].userid}FFF${rows[0].orderid}`;
         return {

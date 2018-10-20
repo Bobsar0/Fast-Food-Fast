@@ -255,13 +255,14 @@ th, td {
     color: black;
 } 
 
-#userAddr, #userPhone{
+#userAddr, #userPhone,
+#buyNowAddr, #buyNowPhone{
     height: 36px;
     width: 300px;
     font-size: 16px;
     padding: 10px;
     border: 0;
-    font: bold
+    font: bold;
 }
 
 /* Pagination links */
