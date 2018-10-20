@@ -48,11 +48,14 @@ loginBtn.onclick = () => {
       if (res.status === 'success' && res.token) {
         localStorage.setItem('token', res.token);
         localStorage.setItem('username', res.user.username);
+        localStorage.setItem('address', res.user.address);
+        localStorage.setItem('phone', res.user.phone);
+        localStorage.setItem('email', res.user.email);
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}...redirecting</span>`;
 
         setTimeout(() => {
           window.location.href = '../../templates/userMenu.html';
-        }, 1000);
+        }, 500);
       }
     }).catch((err) => {
       password2Err.innerHTML = err.message;
