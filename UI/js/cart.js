@@ -3,8 +3,7 @@ const localhost = 'http://localhost:9999/api/v1';
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
 
-/** **BUY NOW & ADD TO CART IMPLEMENTATION*** */
-const buyBtns = document.getElementsByClassName('buyBtn');
+/** ADD TO CART IMPLEMENTATION*** */
 
 const cartBtns = document.getElementsByClassName('cartBtn');
 const cartTable = document.getElementById('cartTable');
@@ -34,10 +33,10 @@ function appendtoTable(cellArr, tr, tableName) {
   tableName.appendChild(tr); // append to table
 }
 
-function displayModal(modal, span1) {
+function displayModal(modal, close) {
   modal.style.display = 'block';
   // Close the modal when the user clicks on <span> (x)
-  span1.onclick = () => {
+  close.onclick = () => {
     modal.style.display = 'none';
   };
   // Also close when anywhere in the window is clicked
@@ -48,96 +47,6 @@ function displayModal(modal, span1) {
   };
 }
 
-// BUY NOW - SINGLE ITEM PURCHASE
-[...buyBtns].forEach((buyBtn) => {
-  buyBtn.addEventListener('click', () => {
-    if (!document.getElementById('menuWelcome').textContent.includes('Welcome ')) {
-      // open modal asking user to sign up
-      msg.innerHTML = ('Please <a href="/signup"><b>signup</b></a> or <a href="/login"><b>login</b></a> to continue with this purchase');
-      displayModal(generalModal, span1);
-      return;
-    }
-    const btnID = buyBtn.id;
-    // the last 2-digits in the id corresponds to the last digit in btnID
-    const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
-    const quantity = Number(document.querySelector(`select#selectQty${btnID.slice(-2)}`).value);
-    let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
-    price = quantity * Number(price.slice(4));
-
-    // Open a modal
-    msg.innerHTML = `Please fill in your contact details below and confirm order purchase of 
-    <b>${quantity}x ${name}</b> for <b>NGN ${price}.00</b>
-        <p><b>Address: <input type="text" placeholder="Please enter your delivery address" id="buyNowAddr"></b></p>
-        <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number" id="buyNowPhone"></b></p>
-
-        <p class="err" id="buyErr"><p>
-        <button id="buyCheckoutBtn">Submit Order</button>`;
-
-    const address = document.getElementById('buyNowAddr');
-    const phone = document.getElementById('buyNowPhone');
-    if (localStorage.address) {
-      address.value = localStorage.getItem('address');
-    }
-    if (localStorage.phone) {
-      phone.value = localStorage.getItem('phone');
-    }
-
-    displayModal(generalModal, span1);
-
-    document.getElementById('buyCheckoutBtn').onclick = () => {
-      const buyErr = document.getElementById('buyErr');
-      buyErr.innerHTML = '';
-      if (!address.value || address.value === 'null') {
-        buyErr.innerHTML = 'Please fill in your delivery address';
-        return;
-      }
-      if (!phone.value || phone.value === 'null') {
-        buyErr.innerHTML = 'Please fill in your phone number';
-        return;
-      }
-
-      const req = new Request(`${localhost}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': localStorage.token,
-        },
-        body: JSON.stringify({
-          name, quantity, address: address.value, phone: phone.value,
-        }),
-      });
-      fetch(req).then((resp) => {
-        resp.json().then((res) => {
-          if (res.error) {
-            msg.innerHTML = `<p style="color: red">Error: ${res.error.message || res.error}</p>`;
-            displayModal(generalModal, span1);
-          } else if (res.status === 'fail') {
-            buyErr.innerHTML = `<p>${res.message}</p>`;
-          } else if (res.status === 'success') {
-            msg.innerHTML = `<span style="color: green"><b>${res.message}!</b></span>
-            <h4 style="text-decoration: underline"> YOUR ORDER DETAILS: </h4>
-            <p><span style="color: blue">Order ID</span>: <b>${res.order.orderid}</b></p>
-            <span style="color: blue">Food</span>: <b>${res.order.food}</b>
-            <p><span style="color: blue">Quantity</span>: <b>${res.order.quantity}</b></p>
-            <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
-            <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
-            <h6 style="color: red"><i>For any queries, contact us on 08146509343 and quote your Order ID.</i></h6>`;
-
-            displayModal(generalModal, span1);
-          }
-        }).catch((err) => {
-          console.log('err in json:', err);
-          buyErr.innerHTML = `${err.message}`;
-        });
-      }).catch((fetchErr) => {
-        console.error('err in fetch:', fetchErr);
-        buyErr.innerHTML = `${fetchErr.message}`;
-      });
-    };
-  });
-});
-
-// *** ADD TO CART IMPLEMENTATION ***/
 // orders with price for cart manipulation
 let orders = [];
 // Array to send to server
