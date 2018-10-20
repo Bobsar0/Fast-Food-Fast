@@ -32,10 +32,12 @@ export default class {
   //     orders(
   //       orderId SERIAL PRIMARY KEY,
   //       userId INTEGER NOT NULL,
-  //       name VARCHAR(128) NOT NULL,
-  //       quantity INTEGER NOT NULL,
-  //       price INTEGER NOT NULL,
-  //       status VARCHAR(64),
+  //       food VARCHAR(512) NOT NULL,
+  //       quantity INTEGER,
+  //       price INTEGER,
+  //       address TEXT NOT NULL,
+  //       phone VARCHAR (20),
+  //       status VARCHAR(20),
   //       created_date TIMESTAMP default NOW(),
   //       modified_date TIMESTAMP default NOW(),
   //       FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
@@ -87,7 +89,7 @@ export default class {
   // createMenuTable() {
   //   const queryText = `CREATE TABLE IF NOT EXISTS
   //     menu(
-  //       productId SERIAL PRIMARY KEY,
+  //       foodId SERIAL PRIMARY KEY,
   //       name VARCHAR(128) UNIQUE NOT NULL,
   //       price INTEGER NOT NULL,
   //       genre VARCHAR(16) NOT NULL,
