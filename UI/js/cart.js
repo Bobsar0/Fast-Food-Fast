@@ -1,4 +1,8 @@
-/** **ADD TO CART IMPLEMENTATION*** */
+/** **BUY NOW & ADD TO CART IMPLEMENTATION*** */
+const buyBtns = document.getElementsByClassName('buyBtn');
+const buyCheckoutBtn = document.getElementById('buyCheckoutBtn');
+const buyErr = document.getElementById('cartErr');
+
 const cartBtns = document.getElementsByClassName('cartBtn');
 const cartTable = document.getElementById('cartTable');
 const cartErr = document.getElementById('cartErr');
@@ -46,6 +50,46 @@ let orders = [];
 let foodArray = [];
 // Assign count to each event
 let count = 0;
+
+// BUY NOW - SINGLE ITEM PURCHASE
+[...buyBtns].forEach((buyBtn) => {
+  buyBtn.addEventListener('click', () => {
+    if (!document.getElementById('menuWelcome').textContent.includes('Welcome ')) {
+      // open modal asking user to sign up
+      msg.innerHTML = ('Please <a href="/signup"><b>signup</b></a> or <a href="/login"><b>login</b></a> to continue with this purchase');
+      displayModal(generalModal, span1);
+      return;
+    }
+    const btnID = buyBtn.id;
+    // the last 2-digits in the id corresponds to the last digit in btnID
+    const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
+    const quantity = Number(document.querySelector(`select#selectQty${btnID.slice(-2)}`).value);
+    let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
+    price = quantity * Number(price.slice(4));
+
+    // Create a cancel order button
+    const cancelBtn = document.createElement('BUTTON');
+    cancelBtn.className = 'cancelOdr';
+    // cancelBtn.id = `cancelOdr${count}`;
+    const cancel = document.createTextNode('Cancel Order Item');
+    cancelBtn.appendChild(cancel);
+
+    // Open a modal
+    msg.innerHTML = `Please fill in your contact details below and confirm order purchase of 
+    <b>${quantity}x ${name}</b> for <b>NGN ${price}.00</b>
+        <p><b>Address: <input type="text" placeholder="Please enter your delivery address" id="userAddr"></b></p>
+        <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number" id="userPhone"></b></p>
+
+        <p class="err" id="buyErr"><p>
+        <button type="submit" id="buyCheckoutBtn">Submit Order</button>`;
+
+    displayModal(generalModal, span1);
+  });
+});
+
+const address = document.getElementById('userAddr');
+const phone = document.getElementById('userPhone');
+
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
 Array.prototype.forEach.call(cartBtns, (cartBtn) => {
   cartBtn.addEventListener('click', () => {
@@ -194,9 +238,6 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 const modal = document.getElementById('modalDiv'); // Get the modal
 const cart = document.getElementById('cartInfo'); // Get the cart that opens the modal
 const span = document.getElementsByClassName('close')[0]; // Get the <span> element that closes the modal
-
-const address = document.getElementById('userAddr');
-const phone = document.getElementById('userPhone');
 
 // Open the modal when the user clicks on the cart,
 cart.onclick = () => {
