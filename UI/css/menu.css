@@ -271,3 +271,7 @@ th, td {
 
 /* Add a grey background color on mouse-over */
 .pagination a:hover:not(.current) {background-color: #cccccc;}
+
+.err{
+    color: red;
+}

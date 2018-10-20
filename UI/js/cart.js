@@ -1,6 +1,7 @@
 /** **ADD TO CART IMPLEMENTATION*** */
 const cartBtns = document.getElementsByClassName('cartBtn');
 const cartTable = document.getElementById('cartTable');
+const cartErr = document.getElementById('cartErr');
 const checkoutBtn = document.getElementById('checkoutBtn');
 
 const generalModal = document.getElementById('generalModal');
@@ -39,7 +40,10 @@ function displayModal(modal, span1) {
     }
   };
 }
-const orders = [];
+// orders with price for cart manipulation
+let orders = [];
+// Array to send to server
+let foodArray = [];
 // Assign count to each event
 let count = 0;
 // Listen for a click event on each 'Add to Cart' button and append order info to shopping cart
@@ -61,12 +65,14 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
 
     orders.forEach((order) => {
       if (order.name === name) {
-        // remove everything associated with order to be re-added later
+        // remove everything associated with similar order of which updated one will be re-added
         count -= 1;
         quantity += order.quantity;
         price += order.price;
         totalPrice -= order.price;
-        orders.splice(orders.indexOf(order, 1));
+        const i = orders.indexOf(order);
+        orders.splice(i, 1);
+        foodArray.splice(i, 1);
 
         trArr.forEach((tr) => {
           if (tr.textContent.includes(order.name)) {
@@ -84,15 +90,24 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
         });
       }
     });
-    // Add new or updated item to orders
+    // Add new or updated item to orders and foodArray
     orders.push({ name, quantity, price });
+    foodArray.push({ name, quantity });
+
+    // cart item quantity update
+    let qty = 0;
+    orders.forEach((order) => {
+      if (order.name === name) {
+        qty = order.quantity;
+      }
+    });
 
     totalPrice += Number(price);
     total.innerHTML = totalPrice.toFixed(2);
     localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
 
     // Open a modal
-    msg.innerHTML = (`<b>${quantity}x ${name}</b> successfully added to cart`);
+    msg.innerHTML = (`<b>${qty}x ${name}</b> successfully added to cart`);
     displayModal(generalModal, span1);
 
     count += 1;
@@ -102,8 +117,8 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
     // Create contents for the table data cells in each row
     const cartImg = img.cloneNode();
 
-    cartImg.style.height = '100px';
-    cartImg.style.width = '100px';
+    cartImg.style.height = '80px';
+    cartImg.style.width = '80px';
 
     const cell1 = document.createTextNode(name);
     const cell2 = document.createTextNode(quantity);
@@ -124,13 +139,13 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
     trArr.push(tr);
     // Append cells to array (excluding count) to be used to fill orderHistory
     cartCellArr.push(cells);
-    // Add order to localStorage
-    // console.log('cartcell:', cartCellArr);
     localStorage.setItem('orders', JSON.stringify(orders));
     localStorage.setItem('cart', JSON.stringify(cartCellArr));
 
     // *** If cancel btn is clicked *** //
     cancelBtn.onclick = () => {
+      cartErr.innerHTML = '';
+      quantity = 0;
       count -= 1;
       totalItems.innerHTML = count;
       // remove row from cartTable
@@ -146,16 +161,20 @@ Array.prototype.forEach.call(cartBtns, (cartBtn) => {
         if (cell[cell.length - 1].id === cancelBtn.id) {
           // Delete cell
           cartCellArr.splice(cartCellArr.indexOf(cell), 1);
-          // remove row from order
+          // remove row from order and foodArray
           orders.forEach((order) => {
-            if (order.name === cell[1]) {
-              orders.splice(orders.indexOf(order), 1);
+            if (order.name === cell[1].textContent) {
+              const i = orders.indexOf(order);
+              orders.splice(i, 1);
+              foodArray.splice(i, 1);
             }
           });
         }
       });
+
       // update orders in localStorage
       localStorage.setItem('orders', JSON.stringify(orders));
+      localStorage.setItem('foodArray', JSON.stringify(foodArray));
 
       totalPrice -= Number(price);
       total.innerHTML = totalPrice.toFixed(2);
@@ -176,7 +195,6 @@ const modal = document.getElementById('modalDiv'); // Get the modal
 const cart = document.getElementById('cartInfo'); // Get the cart that opens the modal
 const span = document.getElementsByClassName('close')[0]; // Get the <span> element that closes the modal
 
-const cartErr = document.getElementById('cartErr');
 const address = document.getElementById('userAddr');
 const phone = document.getElementById('userPhone');
 
@@ -206,44 +224,103 @@ const orderHistory = document.getElementById('tableHistory');
 
 // CHECKOUT BUTTON
 checkoutBtn.onclick = () => {
-  if (!address.value) {
+  if (!address.value || address.value === 'null') {
     cartErr.innerHTML = 'Please fill in your delivery address';
     return;
   }
-  if (!address.value) {
+  if (!phone.value || address.value === 'null') {
     cartErr.innerHTML = 'Please fill in your phone number';
     return;
   }
-  count = 0;
-  totalItems.innerHTML = 0;
+  cartErr.innerHTML = '';
   if (totalPrice > 0) {
-    msg.innerHTML = `<span style="color: green"><b>Your order has been successfully placed!</b></span>
-    <br> We will contact you shortly with further details.`;
-    displayModal(generalModal, span1);
-    totalPrice = 0;
-    total.innerHTML = totalPrice.toFixed(2);
+    const localhost = 'http://localhost:9999/api/v1';
+    // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
+    // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
-    // Remove rows from cart table
-    trArr.forEach(((tr) => {
-      cartTable.removeChild(tr); // remove row from table
-    }));
-    // Clear trArr
-    trArr = [];
+    if (!orders) {
+      orders = JSON.parse(localStorage.orders);
+    }
 
-    // Record order in order history table
-    cartCellArr.forEach((cells) => {
-      // Add date as first element in cell
-      const date = document.createTextNode(`${new Date()}`);
-      cells.unshift(date);
-      const trHist = document.createElement('TR');
-      appendtoTable(cells, trHist, orderHistory);
+    if (!foodArray) {
+      foodArray = JSON.parse(localStorage.foodArray);
+    }
+
+    const body = { foodArray, address: address.value, phone: phone.value };
+    console.log('body:', body, JSON.stringify(body));
+    const req = new Request(`${localhost}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.token,
+      },
+      body: JSON.stringify({ foodArray, address: address.value, phone: phone.value }),
     });
-    // Clear cartCellArr
-    cartCellArr = [];
-    // Style button
-    checkoutBtn.style.backgroundColor = '#212121';
-    checkoutBtn.style.cursor = 'not-allowed';
-    checkoutBtn.style.color = 'goldenrod';
-    checkoutBtn.style.opacity = 0.6;
+    fetch(req).then((resp) => {
+      resp.json().then((res) => {
+        if (res.error) {
+          msg.innerHTML = `<p style="color: red">Error: ${res.error.message || res.error}</p>`;
+          displayModal(generalModal, span1);
+        } else if (res.status === 'fail') {
+          cartErr.innerHTML = `<p>${res.message}</p>`;
+        } else if (res.status === 'success') {
+          let i = 0;
+          msg.innerHTML = `<span style="color: green"><b>${res.message}!</b></span>
+          <h4 style="text-decoration: underline"> YOUR ORDER DETAILS: </h4>
+          <p><span style="color: blue">Order ID</span>: <b>${res.order.orderid}</b></p>`;
+
+          res.order.food.forEach((food) => {
+            const { name, quantity } = food;
+            i += 1;
+            const p = document.createElement('P');
+            p.innerHTML = `<span style="color: blue">Food${i}</span>: <b>${quantity}x ${name}</b>`;
+            msg.appendChild(p);
+          });
+
+          const div = document.createElement('DIV');
+          div.innerHTML = `  
+          <p><span style="color: blue">Total Quantity</span>: <b>${res.order.quantity}</b></p>
+          <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
+          <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
+          <h6 style="color: red"><i>Please store your Order ID for reference purposes.</i></h6>`;
+
+          msg.appendChild(div);
+          displayModal(generalModal, span1);
+
+          totalPrice = 0;
+          total.innerHTML = totalPrice.toFixed(2);
+          // Remove rows from cart table
+          trArr.forEach(((tr) => {
+            cartTable.removeChild(tr); // remove row from table
+          }));
+          // Clear trArr
+          trArr = [];
+
+          // Record order in order history table
+          cartCellArr.forEach((cells) => {
+            // Add date as first element in cell
+            const date = document.createTextNode(`${new Date()}`);
+            cells.unshift(date);
+            const trHist = document.createElement('TR');
+            appendtoTable(cells, trHist, orderHistory);
+          });
+          // Reset data
+          cartCellArr = [];
+          orders = [];
+          foodArray.length = 0;
+          count = 0;
+          totalItems.innerHTML = 0;
+          localStorage.removeItem(orders);
+          localStorage.removeItem(foodArray);
+          // Style button
+          checkoutBtn.style.backgroundColor = '#212121';
+          checkoutBtn.style.cursor = 'not-allowed';
+          checkoutBtn.style.color = 'goldenrod';
+          checkoutBtn.style.opacity = 0.6;
+        }
+      }).catch((err) => {
+        console.error('err in placing order:', err);
+      });
+    }).catch(fetchErr => console.error('fetcherr:', fetchErr));
   }
 };
