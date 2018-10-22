@@ -103,7 +103,7 @@ div.gallery img {
     font-size: 14px;
   }
 
-.cartBtn, #checkoutBtn{
+.cartBtn, .buyBtn, #buyCheckoutBtn, #checkoutBtn{
     border: none;
     outline: 0;
     padding: 12px;
@@ -112,13 +112,26 @@ div.gallery img {
     text-align: center;
     cursor: pointer;
     width: 100%;
-    font-size: 18px;
     margin-top: 10px;
 }
-.cartBtn:hover{
+
+#buyCheckoutBtn{
+    background-color: #2ec371;
+    color: white;
+}
+
+.buyBtn{
+    background-color: goldenrod;
+    color: black;
+    width: auto;
+    padding: 8px;
+}
+
+.buyBtn:hover, .cartBtn:hover{
     cursor: pointer;
     background-color: #2ec371;
     color:white;
+    font-size: 14px;
 }
 #totalItems{color: goldenrod;}
 
@@ -242,13 +255,14 @@ th, td {
     color: black;
 } 
 
-#userAddr, #userPhone{
+#userAddr, #userPhone,
+#buyNowAddr, #buyNowPhone{
     height: 36px;
     width: 300px;
     font-size: 16px;
     padding: 10px;
     border: 0;
-    font: bold
+    font: bold;
 }
 
 /* Pagination links */
@@ -271,3 +285,7 @@ th, td {
 
 /* Add a grey background color on mouse-over */
 .pagination a:hover:not(.current) {background-color: #cccccc;}
+
+.err{
+    color: red;
+}

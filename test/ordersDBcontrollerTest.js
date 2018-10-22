@@ -42,9 +42,6 @@ describe('Order and Menu Endpoints', () => {
     const admin = new User(
       'testAdmin', 'admin@gmail.com', 'Password!2', '080000000', 'Andela Epic tower',
     );
-    // const admin2 = new User(
-    //   'testAdmin2', 'admin2@gmail.com', 'Password!2', '081000000', 'Andela Epic tower',
-    // );
     admin.password = auth.hashPassword(admin.password);
     const createQuery = `INSERT INTO
     users(username, email, password, phone, address, role, created_date, modified_date)
@@ -66,24 +63,6 @@ describe('Order and Menu Endpoints', () => {
         adminToken = auth.generateToken(res.rows[0].userid, res.rows[0].role);
       })
       .catch(err => console.log('err in creating admin', err));
-
-    // const values2 = [
-    //   admin2.username,
-    //   admin2.email,
-    //   auth.hashPassword(admin2.password),
-    //   admin2.phone,
-    //   admin2.address,
-    //   'admin',
-    //   new Date(),
-    //   new Date(),
-    // ];
-    // db.query(createQuery, values2)
-    //   .then((res) => {
-    //     console.log('admin2 created successfully');
-    //     admin2Id = res.rows[0].userid;
-    //     admin2Token = auth.generateToken(admin2Id, res.rows[0].role);
-    //   })
-    //   .catch(err => console.log('err in creating admin2', err));
 
     const testUser = {
       username: 'BoboUser', email: 'user@gmail.com', password: 'Password!2', phone: '01234567890',
@@ -147,21 +126,6 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      // it('rejects token of a expired/deleted admin', (done) => {
-      //   const query = `DELETE FROM users WHERE userid = ${admin2Id}`;
-      //   db.query(query)
-      //     .then(() => console.log('Admin2 deleted successfully'))
-      //     .catch(err => console.log('Error in deleting admin2', err));
-      //   chai.request(server(orderC, userC, menuC))
-      //     .post(path)
-      //     .set({ 'x-access-token': admin2Token })
-      //     .end((err, res) => {
-      //       res.status.should.equal(404);
-      //       res.body.should.have.property('status').eql('fail');
-      //       res.body.should.have.property('message').eql('Admin details not found');
-      //       done();
-      //     });
-      // });
       it('rejects null request body', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
@@ -318,27 +282,50 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('rejects name parameter of null value', (done) => {
+      it('rejects request with incorrect parameters', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post('/api/v1/orders')
           .set({ 'x-access-token': userToken })
-          .send({ name: ' ' })
+          .send({ gibberish: 'xyz' })
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter the name of your order');
+            res.body.should.have.property('message').eql('Please place your order in the correct format. Refer to the API docs for more info.');
             done();
           });
       });
-      it('rejects quantity parameter of null value', (done) => {
+      it('rejects name parameter of null/invalid value for buy-now order', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post('/api/v1/orders')
           .set({ 'x-access-token': userToken })
-          .send({ name: 'Meatpie' })
+          .send({
+            name: ' ', quantity: 2, address: 'et', phone: '08123456789',
+          })
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter the quantity of your order');
+            res.body.should.have.property('message').eql('Please enter a valid name for your food');
+            done();
+          });
+      });
+      it('rejects name parameter of null/invalid value for Add-to-Cart order', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post('/api/v1/orders')
+          .set({ 'x-access-token': userToken })
+          .send({
+            cartArray: [{
+              name: '', quantity: '2',
+            },
+            {
+              name: 'Duck', quantity: '1',
+            }],
+            address: 'ET',
+            phone: '08123456789',
+          })
+          .end((err, res) => {
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Your cart object must have a \'name\' key of value type string');
             done();
           });
       });
@@ -346,7 +333,9 @@ describe('Order and Menu Endpoints', () => {
         chai.request(server(orderC, userC, menuC))
           .post('/api/v1/orders')
           .set({ 'x-access-token': userToken })
-          .send({ name: 'Meatpie', quantity: 'x' })
+          .send({
+            name: 'Meatpie', quantity: 'x', address: 'et', phone: '08123456789',
+          })
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
@@ -354,19 +343,62 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('rejects food not on the menu', (done) => {
+      it('rejects quantity parameter of null/invalid value for Add-to-Cart order', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post('/api/v1/orders')
           .set({ 'x-access-token': userToken })
-          .send({ name: 'Chicken', quantity: '2' })
+          .send({
+            cartArray: [{
+              name: 'Meatpie', quantity: 'x',
+            }],
+            address: 'ET',
+            phone: '08123456789',
+          })
           .end((err, res) => {
-            res.status.should.equal(404);
+            res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Sorry, Chicken is not available on the menu');
+            res.body.should.have.property('message').eql('Your cart object must have a \'quantity\' key of value type integer > 0');
             done();
           });
       });
-      const newOrder = { name: 'meatpie', quantity: 2 };
+      it('rejects food not on the menu for a buy-now order', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post('/api/v1/orders')
+          .set({ 'x-access-token': userToken })
+          .send({
+            name: ' Chicken', quantity: 2, address: 'ET', phone: '08123456789',
+          })
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Sorry, CHICKEN is not available in stock. Contact us on 08146509343 if needed urgently');
+            done();
+          });
+      });
+      it('rejects food not on the menu for an Add-to-Cart order', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post('/api/v1/orders')
+          .set({ 'x-access-token': userToken })
+          .send({
+            cartArray: [{
+              name: 'Blah', quantity: 2,
+            },
+            {
+              name: 'Duck', quantity: 1,
+            }],
+            address: 'ET',
+            phone: '08123456789',
+          })
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Sorry, BLAH is not available in stock. Contact us on 08146509343 if needed urgently');
+            done();
+          });
+      });
+      const newOrder = {
+        name: 'meatpie', quantity: 2, address: 'Andela', phone: '+2348123456789',
+      };
 
       it('rejects invalid token', (done) => {
         chai.request(server(orderC, userC, menuC))
@@ -380,7 +412,7 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('should allow a logged-in user to successfully create a new order', (done) => {
+      it('should allow a logged-in user to successfully create an immediate (buy-now) order', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post('/api/v1/orders')
           .set({ 'x-access-token': userToken })
@@ -394,10 +426,35 @@ describe('Order and Menu Endpoints', () => {
             res.body.should.have.property('order');
             res.body.order.should.have.property('orderid').eql(orderid);
             res.body.order.should.have.property('userid').eql(id);
-            res.body.order.should.have.property('name').eql('MEATPIE');
+            res.body.order.should.have.property('food').eql('MEATPIE');
             res.body.order.should.have.property('quantity').eql(newOrder.quantity);
             res.body.order.should.have.property('price').eql(600);
             res.body.order.should.have.property('status').eql('NEW');
+            res.body.order.should.have.property('address').eql('Andela');
+            res.body.order.should.have.property('phone').eql('+2348123456789');
+            done();
+          });
+      });
+
+      it('should allow a logged-in user to successfully create an order based on items in cart', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post('/api/v1/orders')
+          .set({ 'x-access-token': userToken })
+          .send({ cartArray: [{ name: 'Meatpie', quantity: 1 }, { name: 'meatpie', quantity: 2 }], address: 'ET', phone: '08123456789' })
+          .end((err, res) => {
+            const { orderid } = res.body.order;
+            res.status.should.equal(201);
+            res.body.should.have.property('status').eql('success');
+            res.body.should.have.property('message').eql('Order created successfully');
+            res.body.should.have.property('order');
+            res.body.order.should.have.property('orderid').eql(orderid);
+            res.body.order.should.have.property('userid').eql(id);
+            res.body.order.should.have.property('food');
+            res.body.order.should.have.property('quantity').eql(3);
+            res.body.order.should.have.property('price').eql(900);
+            res.body.order.should.have.property('status').eql('NEW');
+            res.body.order.should.have.property('address').eql('ET');
+            res.body.order.should.have.property('phone').eql('08123456789');
             done();
           });
       });
@@ -478,12 +535,12 @@ describe('Order and Menu Endpoints', () => {
       });
       it('rejects request with non-existent orderId', (done) => {
         chai.request(server(orderC, userC, menuC))
-          .get('/api/v1/orders/1000000')
+          .get('/api/v1/orders/100000000')
           .set({ 'x-access-token': adminToken })
           .end((err, res) => {
             res.status.should.equal(404);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Order with id 1000000 not found');
+            res.body.should.have.property('message').eql('Order with id 100000000 not found');
             done();
           });
       });

@@ -56,12 +56,10 @@ signupBtn.onmouseover = () => {
   }
 };
 
-let host = '';
-if (process.env.NODE_ENV === 'local') {
-  host = 'http://localhost:9999/api/v1';
-} else {
-  host = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
-}
+const localhost = 'http://localhost:9999/api/v1';
+// UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
+// const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+
 
 signupBtn.onclick = () => {
   if (emailErr.innerHTML !== '' || passwordErr.innerHTML !== '' || password2Err.innerHTML !== '') {
@@ -69,7 +67,7 @@ signupBtn.onclick = () => {
   } else {
     const username = name.value;
     usernameErr.innerHTML = '';
-    const req = new Request(`${host}/auth/signup`, {
+    const req = new Request(`${localhost}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,6 +82,9 @@ signupBtn.onclick = () => {
       if (res.status === 'success' && res.token) {
         localStorage.setItem('token', res.token);
         localStorage.setItem('username', res.user.username);
+        localStorage.setItem('address', res.user.address);
+        localStorage.setItem('phone', res.user.phone);
+
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}</span>`;
 
         setTimeout(() => {
