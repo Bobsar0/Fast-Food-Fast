@@ -95,19 +95,28 @@ An Order object has the following attributes:
 ### Create a New Order [POST]
 
 You may create your own order using this action. It takes a JSON
-payload containing food item parameters as part of the request and returns a response:
+payload containing food item parameters as part of the request which can be of two forms:
+
+For immediate purchase (buy-now) of a single food item
 
 + name (required, string) - The name of the food item.
 + quantity (required, number) - The quantity of the food item in the form of an integer.
-+ price (renumber) - The price of the food item in the form of an integer.
++ address (required, string) - The address to which the order would be delivered.
++ phone (required, string) - The phone number via which the customer can be contacted.
 
-A JSON payload request sample is shown below. The request returns a 201 status code, and a body containing the response.
+For add-to-cart purchase of one or more food items
+
++ foodArray (required array[object]) - A collection of food items as objects with name(string) and quantity(integer) pair.
++ address (required, string) - The address to which the order would be delivered.
++ phone (required, string) - The phone number via which the customer can be contacted.
 
 + Request (application/json)
 
         {
             "name": "Chicken Paella",
             "quantity": 3,
+            "address": "Somewhere",
+            "phone": "08123456789
         }
         
 + Response 201 (application/json)
@@ -119,12 +128,60 @@ A JSON payload request sample is shown below. The request returns a 201 status c
             "order": {
                 "orderid": 10,
                 "userid": 4,
-                "name": "CHICKEN PAELLA",
+                "food": "CHICKEN PAELLA",
                 "quantity": 3,
                 "price": 15000,
                 "status": "NEW",
                 "created_date": "2018-10-14T21:04:29.624Z",
-                "modified_date": "2018-10-14T21:04:29.624Z"
+                "modified_date": "2018-10-14T21:04:29.624Z",
+                "address": "Somewhere",
+                "phone": "08123456789,
+            }
+        }
+        
++ Request (application/json)
+
+        {
+            "cartArray":
+                            [
+                                {
+                                    "name": "Steak dish", 
+                                    "quantity": 2
+                                },
+                                {   "name":"whole chicken paella",
+                                    "quantity": 2
+                                }
+                            ],
+            "address": "Andela", 
+            "phone": "08123456789"
+        }
+        
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 201,
+            "message": "Order created successfully",
+            "order": {
+                "orderid": 48,
+                "userid": 4,
+                "food": [
+                    {
+                        "name": "STEAK DISH",
+                        "quantity": 2
+                    },
+                    {
+                        "name": "WHOLE CHICKEN PAELLA",
+                        "quantity": 2
+                    }
+                ],
+                "quantity": 4,
+                "price": 12000,
+                "address": "Andela",
+                "phone": "08123456789",
+                "status": "NEW",
+                "created_date": "2018-10-22T13:22:33.042Z",
+                "modified_date": "2018-10-22T13:22:33.042Z"
             }
         }
 
