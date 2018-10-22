@@ -84,6 +84,7 @@ signupBtn.onclick = () => {
         localStorage.setItem('username', res.user.username);
         localStorage.setItem('address', res.user.address);
         localStorage.setItem('phone', res.user.phone);
+        localStorage.setItem('id', res.user.userid);
 
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}</span>`;
 

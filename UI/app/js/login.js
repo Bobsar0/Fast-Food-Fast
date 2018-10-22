@@ -51,6 +51,8 @@ loginBtn.onclick = () => {
         localStorage.setItem('address', res.user.address);
         localStorage.setItem('phone', res.user.phone);
         localStorage.setItem('email', res.user.email);
+        localStorage.setItem('id', res.user.userid);
+
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}...redirecting</span>`;
 
         setTimeout(() => {
