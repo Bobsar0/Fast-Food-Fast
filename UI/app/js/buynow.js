@@ -90,7 +90,7 @@ function displayModal(modal, spanClass) {
           } else if (res.status === 'success') {
             info.innerHTML = `<span style="color: green"><b>${res.message}!</b></span>
             <h4 style="text-decoration: underline"> YOUR ORDER DETAILS: </h4>
-            <p><span style="color: blue">Order ID</span>: <b>${res.order.orderid}</b></p>
+            <p><span style="color: blue">Order ID</span>: <b>#${res.order.userid}FFF${res.order.orderid}</b></p>
             <span style="color: blue">Food</span>: <b>${res.order.food}</b>
             <p><span style="color: blue">Quantity</span>: <b>${res.order.quantity}</b></p>
             <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>

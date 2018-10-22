@@ -50,7 +50,7 @@ function displayModal(modal, close) {
 // orders with price for cart manipulation
 let orders = [];
 // Array to send to server
-let foodArray = [];
+let cartArray = [];
 // Assign count to each event
 let count = 0;
 
@@ -80,7 +80,7 @@ let count = 0;
         totalPrice -= order.price;
         const i = orders.indexOf(order);
         orders.splice(i, 1);
-        foodArray.splice(i, 1);
+        cartArray.splice(i, 1);
 
         trArr.forEach((tr) => {
           if (tr.textContent.includes(order.name)) {
@@ -98,9 +98,9 @@ let count = 0;
         });
       }
     });
-    // Add new or updated item to orders and foodArray
+    // Add new or updated item to orders and cartArray
     orders.push({ name, quantity, price });
-    foodArray.push({ name, quantity });
+    cartArray.push({ name, quantity });
 
     // cart item quantity update
     let qty = 0;
@@ -169,12 +169,12 @@ let count = 0;
         if (cell[cell.length - 1].id === cancelBtn.id) {
           // Delete cell
           cartCellArr.splice(cartCellArr.indexOf(cell), 1);
-          // remove row from order and foodArray
+          // remove row from order and cartArray
           orders.forEach((order) => {
             if (order.name === cell[1].textContent) {
               const i = orders.indexOf(order);
               orders.splice(i, 1);
-              foodArray.splice(i, 1);
+              cartArray.splice(i, 1);
             }
           });
         }
@@ -182,7 +182,7 @@ let count = 0;
 
       // update orders in localStorage
       localStorage.setItem('orders', JSON.stringify(orders));
-      localStorage.setItem('foodArray', JSON.stringify(foodArray));
+      localStorage.setItem('cartArray', JSON.stringify(cartArray));
 
       totalPrice -= Number(price);
       total.innerHTML = totalPrice.toFixed(2);
@@ -245,8 +245,8 @@ checkoutBtn.onclick = () => {
       orders = JSON.parse(localStorage.orders);
     }
 
-    if (!foodArray) {
-      foodArray = JSON.parse(localStorage.foodArray);
+    if (!cartArray) {
+      cartArray = JSON.parse(localStorage.cartArray);
     }
 
     const req = new Request(`${localhost}/orders`, {
@@ -255,7 +255,7 @@ checkoutBtn.onclick = () => {
         'Content-Type': 'application/json',
         'x-access-token': localStorage.token,
       },
-      body: JSON.stringify({ foodArray, address: address.value, phone: phone.value }),
+      body: JSON.stringify({ cartArray, address: address.value, phone: phone.value }),
     });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
@@ -266,12 +266,13 @@ checkoutBtn.onclick = () => {
           cartErr.innerHTML = `<p>${res.message}</p>`;
         } else if (res.status === 'success') {
           let i = 0;
+          const { orderid, userid, food } = res.order;
           msg.innerHTML = `<span style="color: green"><b>${res.message}!</b></span>
           <h4 style="text-decoration: underline"> YOUR ORDER DETAILS: </h4>
-          <p><span style="color: blue">Order ID</span>: <b>${res.order.orderid}</b></p>`;
+          <p><span style="color: blue">Order ID</span>: <b>#${userid}FFF${orderid}</b></p>`;
 
-          res.order.food.forEach((food) => {
-            const { name, quantity } = food;
+          food.forEach((item) => {
+            const { name, quantity } = item;
             i += 1;
             const p = document.createElement('P');
             p.innerHTML = `<span style="color: blue">Food${i}</span>: <b>${quantity}x ${name}</b>`;
@@ -302,17 +303,18 @@ checkoutBtn.onclick = () => {
             // Add date as first element in cell
             const date = document.createTextNode(`${new Date()}`);
             cells.unshift(date);
+            cells.pop();
             const trHist = document.createElement('TR');
             appendtoTable(cells, trHist, orderHistory);
           });
           // Reset data
           cartCellArr = [];
           orders = [];
-          foodArray.length = 0;
+          cartArray.length = 0;
           count = 0;
           totalItems.innerHTML = 0;
           localStorage.removeItem(orders);
-          localStorage.removeItem(foodArray);
+          localStorage.removeItem(cartArray);
           // Style button
           checkoutBtn.style.backgroundColor = '#212121';
           checkoutBtn.style.cursor = 'not-allowed';
