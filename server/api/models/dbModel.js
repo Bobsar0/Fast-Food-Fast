@@ -105,7 +105,7 @@ export default class {
   // }
 
   /**
- * Delete Users Tables
+ * Delete Any Tables
  */
   // Uncomment to drop any table
   // dropTable(tableName) {

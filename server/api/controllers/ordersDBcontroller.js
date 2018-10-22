@@ -16,79 +16,73 @@ export default class OrderDBController {
       return { status: 'fail', statusCode: 400, message: 'Sorry, order content cannot be empty' };
     }
     const {
-      name, quantity, foodArray, address, phone,
+      name, quantity, cartArray, address, phone,
     } = req.body;
     let values = [];
 
     // FOR QUICK ORDER OF SINGLE FOOD
     try {
       if (Object.keys(req.body).length === 4 && name && quantity && address && phone) {
-        try {
-          if (!name.trim() || typeof name.trim() !== 'string') {
-            throw new Error('Please enter a valid name for your food');
-          }
-          const foodName = name.trim().toUpperCase();
-          const res = await this.db.query('SELECT * from menu WHERE name = $1', [foodName]);
-
-          if (res.rowCount === 0) {
-            throw new Error(`Sorry, ${foodName} is not available on the menu. Contact us on 08146509343 if needed urgently`);
-          }
-          const totalPrice = Number(res.rows[0].price) * Number(quantity);
-          values = [
-            JSON.stringify(foodName),
-            quantity,
-            totalPrice,
-            'NEW',
-            address,
-            phone,
-            req.user.userId,
-            new Date(),
-            new Date(),
-          ];
-        } catch (error) {
-          if (error.routine === 'pg_atoi') {
-            return { status: 'fail', statusCode: 400, message: 'Please enter quantity in integer format' };
-          }
-          return { status: 'fail', statusCode: 500, message: error.message };
+        if (!name.trim() || typeof name.trim() !== 'string') {
+          const err = { code: 400, message: 'Please enter a valid name for your food' };
+          throw err;
         }
+        if (typeof quantity !== 'number') {
+          const err = { code: 400, message: 'Please enter quantity in integer format' };
+          throw err;
+        }
+
+        const foodName = name.trim().toUpperCase();
+        const res = await this.db.query('SELECT * from menu WHERE name = $1', [foodName]);
+
+        if (res.rowCount === 0) {
+          const err = { code: 404, message: `Sorry, ${foodName} is not available in stock. Contact us on 08146509343 if needed urgently` };
+          throw err;
+        }
+        const totalPrice = Number(res.rows[0].price) * Number(quantity);
+        values = [
+          JSON.stringify(foodName),
+          quantity,
+          totalPrice,
+          'NEW',
+          address,
+          phone,
+          req.user.userId,
+          new Date(),
+          new Date(),
+        ];
       // FOR ORDERS IN CART
-      } else if (Object.keys(req.body).length === 3 && foodArray && address && phone) {
+      } else if (Object.keys(req.body).length === 3 && cartArray && address && phone) {
         let totalQty = 0;
         let totalPrice = 0;
+        const { rows } = await this.db.query('SELECT * FROM menu');
+        const foodNames = [];
 
-        try {
-          const { rows } = await this.db.query('SELECT * FROM menu');
-          const foodNames = [];
+        rows.forEach((row) => {
+          foodNames.push(row.name);
+        });
 
-          rows.forEach((row) => {
-            foodNames.push(row.name);
-          });
-
-          await foodArray.forEach((food) => {
-            if (!food.name || typeof food.name !== 'string' || !food.name.trim()) {
-              throw new Error('Your cart object must have a \'name\' key of value type string');
-            }
-            if (!food.quantity || typeof food.quantity !== 'number') {
-              throw new Error('Your cart object must have a \'quantity\' key of value type integer > 0');
-            }
-            const foodName = food.name.trim().toUpperCase();
-            if (foodNames.indexOf(foodName) === -1) {
-              console.log('foodnames:', foodNames);
-              foodArray.splice(foodArray.indexOf(food), 1);
-              throw new Error(`Sorry, ${foodName} is not available in stock`);
-            }
-            const index = foodNames.indexOf(foodName);
-            totalQty += Number(food.quantity);
-            totalPrice += Number(rows[index].price) * Number(food.quantity);
-            if (foodArray.length === 0) {
-              throw new Error('Sorry, none of your ordered food tems are available on our menu');
-            }
-          });
-        } catch (error) {
-          return { status: 'fail', statusCode: 400, message: error.message };
-        }
+        await cartArray.forEach((food) => {
+          if (!food.name || typeof food.name !== 'string' || !food.name.trim()) {
+            const err = { code: 400, message: 'Your cart object must have a \'name\' key of value type string' };
+            throw err;
+          }
+          if (!food.quantity || typeof food.quantity !== 'number') {
+            const err = { code: 400, message: 'Your cart object must have a \'quantity\' key of value type integer > 0' };
+            throw err;
+          }
+          const foodName = food.name.trim().toUpperCase();
+          if (foodNames.indexOf(foodName) === -1) {
+            const err = { code: 404, message: `Sorry, ${foodName} is not available in stock. Contact us on 08146509343 if needed urgently` };
+            throw err;
+          }
+          const index = foodNames.indexOf(foodName);
+          totalQty += Number(food.quantity);
+          totalPrice += Number(rows[index].price) * Number(food.quantity);
+          food.name = foodName;
+        });
         values = [
-          JSON.stringify(foodArray),
+          JSON.stringify(cartArray),
           totalQty,
           totalPrice,
           'NEW',
@@ -105,22 +99,13 @@ export default class OrderDBController {
       const insertQuery = `INSERT INTO orders(food, quantity, price, status, address, phone, userid, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
       returning *`;
-      try {
-        const { rows } = await this.db.query(insertQuery, values);
-        console.log('rows:', rows);
-        rows[0].food = JSON.parse(rows[0].food);
-        rows[0].orderid = `#${rows[0].userid}FFF${rows[0].orderid}`;
-        return {
-          status: 'success', statusCode: 201, message: 'Order created successfully', order: rows[0],
-        };
-      } catch (error) {
-        if (error.routine === 'pg_atoi') {
-          return { status: 'fail', statusCode: 400, message: 'Please enter quantity in integer format' };
-        }
-        return { status: 'fail', statusCode: 500, message: error.message };
-      }
+      const { rows } = await this.db.query(insertQuery, values);
+      rows[0].food = JSON.parse(rows[0].food);
+      return {
+        status: 'success', statusCode: 201, message: 'Order created successfully', order: rows[0],
+      };
     } catch (error) {
-      return { status: 'fail', statusCode: 500, message: error.message };
+      return { status: 'fail', statusCode: error.code || 500, message: error.message };
     }
   }
 
@@ -196,7 +181,7 @@ export default class OrderDBController {
         status: 'success', statusCode: 200, message: 'Status updated successfully', order: response.rows[0],
       };
     } catch (error) {
-      return { message: error.message };
+      return { status: 'fail', statusCode: 500, message: error.message };
     }
   }
 }

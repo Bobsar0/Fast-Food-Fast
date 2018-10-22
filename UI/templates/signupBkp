@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="A food delivery service app for a restaurant - Andela Developer Challenge">
+		<meta name="author" content="Steve Onyeneke">
+		<title>Fast-Food-Fast | SignUp</title>
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="../css/forms.css">
+		<link rel="stylesheet" href="../css/nav.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
+		<div class="container">
+			<header> 
+				<div id="title">
+					<h1><a href="index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+				</div>
+				<nav class="topNav">
+					<a href="./index">Home</a>
+					<a href="./index#about">About</a>
+					<a href="./login">Login</a>
+					<a href="./signup" class="current">Signup</a>
+					<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+				</nav>
+			</header>
+			<h1 class="formTitle">Create an Account</h1>
+			<h2>New Customers</h2>
+			<h4>	By creating an account with our restaurant, you will be able to move through the checkout process faster, view and track your orders in your account and more.</h4>
+			<br>
+			<div id="signupForm">
+					<form>
+						<i class="fa fa-user fa-2x" aria-hidden="true"></i>
+						<label for="userName">Username</label>
+							<input id="userName" name="userName" placeholder="Enter a username" autocomplete="off" autofocus>
+						<label for="email">Email</label>
+							<input id="email" name="email" type="email" placeholder="Enter your email address">
+						<label for="password">Password</label>
+							<input id="password" name="password" type="password" placeholder="Create your password">
+						<label for="password2">Confirm Password</label>
+							<input id="password2" name="password2" type="password" placeholder="Retype your password">
+						<button id="signupBtn">Create Account</button>
+						<span class="white">Already registered? <a href="./login">Login</a> instead</span>
+					</form>
+				</div>
+			</div>
+			<div class="last">	
+			</div>
+		<footer>
+        <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
+        <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
+        <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
+    </footer>
+		<script src="../js/scripts.js"></script>
+	</body>
+</html>
