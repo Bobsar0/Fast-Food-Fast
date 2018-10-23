@@ -1,4 +1,4 @@
-// GET ALL ORDERS
+// SIDE NAVIGATION BAR
 const open = document.getElementById('openBtn');
 const close = document.getElementById('closeBtn');
 
@@ -97,6 +97,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                     statusCell.textContent = upRes.order.status;
                     tr.style.backgroundColor = '#bbb';
+                    approveBtn.style.opacity = 0.6;
+                    approveBtn.style.cursor = 'not-allowed';
+                  }
+                }).catch(resErr => console.log('res err:', resErr));
+              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+            };
+
+            declineBtn.onclick = () => {
+              const updateReq = new Request(`${host}/orders/${orderid}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-access-token': localStorage.token,
+                },
+                body: JSON.stringify({ status: 'CANCELLED' }),
+              });
+
+              fetch(updateReq).then((upResp) => {
+                upResp.json().then((upRes) => {
+                  if (upRes.status === 'success') {
+                    msg.className = 'success';
+                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                    statusCell.textContent = upRes.order.status;
+                    declineBtn.style.opacity = 0.6;
+                    approveBtn.style.cursor = 'not-allowed';
+                  }
+                }).catch(resErr => console.log('res err:', resErr));
+              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+            };
+
+            input.onclick = () => {
+              const updateReq = new Request(`${host}/orders/${orderid}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-access-token': localStorage.token,
+                },
+                body: JSON.stringify({ status: 'COMPLETE' }),
+              });
+
+              fetch(updateReq).then((upResp) => {
+                upResp.json().then((upRes) => {
+                  if (upRes.status === 'success') {
+                    msg.className = 'success';
+                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                    statusCell.textContent = upRes.order.status;
+                    declineBtn.style.opacity = 0.6;
+                    approveBtn.style.cursor = 'not-allowed';
                   }
                 }).catch(resErr => console.log('res err:', resErr));
               }).catch(fetchErr => console.log('fetch err:', fetchErr));
