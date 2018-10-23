@@ -10,7 +10,7 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #212121;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -26,7 +26,7 @@ body {
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    color: goldenrod;
 }
 
 .sidenav .closebtn {
@@ -42,7 +42,32 @@ body {
     padding: 16px;
 }
 
-@media screen and (max-height: 450px) {
+.admin{
+    padding: 50px;
+    border: goldenrod groove 5px;
+    margin-bottom: 200px;
+    overflow: auto;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+.approveBtn:hover, .declineBtn:hover {
+    opacity: 1;
+}
+
+.editInputPrice{width: 100px;}
+.editInputQty{width: 50px;}
+
+
+@media screen and (max-height: 500px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }

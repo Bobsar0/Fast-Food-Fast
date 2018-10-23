@@ -184,7 +184,7 @@ th, td {
     background-color: #f2f2f2;
 }
 
-.cancelOdr, .reorder, #approveBtn, #declineBtn{
+.cancelOdr, .reorder, .approveBtn, .declineBtn{
     background-color : green;
     color : white;
     cursor : pointer;
@@ -193,7 +193,7 @@ th, td {
     opacity: 0.8;
 }
 
-.cancelOdr, #declineBtn{
+.cancelOdr, .declineBtn{
     background: red;
 }
 

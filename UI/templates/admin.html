@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="../css/menu.css">
 		<link rel="stylesheet" href="../css/nav.css">
-		<link rel="stylesheet" href="../css/sidenav.css">
+		<link rel="stylesheet" href="../css/admin.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 	<body>
@@ -31,36 +31,40 @@
 					</div>
 					<a href="#">Admin<div class="me"></div></a>
 					<a href="#">Logout</a>
-					<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+					<a href="javascript:void(0);" class="icon" id="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 				<!-- The sidebar -->
 			<div id="mySidenav" class="sidenav">
-					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-					<a href="#">Get All Orders</a>
+					<a href="javascript:void(0)" id="closeBtn">&times;</a>
+					<a href="#" id="getAll">Get All Orders</a>
 					<a href="#">Get an Order</a>
 					<a href="#">Add meal to menu</a>
 					<a href="#">Edit Menu</a>
 				</div>
 			</header>
 			 <br>
-			 <h1 style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; ADMINISTRATOR PANEL</h1>
+			 <h1 style="font-size:30px;cursor:pointer" id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
 			 <div id="main">
 			<section class="main">
 			<div class="container">
+				<div id="msg"></div>
 				<h2>APPROVE/REJECT USER ORDER</h2>
 					<section class="admin">
 						<table>
 							<thead>
 								<tr>
-									<th>User</th>
-									<th>Product</th>
+									<th>Order ID</th>
+									<th>Food</th>
 									<th>Qty</th>
 									<th>Price</th>
+									<th>Status</th>
+									<th>Created At</th>
+									<th>Last Modified</th>
 									<th colspan="2">Action</th>
 									<th><i>Mark as completed</i></th>
 								</tr>
 							</thead>
-							<tbody>
+							<!-- <tbody>
 								<tr>
 									<td>Steve</td>
 									<td>Chicken</td>
@@ -106,7 +110,8 @@
 									<td><button id="declineBtn">Decline Order</button></td>
 									<td><input type="checkbox" name="completed" checked disabled></td>
 								</tr>
-							</tbody>
+							</tbody> -->
+						<tbody id="adminOrdersTableBody"></tbody>
 						</table>
 					</section>
 
@@ -153,18 +158,6 @@
 			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
 		</footer>
 		<script src="../app/js/username.js"></script>
-		<script>
-				function openNav() {
-						document.getElementById("mySidenav").style.width = "250px";
-						document.getElementById("main").style.marginLeft = "250px";
-						document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-				}
-				
-				function closeNav() {
-						document.getElementById("mySidenav").style.width = "0";
-						document.getElementById("main").style.marginLeft= "0";
-						document.body.style.backgroundColor = "white";
-				}
-				</script>
+		<script src="../app/js/admin.js"></script>
 	</body>
 </html>

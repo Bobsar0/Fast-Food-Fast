@@ -144,31 +144,9 @@ img {
 
 
 
-/********* Admin ************/
-.admin{
-    padding: 50px;
-    border: goldenrod groove 5px;
-    margin-bottom: 200px;
-    overflow: auto;
+.success{
+    color: green;
 }
-
-textarea {
-    width: 100%;
-    height: 100px;
-    padding: 12px 20px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-}
-
-#approveBtn:hover, #declineBtn:hover {
-    opacity:0.8;
-}
-
-.editInputPrice{width: 100px;}
-.editInputQty{width: 50px;}
-
 .last{
     margin-bottom: 150px;
 }
