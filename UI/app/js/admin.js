@@ -1,18 +1,18 @@
 // GET ALL ORDERS
 const open = document.getElementById('openBtn');
-const close = document.getElementById('closeBtn')
+const close = document.getElementById('closeBtn');
 
 open.onclick = () => {
   document.getElementById('mySidenav').style.width = '250px';
   document.getElementById('main').style.marginLeft = '250px';
   document.body.style.backgroundColor = 'rgba(0,0,0,0.4)';
-}
+};
 
 close.onclick = () => {
   document.getElementById('mySidenav').style.width = '0';
   document.getElementById('main').style.marginLeft = '0';
   document.body.style.backgroundColor = 'white';
-}
+};
 
 const host = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
   getAllBtn.onclick = () => {
     fetch(req).then((resp) => {
       resp.json().then((res) => {
-        console.log('res:', res);
         msg.className = 'success';
         msg.innerHTML = res.message;
         const { message, status, data } = res;
@@ -47,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const qtyCell = document.createTextNode(quantity);
             const priceCell = document.createTextNode(price);
             const statusCell = document.createTextNode(order.status);
+            statusCell.id = `status${orderid}`;
             const date1Cell = document.createTextNode(order.created_date.slice(0, 19));
             const date2Cell = document.createTextNode(order.modified_date.slice(0, 19));
 
@@ -78,6 +78,31 @@ document.addEventListener('DOMContentLoaded', () => {
               tr.appendChild(td);
             });
             tbody.appendChild(tr);
+
+            /** APPROVE BTN */
+            approveBtn.onclick = () => {
+              const updateReq = new Request(`${host}/orders/${orderid}`, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'x-access-token': localStorage.token,
+                },
+                body: JSON.stringify({ status: 'PROCESSING' }),
+              });
+
+              fetch(updateReq).then((upResp) => {
+                upResp.json().then((upRes) => {
+                  if (upRes.status === 'success') {
+                    msg.className = 'success';
+                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                    statusCell.textContent = upRes.order.status;
+                    tr.style.backgroundColor = '#bbb';
+                  }
+                }).catch(resErr => console.log('res err:', resErr));
+              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+            };
+            
+            // NEXT
           });
         } else if (status === 'fail') {
           msg.className = 'err';
