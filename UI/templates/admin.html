@@ -9,95 +9,65 @@
 		<link rel="stylesheet" href="../css/main.css">
 		<link rel="stylesheet" href="../css/menu.css">
 		<link rel="stylesheet" href="../css/nav.css">
+		<link rel="stylesheet" href="../css/admin.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
-	<body style="background:whitesmoke;">
+	<body>
 		<div class="container">
 			<header> 
-							<div id="title">
-						<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+				<div id="title">
+					<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+				</div>
+				<nav class="topNav">
+					<a href="./userIndex.html" class="current">Home</a>
+					<div class="dropdown">
+							<button class="dropbtn"><a href="./userMenu.html">Menu <i class="fa fa-caret-down"></i></a></button>
+							<div class="dropdown-content">
+									<a href="./userMenu#meal">Meal</a>
+									<a href="./userMenu#snacks">Snacks</a>
+									<a href="./userMenu#drinks">Drinks</a>
+									<a href="./userMenu#combo">Combo</a>
 							</div>
-							<nav class="topNav">
-								<a href="./index.html" class="current">Home</a>
-								<a href=#about>About</a>
-								<div class="dropdown">
-										<button class="dropbtn"><a href="./menu">Menu <i class="fa fa-caret-down"></i></a></button>
-										<div class="dropdown-content">
-												<a href="./menu#meal">Meal</a>
-												<a href="./menu#snacks">Snacks</a>
-												<a href="./menu#drinks">Drinks</a>
-												<a href="./menu#combo">Combo</a>
-										</div>
-								</div>
-								<a href="#"><div class="me"></div></a>
-								<a href="#">Logout</a>
-								<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
-							</nav>
+					</div>
+					<a href="#">Admin<div class="me"></div></a>
+					<a href="#">Logout</a>
+					<a href="javascript:void(0);" class="icon" id="icon" onclick="toggleNav()">&#9776;</a>
+				</nav>
+				<!-- The sidebar -->
+			<div id="mySidenav" class="sidenav">
+					<a href="javascript:void(0)" id="closeBtn">&times;</a>
+					<a href="#" id="getAll">Manage Orders</a>
+					<a href="#">Add meal to menu</a>
+					<a href="#">Edit Menu</a>
+				</div>
 			</header>
-			 <br><br>
-			 <h1>ADMINISTRATOR PANEL</h1><br>
+			 <br>
+			 <div id="main">
 			<section class="main">
 			<div class="container">
-				<h2>APPROVE/REJECT USER ORDER</h2>
-					<section class="admin">
-						<table>
+					<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
+				<div id="msg"></div>
+				<h2>MANAGE ALL ORDERS</h2>
+				<div id="search">
+				<i class="fa fa-search"></i>
+				<input type="text" id="orderSearch" placeholder="Search for order(s) by any column value...">
+				</div>	
+				<section class="admin" id="allOrders">
+						<table id="adminOrdersTable">
 							<thead>
 								<tr>
-									<th>User</th>
-									<th>Product</th>
+									<th>Order ID</th>
+									<th>Food</th>
 									<th>Qty</th>
 									<th>Price</th>
+									<th>Status</th>
+									<th>Created At</th>
+									<th>Last Modified</th>
 									<th colspan="2">Action</th>
 									<th><i>Mark as completed</i></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>Steve</td>
-									<td>Chicken</td>
-									<td>6</td>
-									<td>#1000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed"></td>
-								</tr>
-								<tr>
-									<td>Anonymous</td>
-									<td>Meatpie</td>
-									<td>3</td>
-									<td>#1050.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-								<tr>
-									<td>Anonymous</td>
-									<td>FruitJuice</td>
-									<td>1</td>
-									<td>#500.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-								<tr>
-									<td>Mma</td>
-									<td>Steak dish</td>
-									<td>1</td>
-									<td>#1000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed"></td>
-								</tr>
-								<tr>
-									<td>Epic</td>
-									<td>Whole Chicken Paella</td>
-									<td>2</td>
-									<td>#10000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-							</tbody>
+							<tbody id="adminOrdersTableBody"></tbody>
 						</table>
 					</section>
 
@@ -137,11 +107,34 @@
 			</div>
 			</section>
 		</div>
+		</div>
+		<div id="generalModal" class="modal">
+				<!-- Modal content -->
+				<div class="modalContent">
+					<span class="close">&times;</span>
+					<h1>FastFoodFast Admin</h1>
+					<h3 id="generalInfo"></h3>
+					<button id="yes" class="approveBtn">YES</button>
+					<button id="no" class="declineBtn">NO</button>
+				</div>
+			</div>
 		<footer>
 			<p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
 			<p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
 			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
 		</footer>
-		<script src="../js/scripts.js"></script>
+		<script src="../app/js/username.js"></script>
+		<script src="../app/js/admin.js"></script>
+		<script>
+		const icon = document.getElementsByClassName('icon');
+		icon[0].onclick = () => {
+			const navbar = document.querySelector('nav');
+			if (navbar.className === 'topNav' || navbar.className === 'topNav stickyNav') {
+				navbar.className += ' responsiveNav';
+			} else {
+				navbar.className = 'topNav';
+			}
+		};
+		</script>
 	</body>
 </html>
