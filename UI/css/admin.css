@@ -71,17 +71,21 @@ textarea {
 .approveBtn:hover, .declineBtn:hover {
     opacity: 1;
 }
-
-.orderRow:hover{
-    cursor: pointer;
-    background: #212121;
-    color: goldenrod;
+#yes, #no{
+    margin-left: -30px;
+    padding: 12px 14px;
+    outline: none;
+    border: none;
+}
+#no{
+    margin-left: 30px;
 }
 
 div#search{
     width: 100%;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
+    margin: 10px 0;
+    background: white;
 }
 
 div#search i{
@@ -107,10 +111,15 @@ div#search i{
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 15px;}
 }
+@media screen and (max-width: 750px) {
+    h1#openBtn{font-size: 25px;}
+    #orderSearch{
+        width: 90%;
+        font-size: 14px;
+        margin-top: 1px;
+    } 
+}
 @media screen and (max-width: 500px) {
     h1#openBtn{font-size: 20px;}
-    #orderSearch{
-        font-size: 12px;
-        width: 90%;
-    }
+    #orderSearch{font-size: 12px;}
 }

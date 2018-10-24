@@ -22,6 +22,30 @@ window.onclick = (event) => {
   }
 };
 
+// Modal display
+const generalModal = document.getElementById('generalModal');
+const modalTxt = document.getElementById('generalInfo');
+const span0 = document.getElementsByClassName('close')[0];
+const yes = document.getElementById('yes');
+const no = document.getElementById('no');
+// Display modal
+function displayModal(modal, span) {
+  modal.style.display = 'block';
+  // Close the modal when the user clicks on <span> (x)
+  span.onclick = () => {
+    modal.style.display = 'none';
+  };
+  no.onclick = () => {
+    modal.style.display = 'none';
+  };
+  // Also close when anywhere in the window is clicked
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
 // Filter table according to order column value
 const search = document.getElementById('orderSearch');
 
@@ -93,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
             input.className = 'checkbox';
             input.id = `checkbox${orderid}`;
             input.type = 'checkbox';
+            input.style.cursor = 'pointer';
+
             const cellArr = [
               orderIdCell, foodCell, qtyCell, priceCell, statusCell,
               date1Cell, date2Cell, approveBtn, declineBtn, input,
@@ -113,11 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
               approveBtn.style.cursor = 'not-allowed';
               declineBtn.style.opacity = 0.5;
               declineBtn.style.cursor = 'not-allowed';
+              input.style.cursor = 'not-allowed';
               input.checked = true;
               input.disabled = true;
             };
             const styleProcessing = () => {
-              tr.style.backgroundColor = 'lightgoldenrodyellow';
+              tr.style.backgroundColor = 'goldenrod';
               approveBtn.style.opacity = 0.5;
               approveBtn.style.cursor = 'not-allowed';
             };
@@ -127,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
               approveBtn.style.cursor = 'not-allowed';
               declineBtn.style.opacity = 0.5;
               declineBtn.style.cursor = 'not-allowed';
+              input.style.cursor = 'not-allowed';
               input.disabled = true;
             };
 
@@ -139,43 +167,85 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             tbody.appendChild(tr);
 
+            const orderId = `#${userid}FFF${orderid}`;
             /** APPROVE BTN */
             approveBtn.onclick = () => {
               if (odrStatus === 'NEW') {
-                const updateReq = new Request(`${host}/orders/${orderid}`, {
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'x-access-token': localStorage.token,
-                  },
-                  body: JSON.stringify({ status: 'PROCESSING' }),
-                });
-                fetch(updateReq).then((upResp) => {
-                  upResp.json().then((upRes) => {
-                    if (upRes.status === 'success') {
-                      msg.className = 'success';
-                      msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                      odrStatus = upRes.order.status;
-                      statusCell.textContent = odrStatus;
-                      date2Cell.textContent = upRes.order.modified_date;
-                      styleProcessing();
-                    }
-                  }).catch(resErr => console.log('res err:', resErr));
-                }).catch(fetchErr => console.log('fetch err:', fetchErr));
+                modalTxt.innerHTML = `Are you sure you want to APPROVE the processing of ORDER ${orderId}?`;
+                displayModal(generalModal, span0);
+                yes.onclick = () => {
+                  const updateReq = new Request(`${host}/orders/${orderid}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'x-access-token': localStorage.token,
+                    },
+                    body: JSON.stringify({ status: 'PROCESSING' }),
+                  });
+                  fetch(updateReq).then((upResp) => {
+                    upResp.json().then((upRes) => {
+                      if (upRes.status === 'success') {
+                        msg.className = 'success';
+                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        odrStatus = upRes.order.status;
+                        statusCell.textContent = odrStatus;
+                        date2Cell.textContent = upRes.order.modified_date;
+                        styleProcessing();
+                      }
+                    }).catch(resErr => console.log('res err:', resErr));
+                  }).catch(fetchErr => console.log('fetch err:', fetchErr));
+                  generalModal.style.display = 'none';
+                };
               }
             };
 
             /** DECLINE BTN */
             declineBtn.onclick = () => {
-              if (odrStatus !== 'COMPLETE') {
+              if (odrStatus === 'NEW' || odrStatus === 'PROCESSING') {
+                modalTxt.innerHTML = `Are you sure you want to CANCEL Order ${orderId}?
+                <p>This action cannot be undone</p>`;
+                displayModal(generalModal, span0);
+                yes.onclick = () => {
+                  const updateReq = new Request(`${host}/orders/${orderid}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'x-access-token': localStorage.token,
+                    },
+                    body: JSON.stringify({ status: 'CANCELLED' }),
+                  });
+                  fetch(updateReq).then((upResp) => {
+                    upResp.json().then((upRes) => {
+                      if (upRes.status === 'success') {
+                        msg.className = 'success';
+                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        odrStatus = upRes.order.status;
+                        statusCell.textContent = odrStatus;
+                        date2Cell.textContent = upRes.order.modified_date;
+                        styleCancelled();
+                      }
+                    }).catch(resErr => console.log('res err:', resErr));
+                  }).catch(fetchErr => console.log('fetch err:', fetchErr));
+                  generalModal.style.display = 'none';
+                };
+              }
+            };
+
+            /** CHECKBOX INPUT */
+            input.onclick = () => {
+              modalTxt.innerHTML = `Are you sure ORDER ${orderId} has been COMPLETED?
+              <p>This order cannot be unmarked if marked as completed</p>`;
+              displayModal(generalModal, span0);
+              yes.onclick = () => {
                 const updateReq = new Request(`${host}/orders/${orderid}`, {
                   method: 'PUT',
                   headers: {
                     'Content-Type': 'application/json',
                     'x-access-token': localStorage.token,
                   },
-                  body: JSON.stringify({ status: 'CANCELLED' }),
+                  body: JSON.stringify({ status: 'COMPLETE' }),
                 });
+
                 fetch(updateReq).then((upResp) => {
                   upResp.json().then((upRes) => {
                     if (upRes.status === 'success') {
@@ -184,36 +254,16 @@ document.addEventListener('DOMContentLoaded', () => {
                       odrStatus = upRes.order.status;
                       statusCell.textContent = odrStatus;
                       date2Cell.textContent = upRes.order.modified_date;
-                      styleCancelled();
+                      styleComplete();
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
-              }
-            };
-
-            /** CHECKBOX INPUT */
-            input.onclick = () => {
-              const updateReq = new Request(`${host}/orders/${orderid}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'x-access-token': localStorage.token,
-                },
-                body: JSON.stringify({ status: 'COMPLETE' }),
-              });
-
-              fetch(updateReq).then((upResp) => {
-                upResp.json().then((upRes) => {
-                  if (upRes.status === 'success') {
-                    msg.className = 'success';
-                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                    odrStatus = upRes.order.status;
-                    statusCell.textContent = odrStatus;
-                    date2Cell.textContent = upRes.order.modified_date;
-                    styleComplete();
-                  }
-                }).catch(resErr => console.log('res err:', resErr));
-              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+                generalModal.style.display = 'none';
+              };
+              no.onclick = () => {
+                input.checked = false;
+                generalModal.style.display = 'none';
+              };
             };
             // NEXT
           });
