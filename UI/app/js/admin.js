@@ -2,16 +2,24 @@
 const open = document.getElementById('openBtn');
 const close = document.getElementById('closeBtn');
 
+function toggleSideNav(width, color) {
+  document.getElementById('mySidenav').style.width = width;
+  document.getElementById('main').style.marginLeft = width;
+  document.body.style.backgroundColor = color;
+}
+
 open.onclick = () => {
-  document.getElementById('mySidenav').style.width = '250px';
-  document.getElementById('main').style.marginLeft = '250px';
-  document.body.style.backgroundColor = 'rgba(0,0,0,0.4)';
+  toggleSideNav('250px', 'rgba(0,0,0,0.4)');
 };
 
 close.onclick = () => {
-  document.getElementById('mySidenav').style.width = '0';
-  document.getElementById('main').style.marginLeft = '0';
-  document.body.style.backgroundColor = 'white';
+  toggleSideNav('0', 'white');
+};
+
+window.onclick = (event) => {
+  if (event.target !== open) {
+    toggleSideNav('0', 'white');
+  }
 };
 
 const host = 'http://localhost:9999/api/v1';
@@ -41,11 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
               orderid, userid, food, quantity, price,
             } = order;
 
+            let odrStatus = order.status;
+
             const orderIdCell = document.createTextNode(`#${userid}FFF${orderid}`);
             const foodCell = document.createTextNode(food);
             const qtyCell = document.createTextNode(quantity);
             const priceCell = document.createTextNode(price);
-            const statusCell = document.createTextNode(order.status);
+            const statusCell = document.createTextNode(odrStatus);
             statusCell.id = `status${orderid}`;
             const date1Cell = document.createTextNode(order.created_date.slice(0, 19));
             const date2Cell = document.createTextNode(order.modified_date.slice(0, 19));
@@ -78,29 +88,42 @@ document.addEventListener('DOMContentLoaded', () => {
               td.appendChild(cell);
               tr.appendChild(td);
             });
-            if (order.status !== 'NEW') {
+
+            const styleComplete = () => {
+              tr.style.backgroundColor = 'greenyellow';
               approveBtn.style.opacity = 0.5;
               approveBtn.style.cursor = 'not-allowed';
-            }
-            if (order.status === 'PROCESSING') {
-              tr.style.backgroundColor = 'lightgoldenrodyellow';
-            } else if (order.status === 'CANCELLED') {
-              tr.style.backgroundColor = 'rgb(247, 134, 134)';
-              declineBtn.style.opacity = 0.5;
-              declineBtn.style.cursor = 'not-allowed';
-              input.disabled = true;
-            } else if (order.status === 'COMPLETE') {
-              tr.style.backgroundColor = 'greenyellow';
               declineBtn.style.opacity = 0.5;
               declineBtn.style.cursor = 'not-allowed';
               input.checked = true;
               input.disabled = true;
+            };
+            const styleProcessing = () => {
+              tr.style.backgroundColor = 'lightgoldenrodyellow';
+              approveBtn.style.opacity = 0.5;
+              approveBtn.style.cursor = 'not-allowed';
+            };
+            const styleCancelled = () => {
+              tr.style.backgroundColor = 'rgb(247, 134, 134)';
+              approveBtn.style.opacity = 0.5;
+              approveBtn.style.cursor = 'not-allowed';
+              declineBtn.style.opacity = 0.5;
+              declineBtn.style.cursor = 'not-allowed';
+              input.disabled = true;
+            };
+
+            if (odrStatus === 'PROCESSING') {
+              styleProcessing();
+            } else if (odrStatus === 'CANCELLED') {
+              styleCancelled();
+            } else if (odrStatus === 'COMPLETE') {
+              styleComplete();
             }
             tbody.appendChild(tr);
 
             /** APPROVE BTN */
             approveBtn.onclick = () => {
-              if (order.status === 'NEW') {
+              if (odrStatus === 'NEW') {
                 const updateReq = new Request(`${host}/orders/${orderid}`, {
                   method: 'PUT',
                   headers: {
@@ -114,10 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (upRes.status === 'success') {
                       msg.className = 'success';
                       msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                      statusCell.textContent = upRes.order.status;
-                      tr.style.backgroundColor = 'lightgoldenrodyellow';
-                      approveBtn.style.opacity = 0.5;
-                      approveBtn.style.cursor = 'not-allowed';
+                      odrStatus = upRes.order.status;
+                      statusCell.textContent = odrStatus;
+                      styleProcessing();
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -126,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             /** DECLINE BTN */
             declineBtn.onclick = () => {
-              if (order.status !== 'COMPLETE') {
+              if (odrStatus !== 'COMPLETE') {
                 const updateReq = new Request(`${host}/orders/${orderid}`, {
                   method: 'PUT',
                   headers: {
@@ -140,13 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (upRes.status === 'success') {
                       msg.className = 'success';
                       msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                      statusCell.textContent = upRes.order.status;
-                      tr.style.backgroundColor = 'rgb(247, 134, 134)';
-                      approveBtn.style.opacity = 0.5;
-                      approveBtn.style.cursor = 'not-allowed';
-                      declineBtn.style.opacity = 0.5;
-                      declineBtn.style.cursor = 'not-allowed';
-                      input.disabled = true;
+                      odrStatus = upRes.order.status;
+                      statusCell.textContent = odrStatus;
+                      styleCancelled();
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -169,14 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
                   if (upRes.status === 'success') {
                     msg.className = 'success';
                     msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                    statusCell.textContent = upRes.order.status;
-                    tr.style.backgroundColor = 'greenyellow';
-                    approveBtn.style.opacity = 0.5;
-                    approveBtn.style.cursor = 'not-allowed';
-                    declineBtn.style.opacity = 0.5;
-                    declineBtn.style.cursor = 'not-allowed';
-                    input.checked = true;
-                    input.disabled = true;
+                    odrStatus = upRes.order.status;
+                    statusCell.textContent = odrStatus;
+                    styleComplete();
                   }
                 }).catch(resErr => console.log('res err:', resErr));
               }).catch(fetchErr => console.log('fetch err:', fetchErr));
