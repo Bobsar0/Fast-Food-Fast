@@ -233,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             /** CHECKBOX INPUT */
             input.onclick = () => {
+              input.checked = false;
               modalTxt.innerHTML = `Are you sure ORDER ${orderId} has been COMPLETED?
               <p>This order cannot be unmarked if marked as completed</p>`;
               displayModal(generalModal, span0);
@@ -258,10 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
-                generalModal.style.display = 'none';
-              };
-              no.onclick = () => {
-                input.checked = false;
                 generalModal.style.display = 'none';
               };
             };
