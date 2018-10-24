@@ -36,21 +36,24 @@
 				<!-- The sidebar -->
 			<div id="mySidenav" class="sidenav">
 					<a href="javascript:void(0)" id="closeBtn">&times;</a>
-					<a href="#" id="getAll">Get All Orders</a>
-					<a href="#">Get an Order</a>
+					<a href="#" id="getAll">Manage Orders</a>
 					<a href="#">Add meal to menu</a>
 					<a href="#">Edit Menu</a>
 				</div>
 			</header>
 			 <br>
-			 <h1 style="font-size:30px;cursor:pointer" id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
 			 <div id="main">
 			<section class="main">
 			<div class="container">
+					<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
 				<div id="msg"></div>
-				<h2>APPROVE/REJECT USER ORDER</h2>
-					<section class="admin">
-						<table>
+				<h2>MANAGE ALL ORDERS</h2>
+				<div id="search">
+				<i class="fa fa-search"></i>
+				<input type="text" id="orderSearch" placeholder="Search for order(s) by any column value...">
+				</div>	
+				<section class="admin" id="allOrders">
+						<table id="adminOrdersTable">
 							<thead>
 								<tr>
 									<th>Order ID</th>
@@ -64,54 +67,7 @@
 									<th><i>Mark as completed</i></th>
 								</tr>
 							</thead>
-							<!-- <tbody>
-								<tr>
-									<td>Steve</td>
-									<td>Chicken</td>
-									<td>6</td>
-									<td>#1000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed"></td>
-								</tr>
-								<tr>
-									<td>Anonymous</td>
-									<td>Meatpie</td>
-									<td>3</td>
-									<td>#1050.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-								<tr>
-									<td>Anonymous</td>
-									<td>FruitJuice</td>
-									<td>1</td>
-									<td>#500.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-								<tr>
-									<td>Mma</td>
-									<td>Steak dish</td>
-									<td>1</td>
-									<td>#1000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed"></td>
-								</tr>
-								<tr>
-									<td>Epic</td>
-									<td>Whole Chicken Paella</td>
-									<td>2</td>
-									<td>#10000.00</td>
-									<td><button id="approveBtn">Approve Order</button></td>
-									<td><button id="declineBtn">Decline Order</button></td>
-									<td><input type="checkbox" name="completed" checked disabled></td>
-								</tr>
-							</tbody> -->
-						<tbody id="adminOrdersTableBody"></tbody>
+							<tbody id="adminOrdersTableBody"></tbody>
 						</table>
 					</section>
 
@@ -152,6 +108,14 @@
 			</section>
 		</div>
 		</div>
+		<div id="generalModal" class="modal">
+				<!-- Modal content -->
+				<div class="modalContent">
+					<span class="close">&times;</span>
+					<h1>Message From FastFoodFast</h1>
+					<h3 id="generalInfo"></h3>
+				</div>
+			</div>
 		<footer>
 			<p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
 			<p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
@@ -159,5 +123,16 @@
 		</footer>
 		<script src="../app/js/username.js"></script>
 		<script src="../app/js/admin.js"></script>
+		<script>
+		const icon = document.getElementsByClassName('icon');
+		icon[0].onclick = () => {
+			const navbar = document.querySelector('nav');
+			if (navbar.className === 'topNav' || navbar.className === 'topNav stickyNav') {
+				navbar.className += ' responsiveNav';
+			} else {
+				navbar.className = 'topNav';
+			}
+		};
+		</script>
 	</body>
 </html>

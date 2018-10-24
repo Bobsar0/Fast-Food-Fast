@@ -22,6 +22,23 @@ window.onclick = (event) => {
   }
 };
 
+// Filter table according to order column value
+const search = document.getElementById('orderSearch');
+
+search.onkeyup = () => {
+  const table = document.getElementById('adminOrdersTable');
+  const tRows = table.getElementsByTagName('tr');
+
+  [...tRows].slice(1).forEach((tr) => {
+    const input = search.value.toUpperCase();
+    if (tr.textContent.includes(input)) {
+      tr.style.display = '';
+    } else {
+      tr.style.display = 'none';
+    }
+  });
+};
+
 const host = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
@@ -81,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
               date1Cell, date2Cell, approveBtn, declineBtn, input,
             ];
             const tr = document.createElement('TR');
+            tr.className = 'orderRow';
 
             const tbody = document.getElementById('adminOrdersTableBody');
             cellArr.forEach((cell) => {
@@ -139,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                       odrStatus = upRes.order.status;
                       statusCell.textContent = odrStatus;
+                      date2Cell.textContent = upRes.order.modified_date;
                       styleProcessing();
                     }
                   }).catch(resErr => console.log('res err:', resErr));
@@ -164,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                       odrStatus = upRes.order.status;
                       statusCell.textContent = odrStatus;
+                      date2Cell.textContent = upRes.order.modified_date;
                       styleCancelled();
                     }
                   }).catch(resErr => console.log('res err:', resErr));
@@ -189,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                     odrStatus = upRes.order.status;
                     statusCell.textContent = odrStatus;
+                    date2Cell.textContent = upRes.order.modified_date;
                     styleComplete();
                   }
                 }).catch(resErr => console.log('res err:', resErr));

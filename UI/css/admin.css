@@ -3,6 +3,15 @@ body {
     transition: background-color .5s;
 }
 
+h1#openBtn{
+    font-size:30px;
+    cursor: pointer;
+    color: goldenrod;
+    background: #212121;
+    text-shadow: none;
+    padding: 5px;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -19,7 +28,7 @@ body {
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 22px;
     color: #818181;
     display: block;
     transition: 0.3s;
@@ -63,11 +72,45 @@ textarea {
     opacity: 1;
 }
 
+.orderRow:hover{
+    cursor: pointer;
+    background: #212121;
+    color: goldenrod;
+}
+
+div#search{
+    width: 100%;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+div#search i{
+    margin-left: 10px;
+    color: goldenrod;
+    text-shadow: 1px 1px 2px black;
+    border: none;
+    outline: none;
+}
+
+#orderSearch {
+    width: 95%;
+    font-size: 16px;
+    padding: 12px 20px 12px 15px;
+    border: none;
+    outline: none;
+}
+
 .editInputPrice{width: 100px;}
 .editInputQty{width: 50px;}
 
-
 @media screen and (max-height: 500px) {
   .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sidenav a {font-size: 15px;}
+}
+@media screen and (max-width: 500px) {
+    h1#openBtn{font-size: 20px;}
+    #orderSearch{
+        font-size: 12px;
+        width: 90%;
+    }
 }
