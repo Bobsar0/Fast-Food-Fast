@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             input.id = `checkbox${orderid}`;
             input.type = 'checkbox';
             const cellArr = [
-              orderIdCell, foodCell, qtyCell, priceCell, statusCell, date1Cell, date2Cell, approveBtn, declineBtn, input,
+              orderIdCell, foodCell, qtyCell, priceCell, statusCell,
+              date1Cell, date2Cell, approveBtn, declineBtn, input,
             ];
             const tr = document.createElement('TR');
 
@@ -77,56 +78,82 @@ document.addEventListener('DOMContentLoaded', () => {
               td.appendChild(cell);
               tr.appendChild(td);
             });
+            if (order.status !== 'NEW') {
+              approveBtn.style.opacity = 0.5;
+              approveBtn.style.cursor = 'not-allowed';
+            }
+            if (order.status === 'PROCESSING') {
+              tr.style.backgroundColor = 'lightgoldenrodyellow';
+            } else if (order.status === 'CANCELLED') {
+              tr.style.backgroundColor = 'rgb(247, 134, 134)';
+              declineBtn.style.opacity = 0.5;
+              declineBtn.style.cursor = 'not-allowed';
+              input.disabled = true;
+            } else if (order.status === 'COMPLETE') {
+              tr.style.backgroundColor = 'greenyellow';
+              declineBtn.style.opacity = 0.5;
+              declineBtn.style.cursor = 'not-allowed';
+              input.checked = true;
+              input.disabled = true;
+            }
             tbody.appendChild(tr);
 
             /** APPROVE BTN */
             approveBtn.onclick = () => {
-              const updateReq = new Request(`${host}/orders/${orderid}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'x-access-token': localStorage.token,
-                },
-                body: JSON.stringify({ status: 'PROCESSING' }),
-              });
-
-              fetch(updateReq).then((upResp) => {
-                upResp.json().then((upRes) => {
-                  if (upRes.status === 'success') {
-                    msg.className = 'success';
-                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                    statusCell.textContent = upRes.order.status;
-                    tr.style.backgroundColor = '#bbb';
-                    approveBtn.style.opacity = 0.6;
-                    approveBtn.style.cursor = 'not-allowed';
-                  }
-                }).catch(resErr => console.log('res err:', resErr));
-              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+              if (order.status === 'NEW') {
+                const updateReq = new Request(`${host}/orders/${orderid}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': localStorage.token,
+                  },
+                  body: JSON.stringify({ status: 'PROCESSING' }),
+                });
+                fetch(updateReq).then((upResp) => {
+                  upResp.json().then((upRes) => {
+                    if (upRes.status === 'success') {
+                      msg.className = 'success';
+                      msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                      statusCell.textContent = upRes.order.status;
+                      tr.style.backgroundColor = 'lightgoldenrodyellow';
+                      approveBtn.style.opacity = 0.5;
+                      approveBtn.style.cursor = 'not-allowed';
+                    }
+                  }).catch(resErr => console.log('res err:', resErr));
+                }).catch(fetchErr => console.log('fetch err:', fetchErr));
+              }
             };
 
+            /** DECLINE BTN */
             declineBtn.onclick = () => {
-              const updateReq = new Request(`${host}/orders/${orderid}`, {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'x-access-token': localStorage.token,
-                },
-                body: JSON.stringify({ status: 'CANCELLED' }),
-              });
-
-              fetch(updateReq).then((upResp) => {
-                upResp.json().then((upRes) => {
-                  if (upRes.status === 'success') {
-                    msg.className = 'success';
-                    msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
-                    statusCell.textContent = upRes.order.status;
-                    declineBtn.style.opacity = 0.6;
-                    approveBtn.style.cursor = 'not-allowed';
-                  }
-                }).catch(resErr => console.log('res err:', resErr));
-              }).catch(fetchErr => console.log('fetch err:', fetchErr));
+              if (order.status !== 'COMPLETE') {
+                const updateReq = new Request(`${host}/orders/${orderid}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': localStorage.token,
+                  },
+                  body: JSON.stringify({ status: 'CANCELLED' }),
+                });
+                fetch(updateReq).then((upResp) => {
+                  upResp.json().then((upRes) => {
+                    if (upRes.status === 'success') {
+                      msg.className = 'success';
+                      msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                      statusCell.textContent = upRes.order.status;
+                      tr.style.backgroundColor = 'rgb(247, 134, 134)';
+                      approveBtn.style.opacity = 0.5;
+                      approveBtn.style.cursor = 'not-allowed';
+                      declineBtn.style.opacity = 0.5;
+                      declineBtn.style.cursor = 'not-allowed';
+                      input.disabled = true;
+                    }
+                  }).catch(resErr => console.log('res err:', resErr));
+                }).catch(fetchErr => console.log('fetch err:', fetchErr));
+              }
             };
 
+            /** CHECKBOX INPUT */
             input.onclick = () => {
               const updateReq = new Request(`${host}/orders/${orderid}`, {
                 method: 'PUT',
@@ -143,13 +170,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     msg.className = 'success';
                     msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                     statusCell.textContent = upRes.order.status;
-                    declineBtn.style.opacity = 0.6;
+                    tr.style.backgroundColor = 'greenyellow';
+                    approveBtn.style.opacity = 0.5;
                     approveBtn.style.cursor = 'not-allowed';
+                    declineBtn.style.opacity = 0.5;
+                    declineBtn.style.cursor = 'not-allowed';
+                    input.checked = true;
+                    input.disabled = true;
                   }
                 }).catch(resErr => console.log('res err:', resErr));
               }).catch(fetchErr => console.log('fetch err:', fetchErr));
             };
-            
             // NEXT
           });
         } else if (status === 'fail') {
