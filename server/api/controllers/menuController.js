@@ -1,3 +1,6 @@
+// import multer from 'multer';
+
+// const upload = multer({ dest: '/uploads' });
 
 export default class {
   constructor(db) {
@@ -13,8 +16,8 @@ export default class {
     if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
       return { status: 'fail', statusCode: 400, message: 'Sorry, menu content cannot be empty' };
     }
-    const { name, price, img } = req.body;
-    let { genre } = req.body;
+    const { name, price } = req.body;
+    let { img, genre } = req.body;
 
     if (!name || !name.trim()) {
       return { status: 'fail', statusCode: 400, message: 'Please enter the name of your menu item' };
@@ -29,9 +32,10 @@ export default class {
     if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo') {
       return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK or COMBO' };
     }
-    if (!img || !img.trim()) {
+    if (!req.file.path) {
       return { status: 'fail', statusCode: 400, message: 'Please enter an image url for your item' };
     }
+    img = req.file.path;
     const query = `INSERT INTO menu(name, price, genre, img, isAvailable, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7)
       returning *`;

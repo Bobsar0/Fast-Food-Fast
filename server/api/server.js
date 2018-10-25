@@ -1,7 +1,33 @@
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
+import multer from 'multer';
 import AuthC from './controllers/authController';
+
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename(req, file, cb) {
+    const date = new Date().toISOString().replace(/:/g, '-');
+    cb(null, `${date}_${file.originalname.trim()}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+  fileFilter,
+});
 
 // OrdersController intance must be created and passed from outside
 export default (orderC, userC, menuC) => {
@@ -65,7 +91,7 @@ export default (orderC, userC, menuC) => {
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read()
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
-  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => menuC.create(req)
+  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, upload.single('img'), (req, res) => menuC.create(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
 
@@ -74,6 +100,7 @@ export default (orderC, userC, menuC) => {
   // ==========POWER FRONT-END PAGES===============//
   const uiPath = path.join(__dirname, '../../UI');
   server.use(express.static(uiPath));
+  server.use('/uploads', express.static('uploads'));
 
   server.get('/', (_req, res) => {
     res.sendFile(`${uiPath}/templates/index.html`);
