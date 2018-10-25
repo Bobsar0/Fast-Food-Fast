@@ -1,35 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
-import multer from 'multer';
+import upload from './helpers/upload';
 import AuthC from './controllers/authController';
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, './uploads/');
-  },
-  filename(req, file, cb) {
-    const date = new Date().toISOString().replace(/:/g, '-');
-    cb(null, `${date}_${file.originalname.trim()}`);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-const upload = multer({
-  storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5,
-  },
-  fileFilter,
-});
-
-// OrdersController intance must be created and passed from outside
 export default (orderC, userC, menuC) => {
   const server = express();
   const prefix = '/api/v1';
