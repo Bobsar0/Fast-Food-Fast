@@ -16,8 +16,8 @@ export default class {
     if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
       return { status: 'fail', statusCode: 400, message: 'Sorry, menu content cannot be empty' };
     }
-    const { name, price, description } = req.body;
-    let { img, genre } = req.body;
+    const { name, price } = req.body;
+    let { img, genre, description } = req.body;
 
     if (!name || !name.trim()) {
       return { status: 'fail', statusCode: 400, message: 'Please enter the name of your food item' };
@@ -32,6 +32,9 @@ export default class {
     if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo') {
       return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK or COMBO' };
     }
+    if (description) {
+      description = description.trim();
+    }
 
     try {
       img = req.file.path;
@@ -44,7 +47,7 @@ export default class {
         price,
         genre,
         img,
-        description.trim || description,
+        description,
         true,
         new Date(),
         new Date(),
@@ -56,6 +59,9 @@ export default class {
     } catch (error) {
       if (error.routine === 'pg_atoi') {
         return { status: 'fail', statusCode: 400, message: 'Please enter price in integer format' };
+      }
+      if (error.message === 'Cannot read property \'path\' of undefined') {
+        return { status: 'fail', statusCode: 400, message: 'Please upload an image in jpg/jpeg or png format' };
       }
       return { status: 'fail', statusCode: 400, error: error.message };
     }
