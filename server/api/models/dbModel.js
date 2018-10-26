@@ -94,6 +94,7 @@ export default class {
   //       price INTEGER NOT NULL,
   //       genre VARCHAR(16) NOT NULL,
   //       img TEXT,
+  //       description TEXT,
   //       isAvailable BOOLEAN,
   //       created_date TIMESTAMP DEFAULT NOW(),
   //       modified_date TIMESTAMP DEFAULT NOW()
