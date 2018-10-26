@@ -127,7 +127,6 @@ export default class {
         console.log(`deleted all rows from ${tableName}`);
       })
       .catch((err) => {
-        console.log(`err in deleting rows from ${tableName}`, err);
       });
   }
 }
