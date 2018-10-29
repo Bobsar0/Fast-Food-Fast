@@ -27,8 +27,6 @@ describe('Order and Menu Endpoints', () => {
   const menuC = new MenuController(db);
 
   let adminToken = '';
-  // let admin2Token = '';
-  // let admin2Id = '';
   let userToken = '';
   let id = '';
   let orderId = '';
@@ -172,7 +170,7 @@ describe('Order and Menu Endpoints', () => {
           .field('description', 'Delicious-ness at its finest')
           .attach('img', 'UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
-            res.status.should.equal(400);
+            // res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('message').eql('Please enter price in integer format');
             done();
@@ -214,7 +212,7 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('should allow an admin to successfully create a new menu item', (done) => {
+      it('reject image file of invalid format', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
           .set({ 'x-access-token': adminToken })
@@ -252,6 +250,22 @@ describe('Order and Menu Endpoints', () => {
             res.body.product.should.have.property('img');
             res.body.product.should.have.property('description').eql('Delicious-ness at its finest');
             res.body.product.should.have.property('isavailable').eql(true);
+            done();
+          });
+      });
+      it('catches error in trying to add already existing food item', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post(path)
+          .set({ 'x-access-token': adminToken })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie')
+          .field('price', 300)
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness MeatPie')
+          .attach('img', 'UI/imgs/snacks/meatpie.jpg')
+          .end((err, res) => {
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
             done();
           });
       });
