@@ -47,7 +47,7 @@ div.gallery img {
 .flip-box{
     background-color: transparent;
     width: 100%;
-		height: 200px;
+	height: 200px;
     perspective: 1000px;
 }
 .flip-box-inner {
@@ -88,7 +88,7 @@ div.gallery img {
     text-align: center;
 }
 .desc h1{
-    margin-top: 20px;
+    margin-top: 18px;
     font: 18px Arial, Helvetica, sans-serif;
     height: 25px;
 }
@@ -136,12 +136,12 @@ div.gallery img {
 #totalItems{color: goldenrod;}
 
 .responsive {
-    padding: 0 6px;
+    padding: 6px 6px;
     float: left;
     width: 25%;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 750px) {
     .responsive {
         width: 50%;
         margin: 6px 0;
@@ -155,9 +155,6 @@ div.gallery img {
     div.gallery img {
         height: 220px;
     }    
-    .desc h1{
-        font: 25px Arial, Helvetica, sans-serif;
-    }
     h2{
         font-size: 20px;
     }

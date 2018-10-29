@@ -12,684 +12,62 @@
 <body>
   <div class="container">
   <header> 
-      <div id="title">
-        <h1><i class="fa fa-cutlery"></i><a href="./userIndex"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
-      </div>
-      <nav class="topNav" id="menuNav">
-        <a href="./userIndex.html">Home</a>
-        <div class="dropdown">
-          <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
-          <div class="dropdown-content">
-              <a href="#meal">Meal</a>
-              <a href="#snacks">Snacks</a>
-              <a href="#drinks">Drinks</a>
-              <a href="#combo">Combo</a>
-          </div>
+    <div id="title">
+      <h1><i class="fa fa-cutlery"></i><a href="./userIndex"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+    </div>
+    <nav class="topNav" id="menuNav">
+      <a href="./userIndex.html">Home</a>
+      <div class="dropdown">
+        <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
+        <div class="dropdown-content">
+            <a href="#meal">Meal</a>
+            <a href="#snacks">Snacks</a>
+            <a href="#drinks">Drinks</a>
+            <a href="#combo">Combo</a>
         </div>
-        <a href="./history.html"><div class="me"></div></a>
-        <a href='#' id="logout">Logout</a>
-        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
-        <a class="search">
-          <form action="#">
-            <input type="text" placeholder="Search for food.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
-        </a>
-        <a href="javascript:void(0);" class="icon">&#9776;</a>
-      </nav>
-    </header> 
+      </div>
+      <a href="./history.html"><div class="me"></div></a>
+      <a href='#' id="logout">Logout</a>
+      <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+      <a class="search">
+        <form action="#">
+          <input type="text" placeholder="Search for food.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </a>
+      <a href="javascript:void(0);" class="icon">&#9776;</a>
+    </nav>
+  </header> 
 	<!--Image Gallery-->
-    <div class="menu">
-      <h1 id="menuWelcome">Welcome <span class="me" id="me"></span></h1>
-      <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
-      <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
-    </div>		
-    <section class="menu" id="meals">
-		<h2>MEALS</h2>
+  <div class="menu">
+    <h1 id="menuWelcome">Welcome <span class="me" id="me"></span></h1>
+    <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
+    <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
+  </div>		
+  <section class="menu" id="meals">
+    <h2>MEALS</h2>
+  </section>
+  <div class="clearfix"></div>
 
-		<div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain" id="img01">
-                </div>
-                <div class="flip-box-back">
-                  <h2>Description:</h2>
-                  <p>Rice and ofada stew garnished with dodo and assorted meat.
-                    <br>Chef Steve's special!</p>
-                </div>
-            </div>
-          </div>
-          <div class="desc">
-            <h1 id="item01">Rice and Dodo</h1>
-            <p class="price" id="price01">NGN 600.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>Select Quantity: 
-              <select id="selectQty01">
-                <option id="qty01">1</option>
-                <option id="qty02">2</option>
-                <option id="qty03">3</option>
-                <option id="qty04">4</option>
-                <option id="qty05">5</option>
-              </select>
-            </p>
-            <button class="buyBtn" id="buy01">Buy Now</button>
-            <button class="cartBtn" id="btn01">Add to Cart</button>
-        </div>
-			</div>
-		</div>      
-
-		<div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-                  <img src="../imgs/meals/chicken.jpg" alt="chicken" id="img02">
-                </div>
-                <div class="flip-box-back">
-                  <h2>Description:</h2>
-                  <p>Delicious roasted spicy chicken garnished with curry and herbs.</p>
-                </div>
-              </div>
-          </div>
-          <div class="desc">
-            <h1 id="item02">Chicken</h1>
-            <p class="price" id="price02">NGN 1000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>Select Quantity: 
-                <select id="selectQty02">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                  <option id="qty07">7</option>
-                  <option id="qty08">8</option>
-                  <option id="qty09">9</option>
-                </select>
-              </p>
-              <button class="buyBtn" id="buy02">Buy Now</button>
-            <button class="cartBtn" id="btn02">Add to Cart</button>
-        </div>
-      </div>
-		</div> 
-		
-		<div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/meals/steak2.jpg" alt="steak" id="img03">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description: </h2>
-          <p>Delicious steak dish filled with tenderness and marinated with the best sauce</p>
-        </div>
-      </div>
-    </div>
-          <div class="desc">
-            <h1 id="item03">Steak dish</h1>
-            <p class="price" id="price03">NGN 1000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty03">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy03">Buy Now</button>
-            <button class="cartBtn" id="btn03">Add to Cart</button>
-        </div>
-    	</div>
-    </div> 
-    
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/meals/moinmoin.jpg" alt="moin-moin" id="img04">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description: </h2>
-          <p>Deliciously prepared slices of moin-moin battered with egg & fish crumbs</p>
-        </div>
-      </div>
-    </div>
-          <div class="desc">
-            <h1 id="item04">Moin-moin deli</h1>
-            <p class="price" id="price04">NGN 400.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty04">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy04">Buy Now</button>
-            <button class="cartBtn" id="btn04">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-		<div class="clearfix"></div>
-	</section>
   <!-- SNACKS -->
   <section class="menu" id="snacks">
     <h2>SNACKS</h2>
+  </section>
+  <div class="clearfix"></div>
 
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/snacks/burger.jpg" alt="burger" id="img05">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Delicious Double-Cheese Burger.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item05">CheeseBurger</h1>
-            <p class="price" id="price05">NGN 500.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty05">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy05">Buy Now</button>
-            <button class="cartBtn" id="btn05">Add to Cart</button>
-        </div>
-      </div>
-    </div>  
-     
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/snacks/meatpie.jpg" alt="meatpie" id="img06">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Hot tasty meatpie.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item06">Meatpie</h1>
-            <p class="price" id="price06">NGN 350.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty06">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy06">Buy Now</button>
-            <button class="cartBtn" id="btn06">Add to Cart</button>
-        </div>
-      </div>
-    </div> 
-    
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/snacks/dougnut1.jpg" alt="doughnut" id="img07">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Doughnut of different flavours. The best there is.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item07">Doughnut</h1>
-            <p class="price" id="price07">NGN 100.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty07">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy07">Buy Now</button>
-            <button class="cartBtn" id="btn07">Add to Cart</button>
-        </div>		
-      </div>
-		</div> 
-     
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-        <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg" id="img08">
-      </div>
-      <div class="flip-box-back">
-        <h2>Description:</h2>
-        <p>Egg in bread. As yummy as it is simple.</p>
-      </div>
-    </div>
-</div>
-        <div class="desc">
-          <h1 id="item08">Scotch Eggs</h1>
-          <p class="price" id="price08">NGN 150.00</p>
-          <p><span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-          </p>
-          <p>
-            Select Quantity: 
-              <select id="selectQty08">
-                <option id="qty01">1</option>
-                <option id="qty02">2</option>
-                <option id="qty03">3</option>
-                <option id="qty04">4</option>
-                <option id="qty05">5</option>
-                <option id="qty06">6</option>
-              </select>
-          </p>
-          <button class="buyBtn" id="buy08">Buy Now</button>
-          <button class="cartBtn" id="btn08">Add to Cart</button>
-        </div>			
-      </div>
-    </div>
-    <div class="clearfix"></div>
-
-    
   <!--DRINKS-->
   <section class="menu" id="drinks">
-    <h2>DRINKS</h2>
-
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse" id="img09">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Chocolate munched drink. For the chocolate lovers</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item09">Choco Mousse</h1>
-            <p class="price" id="price09">NGN 1000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty09">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                  
-                </select>
-            </p>
-            <button class="buyBtn" id="buy09">Buy Now</button>
-            <button class="cartBtn" id="btn09">Add to Cart</button>
-        </div>
-      </div>
-		</div> 
-      
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/drinks/fruitjuice.jpg" alt="juice" id="img10">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Chilled Fruit Juice.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item10">FruitJuice</h1>
-            <p class="price" id="price10">NGN 500.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty10">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy10">Buy Now</button>
-            <button class="cartBtn" id="btn10">Add to Cart</button>
-        </div>			
-      </div>
-    </div> 
-    
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/drinks/cocktailspecial.jpg" alt="cocktailspecial" id="img11">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Refreshing cocktails with different flavors - Sunset, Sunrise, Mojito and Sex-on-the-beach.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item11">Cocktails</h1>
-            <p class="price" id="price11">NGN 1200.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty11">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                  <option id="qty06">6</option>
-                  <option id="qty07">7</option>
-                  <option id="qty08">8</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy11">Buy Now</button>
-            <button class="cartBtn" id="btn11">Add to Cart</button>
-        </div>			
-      </div>
-		</div> 
-        
-    <div class="responsive">
-			<div class="gallery">
-        <div class="flip-box">
-          <div class="flip-box-inner">
-            <div class="flip-box-front">
-              <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks" id="img12">
-      
-            </div>
-            <div class="flip-box-back">
-              <h2>Description:</h2>
-              <p>Chilled soft drinks.</p>
-            </div>
-          </div>
-        </div>
-        <div class="desc">
-          <h1 id="item12">Soft drinks</h1>
-          <p class="price" id="price12">NGN 150.00</p>
-          <p><span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-          </p>
-          <p>
-            Select Quantity: 
-              <select id="selectQty12">
-                <option id="qty01">1</option>
-                <option id="qty02">2</option>
-                <option id="qty03">3</option>
-                <option id="qty04">4</option>
-                <option id="qty05">5</option>
-                <option id="qty06">6</option>
-              </select>
-          </p>
-          <button class="buyBtn" id="buy12">Buy Now</button>
-          <button class="cartBtn" id="btn12">Add to Cart</button>
-        </div>			
-      </div>
-    </div> 
-
-    <div class="clearfix"></div>
+    <h2>DRINKS</h2>  
   </section>
+  <div class="clearfix"></div>
 
- <!--COMBO/SPECIALS-->
-  <section class="menu last" id="combo">
-  <h2>COMBO/SPECIALS</h2>
+<!--COMBO/SPECIALS-->
+  <section class="menu last" id="combos">
+    <h2>COMBO/SPECIALS</h2>
+  </section> 
+  <div class="clearfix"></div>
 
-  <div class="responsive">
-    <div class="gallery">
-      <div class="flip-box">
-        <div class="flip-box-inner">
-          <div class="flip-box-front">
-            <img src="../imgs/combo/delicacy.jpg" alt="special_rice" id="img13">
-          </div>
-          <div class="flip-box-back">
-            <h2>Description:</h2>
-            <p>Delicious rice made specially with vegetarians in mind.</p>
-          </div>
-        </div>
-      </div>
-      <div class="desc">
-          <h1 id="item13">Special Veggie Rice</h1>
-          <p class="price" id="price13">NGN 1500.00</p>
-          <p><span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-          </p>
-          <p>
-            Select Quantity: 
-              <select id="selectQty13">
-                <option id="qty01">1</option>
-                <option id="qty02">2</option>
-                <option id="qty03">3</option>
-                <option id="qty04">4</option>
-                <option id="qty05">5</option>
-              </select>
-          </p>
-          <button class="buyBtn" id="buy13">Buy Now</button>
-          <button class="cartBtn" id="btn13">Add to Cart</button>
-      </div>
-    </div>
-  </div>
-      
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/combo/burger-fries-drink.png" alt="burgerfrieschickendrink" id="img14">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Delicious Burger immersed with chips and a drink.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item14">Combo-licious Burger</h1>
-            <p class="price" id="price14">NGN 2000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty14">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy14">Buy Now</button>
-            <button class="cartBtn" id="btn14">Add to Cart</button>
-        </div>
-      </div> 
-    </div>
-    
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/combo/chicken3.jpg" alt="wholechicken_paella" id="img15">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Roasted Spicy Chicken Paella garnished with rice, seafood, curry and herbs.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item15">Whole Chicken Paella</h1>
-            <p class="price" id="price15">NGN 5000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty15">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy15">Buy Now</button>
-            <button class="cartBtn" id="btn15">Add to Cart</button>
-        </div>      
-      </div>
-    </div> 
-      
-    <div class="responsive">
-			<div class="gallery">
-          <div class="flip-box">
-              <div class="flip-box-inner">
-                <div class="flip-box-front">
-          <img src="../imgs/combo/snail.jpg" alt="peppered-snail" id="img16">
-        </div>
-        <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p>Delicious Peppered Fried Snail garnished with spicy curry and royal tomato sauce.</p>
-        </div>
-      </div>
-  </div>
-          <div class="desc">
-            <h1 id="item16">Peppered Fried Snail</h1>
-            <p class="price" id="price16">NGN 1000.00</p>
-            <p><span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-            </p>
-            <p>
-              Select Quantity: 
-                <select id="selectQty16">
-                  <option id="qty01">1</option>
-                  <option id="qty02">2</option>
-                  <option id="qty03">3</option>
-                  <option id="qty04">4</option>
-                  <option id="qty05">5</option>
-                </select>
-            </p>
-            <button class="buyBtn" id="buy16">Buy Now</button>
-            <button class="cartBtn" id="btn16">Add to Cart</button>
-        </div>      
-      </div>
-    </div> 
-    <div class="center">
+  <div class="center">
       <div class="pagination">
         <a href="#">&laquo;</a>
         <a class="current" href="#">1</a>
@@ -700,9 +78,8 @@
         <a href="#">6</a>
         <a href="#">&raquo;</a>
       </div>
-    </div>
-    <div class="clearfix"></div>
-  </section> 
+  </div>
+
 
 <!--ORDER HISTORY-->
 <div class="last">
@@ -765,6 +142,7 @@
         <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
         <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
     </footer>
+  <script src="../app/js/getmenu.js"></script>
   <script src="../app/js/username.js"></script>
   <script src="../js/scripts.js"></script>
   <script src="../js/cart.js"></script>
