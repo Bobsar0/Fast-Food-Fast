@@ -27,8 +27,6 @@ describe('Order and Menu Endpoints', () => {
   const menuC = new MenuController(db);
 
   let adminToken = '';
-  // let admin2Token = '';
-  // let admin2Id = '';
   let userToken = '';
   let id = '';
   let orderId = '';
@@ -145,7 +143,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter the name of your menu item');
+            res.body.should.have.property('message').eql('Please enter the name of your food item');
             done();
           });
       });
@@ -157,7 +155,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter the price of your menu item');
+            res.body.should.have.property('message').eql('Please enter the price of your food item');
             done();
           });
       });
@@ -165,9 +163,12 @@ describe('Order and Menu Endpoints', () => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
           .set({ 'x-access-token': adminToken })
-          .send({
-            name: 'Meatpie', price: 'y', genre: 'SNACK', img: 'img_url',
-          })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie')
+          .field('price', 'xyz')
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness at its finest')
+          .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
@@ -183,7 +184,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter the genre of your menu item');
+            res.body.should.have.property('message').eql('Please enter the genre of your food item');
             done();
           });
       });
@@ -207,7 +208,24 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please enter an image url for your item');
+            res.body.should.have.property('message').eql('Please upload an image in jpg/jpeg or png format');
+            done();
+          });
+      });
+      it('reject image file of invalid format', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post(path)
+          .set({ 'x-access-token': adminToken })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie')
+          .field('price', 300)
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness at its finest')
+          .attach('img', './UI/imgs/testImg.pdf')
+          .end((err, res) => {
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Please upload an image in jpg/jpeg or png format');
             done();
           });
       });
@@ -215,19 +233,39 @@ describe('Order and Menu Endpoints', () => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
           .set({ 'x-access-token': adminToken })
-          .send({
-            name: 'Meatpie ', price: 300, genre: ' snack', img: 'img_url',
-          })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie')
+          .field('price', 300)
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness at its finest')
+          .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             res.status.should.equal(201);
             res.body.should.have.property('status').eql('success');
-            res.body.should.have.property('message').eql('New menu item added successfully');
+            res.body.should.have.property('message').eql('New food item added successfully!');
             res.body.should.have.property('product');
             res.body.product.should.have.property('name').eql('MEATPIE');
             res.body.product.should.have.property('genre').eql('snack');
             res.body.product.should.have.property('price').eql(300);
-            res.body.product.should.have.property('img').eql('img_url');
+            res.body.product.should.have.property('img');
+            res.body.product.should.have.property('description').eql('Delicious-ness at its finest');
             res.body.product.should.have.property('isavailable').eql(true);
+            done();
+          });
+      });
+      it('catches error in trying to add already existing food item', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post(path)
+          .set({ 'x-access-token': adminToken })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie')
+          .field('price', 300)
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness MeatPie')
+          .attach('img', './UI/imgs/snacks/meatpie.jpg')
+          .end((err, res) => {
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
             done();
           });
       });

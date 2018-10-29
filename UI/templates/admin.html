@@ -36,8 +36,8 @@
 				<!-- The sidebar -->
 			<div id="mySidenav" class="sidenav">
 					<a href="javascript:void(0)" id="closeBtn">&times;</a>
-					<a href="#" id="getAll">Manage Orders</a>
-					<a href="#">Add meal to menu</a>
+					<a href="#" id="getOrders">Manage Orders</a>
+					<a href="#" id="createMenu">Add meal to menu</a>
 					<a href="#">Edit Menu</a>
 				</div>
 			</header>
@@ -52,6 +52,7 @@
 				<i class="fa fa-search"></i>
 				<input type="text" id="orderSearch" placeholder="Search for order(s) by any column value...">
 				</div>	
+				
 				<section class="admin" id="allOrders">
 						<table id="adminOrdersTable">
 							<thead>
@@ -70,6 +71,59 @@
 							<tbody id="adminOrdersTableBody"></tbody>
 						</table>
 					</section>
+
+					<div id="generalModal" class="modal">
+							<!-- Modal content -->
+							<div class="modalContent" style="width: 80%">
+								<span class="close">&times;</span>
+								<h1>FastFoodFast Admin</h1>
+								<h3 id="generalInfo"></h3>
+								<button id="yes" class="approveBtn">YES</button>
+								<button id="no" class="declineBtn">NO</button>
+							</div>
+						</div>
+
+						<section id="createMenuModal" class="modal">
+							<!-- Modal content -->
+							<div class="modalContent">
+								<span class="close">&times;</span>
+								<h1>Add Food to Menu</h1>
+									<form method="post" enctype="multipart/form-data" id="addForm">
+											<table>
+												<tr>
+													<td id="label"><label for="name">Name:</label></td>
+													<td><input type="text" id="name" name="name"></td>
+												</tr>
+											<tr>
+												<td id="label"><label for="price">Price:</label></td>
+												<td><input type="number" id="price" name="price"></td>
+											</tr>
+											<tr>
+												<td id="label"><label for="genre">Genre:</label></td>
+												<td>
+													<select id="genre" name="genre">
+														<option value="meal">Meal</option>
+														<option value="snack">Snack</option>
+														<option value="drink">Drink</option>
+														<option value="combo">Combo</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td id="label"><label for="img">Image:</label></td>
+												<td><input type="file" name="img" id="img"></td>
+											</tr>
+											<tr>
+												<td id="label"><label for="description">Description:</label></td>
+												<td><textarea name="description" id="desc" placeholder="Add a description of your food here"></textarea></td>
+											</tr>
+											</table>
+											<h3 id="createMenuMsg" class="err"></h3>
+											<button type="button" id="addBtn">Add Food</button>
+											<button type="reset" id="resetBtn" class="reset">Reset</button>
+										</form>
+							</div>
+						</section>
 
 					<h2>EDIT MENU ITEMS</h2>
 					<section class="admin">
@@ -108,16 +162,6 @@
 			</section>
 		</div>
 		</div>
-		<div id="generalModal" class="modal">
-				<!-- Modal content -->
-				<div class="modalContent">
-					<span class="close">&times;</span>
-					<h1>FastFoodFast Admin</h1>
-					<h3 id="generalInfo"></h3>
-					<button id="yes" class="approveBtn">YES</button>
-					<button id="no" class="declineBtn">NO</button>
-				</div>
-			</div>
 		<footer>
 			<p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
 			<p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
@@ -125,6 +169,8 @@
 		</footer>
 		<script src="../app/js/username.js"></script>
 		<script src="../app/js/admin.js"></script>
+		<script src="upload.js"></script>
+		<script src="../app/js/createmenu.js"></script>
 		<script>
 		const icon = document.getElementsByClassName('icon');
 		icon[0].onclick = () => {

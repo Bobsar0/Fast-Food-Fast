@@ -94,6 +94,7 @@ export default class {
   //       price INTEGER NOT NULL,
   //       genre VARCHAR(16) NOT NULL,
   //       img TEXT,
+  //       description TEXT,
   //       isAvailable BOOLEAN,
   //       created_date TIMESTAMP DEFAULT NOW(),
   //       modified_date TIMESTAMP DEFAULT NOW()
@@ -126,7 +127,6 @@ export default class {
         console.log(`deleted all rows from ${tableName}`);
       })
       .catch((err) => {
-        console.log(`err in deleting rows from ${tableName}`, err);
       });
   }
 }

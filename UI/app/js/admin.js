@@ -64,12 +64,12 @@ search.onkeyup = () => {
 };
 
 const host = 'http://localhost:9999/api/v1';
-// UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
+// UNCOMMENT BELOW AND USE IN REQ IN PRODUCTION
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // const userId = localStorage.id;
-  const req = new Request(`${host}/orders`, {
+  /* * MANAGE ORDERS * */
+  let req = new Request(`${host}/orders`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.token,
@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const msg = document.getElementById('msg');
-  const getAllBtn = document.getElementById('getAll');
-  getAllBtn.onclick = () => {
+  const getOrdersBtn = document.getElementById('getOrders');
+  getOrdersBtn.onclick = () => {
     fetch(req).then((resp) => {
       resp.json().then((res) => {
         msg.className = 'success';
@@ -270,5 +270,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
+  };
+
+  // ============================================================================================ //
+  /** ************************************ ADD FOOD TO MENU ************************************* */
+  // ============================================================================================ //
+  const addForm = document.getElementById('addForm');
+  const createMenuLink = document.getElementById('createMenu');
+  const createMenuModal = document.getElementById('createMenuModal');
+  const span1 = document.getElementsByClassName('close')[1];
+  const addBtnInput = document.getElementById('addBtn');
+  const menuMsg = document.getElementById('createMenuMsg');
+
+  createMenuLink.onclick = () => {
+    displayModal(createMenuModal, span1);
+    toggleSideNav('0', 'white');
+  };
+
+  addBtnInput.onclick = () => {
+    const formData = new FormData(addForm);
+
+    req = new Request(`${host}/menu`, {
+      method: 'POST',
+      headers: {
+        'x-access-token': localStorage.token,
+      },
+      body: formData,
+    });
+    fetch(req).then((resp) => {
+      resp.json().then((res) => {
+        if (res.error && res.error.includes('Cannot read property \'path\'')) {
+          msg.className = 'err';
+          menuMsg.innerHTML = 'Please upload an image of your food item';
+          return;
+        }
+        if (res.error && res.error.includes('duplicate')) {
+          msg.className = 'err';
+          menuMsg.innerHTML = 'Food item already exists on the menu!';
+          return;
+        }
+        if (res.error) {
+          msg.className = 'err';
+          menuMsg.innerHTML = 'Server Error. Please try again in a few minutes';
+          return;
+        }
+        if (res.status === 'success') {
+          menuMsg.className = 'success';
+        }
+        menuMsg.innerHTML = res.message;
+      }).catch((err) => {
+        menuMsg.innerHTML = err.message;
+        menuMsg.className = 'err';
+      });
+    }).catch(fetchErr => `Server Error: ${fetchErr}. Please try again in a few mins`);
   };
 });

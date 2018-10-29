@@ -1,9 +1,9 @@
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
+import upload from './helpers/upload';
 import AuthC from './controllers/authController';
 
-// OrdersController intance must be created and passed from outside
 export default (orderC, userC, menuC) => {
   const server = express();
   const prefix = '/api/v1';
@@ -65,7 +65,7 @@ export default (orderC, userC, menuC) => {
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read()
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
-  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, (req, res) => menuC.create(req)
+  server.post(`${prefix}/menu`, AuthC.verifyAdminToken, upload.single('img'), (req, res) => menuC.create(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
 
@@ -74,6 +74,7 @@ export default (orderC, userC, menuC) => {
   // ==========POWER FRONT-END PAGES===============//
   const uiPath = path.join(__dirname, '../../UI');
   server.use(express.static(uiPath));
+  server.use('/uploads', express.static('uploads'));
 
   server.get('/', (_req, res) => {
     res.sendFile(`${uiPath}/templates/index.html`);

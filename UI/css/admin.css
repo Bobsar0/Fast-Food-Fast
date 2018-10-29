@@ -104,6 +104,61 @@ div#search i{
     outline: none;
 }
 
+#createMenuModal .modalContent{
+    width: 70%;
+}
+#createMenuModal .modalContent h1{
+    font-size: 25px;
+}
+
+form table td {
+    padding: 18px 0;
+    text-align: left;
+    border-bottom: none;
+}
+
+td#label{
+    font: 25px/1.5 Arial, Helvetica, sans-serif;
+    text-align: right;
+}
+
+form input, textarea, select {
+    width: 70%;
+    font-size: 16px;
+    font-weight: bolder;
+    margin-left: 20px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+}
+input#img{
+    border: none;
+    outline: none;
+    padding: 0
+}
+
+textarea {
+    height: 150px;
+}
+
+#addBtn, #resetBtn{
+    width: 45%;
+    height: 40px;
+    color: white;
+    background-color: #2ec371;
+    opacity: 0.6;
+    margin: 25px 15px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+#resetBtn{
+    background-color: red;
+}
+#addBtn:hover, #resetBtn:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
 .editInputPrice{width: 100px;}
 .editInputQty{width: 50px;}
 
@@ -118,8 +173,34 @@ div#search i{
         font-size: 14px;
         margin-top: 1px;
     } 
+    td#label{
+        font: 20px/1.5 Arial, Helvetica, sans-serif;
+    }
+    #addBtn, #resetBtn{
+       width: 35%
+    }
 }
 @media screen and (max-width: 500px) {
     h1#openBtn{font-size: 20px;}
     #orderSearch{font-size: 12px;}
+
+    form table td {
+        padding: 12px 0;
+    }
+    
+    td#label{
+        font: 12px/1.5 Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+    
+    form input, textarea, select {
+        width: 80%;
+        font-size: 12px;
+        padding: 6px;
+    }
+    #addBtn, #resetBtn{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
 }

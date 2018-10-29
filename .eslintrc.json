@@ -11,6 +11,7 @@
 			"alert": true,
 			"fetch": true,
 			"Request": true,
-			"localStorage": true
+			"localStorage": true,
+			"FormData": true
     }
 }
