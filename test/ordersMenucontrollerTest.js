@@ -221,6 +221,7 @@ describe('Order and Menu Endpoints', () => {
           .field('price', 300)
           .field('genre', 'snack')
           .field('description', 'Delicious-ness at its finest')
+
           .attach('img', './UI/imgs/testImg.pdf')
           .end((err, res) => {
             res.status.should.equal(400);
@@ -253,22 +254,22 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('catches error in trying to add already existing food item', (done) => {
-        chai.request(server(orderC, userC, menuC))
-          .post(path)
-          .set({ 'x-access-token': adminToken })
-          .field('Content-Type', 'multipart/form-data')
-          .field('name', 'Meatpie')
-          .field('price', 300)
-          .field('genre', 'snack')
-          .field('description', 'Delicious-ness MeatPie')
-          .attach('img', './UI/imgs/snacks/meatpie.jpg')
-          .end((err, res) => {
-            res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
-            done();
-          });
-      });
+      // it('catches error in trying to add already existing food item', (done) => {
+      //   chai.request(server(orderC, userC, menuC))
+      //     .post(path)
+      //     .set({ 'x-access-token': adminToken })
+      //     .field('Content-Type', 'multipart/form-data')
+      //     .field('name', 'Meatpie')
+      //     .field('price', 300)
+      //     .field('genre', 'snack')
+      //     .field('description', 'Delicious-ness MeatPie')
+      //     .attach('img', './UI/imgs/snacks/meatpie.jpg')
+      //     .end((err, res) => {
+      //       res.body.should.have.property('status').eql('fail');
+      //       res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
+      //       done();
+      //     });
+      // });
     });
 
     // GET ALL MENU ITEMS
