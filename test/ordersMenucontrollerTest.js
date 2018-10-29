@@ -168,7 +168,7 @@ describe('Order and Menu Endpoints', () => {
           .field('price', 'xyz')
           .field('genre', 'snack')
           .field('description', 'Delicious-ness at its finest')
-          .attach('img', 'UI/imgs/snacks/meatpie.jpg')
+          .attach('img', '../UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             // res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
@@ -221,7 +221,7 @@ describe('Order and Menu Endpoints', () => {
           .field('price', 300)
           .field('genre', 'snack')
           .field('description', 'Delicious-ness at its finest')
-          .attach('img', 'UI/imgs/testImg.pdf')
+          .attach('img', '../UI/imgs/testImg.pdf')
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
@@ -238,7 +238,7 @@ describe('Order and Menu Endpoints', () => {
           .field('price', 300)
           .field('genre', 'snack')
           .field('description', 'Delicious-ness at its finest')
-          .attach('img', 'UI/imgs/snacks/meatpie.jpg')
+          .attach('img', '../UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             res.status.should.equal(201);
             res.body.should.have.property('status').eql('success');
@@ -262,7 +262,7 @@ describe('Order and Menu Endpoints', () => {
           .field('price', 300)
           .field('genre', 'snack')
           .field('description', 'Delicious-ness MeatPie')
-          .attach('img', 'UI/imgs/snacks/meatpie.jpg')
+          .attach('img', '../UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
