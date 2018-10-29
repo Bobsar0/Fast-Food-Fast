@@ -170,8 +170,8 @@ describe('Order and Menu Endpoints', () => {
           .field('description', 'Delicious-ness at its finest')
           .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
-            // res.status.should.equal(400);
-            // res.body.should.have.property('status').eql('fail');
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('message').eql('Please enter price in integer format');
             done();
           });
@@ -224,7 +224,7 @@ describe('Order and Menu Endpoints', () => {
           .attach('img', './UI/imgs/testImg.pdf')
           .end((err, res) => {
             res.status.should.equal(400);
-            // res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('message').eql('Please upload an image in jpg/jpeg or png format');
             done();
           });
@@ -240,8 +240,8 @@ describe('Order and Menu Endpoints', () => {
           .field('description', 'Delicious-ness at its finest')
           .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
-            // res.status.should.equal(201);
-            // res.body.should.have.property('status').eql('success');
+            res.status.should.equal(201);
+            res.body.should.have.property('status').eql('success');
             res.body.should.have.property('message').eql('New food item added successfully!');
             res.body.should.have.property('product');
             res.body.product.should.have.property('name').eql('MEATPIE');
@@ -264,7 +264,7 @@ describe('Order and Menu Endpoints', () => {
           .field('description', 'Delicious-ness MeatPie')
           .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
-            // res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('status').eql('fail');
             res.body.should.have.property('error').eql('duplicate key value violates unique constraint "menu_name_key"');
             done();
           });
