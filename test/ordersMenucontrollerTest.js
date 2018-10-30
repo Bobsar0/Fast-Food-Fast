@@ -30,6 +30,7 @@ describe('Order and Menu Endpoints', () => {
   let userToken = '';
   let id = '';
   let orderId = '';
+  let foodId = '';
 
   before((done) => {
     // Uncomment the 3 lines below when running for the first time to create tables
@@ -196,7 +197,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Food genre must be either MEAL, SNACK, DRINK or COMBO');
+            res.body.should.have.property('message').eql('Food genre must be either MEAL, SNACK, DRINK, COMBO or DESSERT');
             done();
           });
       });
@@ -229,7 +230,7 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('should allow an admin to successfully create a new menu item', (done) => {
+      it('should allow an admin to successfully create a new menu item with image upload functionality', (done) => {
         chai.request(server(orderC, userC, menuC))
           .post(path)
           .set({ 'x-access-token': adminToken })
@@ -240,11 +241,39 @@ describe('Order and Menu Endpoints', () => {
           .field('description', 'Delicious-ness at its finest')
           .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
+            foodId = res.body.product.foodid;
             res.status.should.equal(201);
             res.body.should.have.property('status').eql('success');
             res.body.should.have.property('message').eql('New food item added successfully!');
             res.body.should.have.property('product');
+            res.body.product.should.have.property('foodid');
             res.body.product.should.have.property('name').eql('MEATPIE');
+            res.body.product.should.have.property('genre').eql('snack');
+            res.body.product.should.have.property('price').eql(300);
+            res.body.product.should.have.property('img');
+            res.body.product.should.have.property('description').eql('Delicious-ness at its finest');
+            res.body.product.should.have.property('isavailable').eql(true);
+            done();
+          });
+      });
+      it('should allow an admin to successfully create a new menu item with img url', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .post(path)
+          .set({ 'x-access-token': adminToken })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'Meatpie2')
+          .field('price', 300)
+          .field('genre', 'snack')
+          .field('description', 'Delicious-ness at its finest')
+          .field('img', './UI/imgs/snacks/meatpie.jpg')
+          .end((err, res) => {
+            foodId = res.body.product.foodid;
+            res.status.should.equal(201);
+            res.body.should.have.property('status').eql('success');
+            res.body.should.have.property('message').eql('New food item added successfully!');
+            res.body.should.have.property('product');
+            res.body.product.should.have.property('foodid');
+            res.body.product.should.have.property('name').eql('MEATPIE2');
             res.body.product.should.have.property('genre').eql('snack');
             res.body.product.should.have.property('price').eql(300);
             res.body.product.should.have.property('img');
@@ -261,7 +290,7 @@ describe('Order and Menu Endpoints', () => {
           .field('name', 'Meatpie')
           .field('price', 300)
           .field('genre', 'snack')
-          .field('description', 'Delicious-ness MeatPie')
+          .field('description', 'Delicious MeatPie')
           .attach('img', './UI/imgs/snacks/meatpie.jpg')
           .end((err, res) => {
             res.body.should.have.property('status').eql('fail');
@@ -294,6 +323,110 @@ describe('Order and Menu Endpoints', () => {
             res.body.should.have.property('message').eql('Menu items retrieved successfully');
             res.body.should.have.property('products');
             res.body.should.have.property('productCount').eql(res.body.products.length);
+            done();
+          });
+      });
+    });
+
+    describe('EDIT MENU ITEM (PUT /menu/:foodId)', () => {
+      it('does not grant access to non-admins', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .set({ 'x-access-token': userToken })
+          .end((err, res) => {
+            res.status.should.equal(403);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('statusCode').eql(403);
+            res.body.should.have.property('message').eql('Sorry, only admins are authorized');
+            done();
+          });
+      });
+      it('rejects null token', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .end((err, res) => {
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Please provide a token');
+            done();
+          });
+      });
+      it('rejects invalid token', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .set({ 'x-access-token': adminToken.slice(0, adminToken.length - 1) })
+          .end((err, res) => {
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('invalid signature');
+            done();
+          });
+      });
+      it('rejects null request body', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .set({ 'x-access-token': adminToken })
+          .end((err, res) => {
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('No change detected. Please enter a valid field to be updated');
+            done();
+          });
+      });
+      it('rejects invalid foodId', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/123456789`)
+          .set({ 'x-access-token': adminToken })
+          .send({ name: 'ChickenPie', price: 300 })
+          .end((err, res) => {
+            res.status.should.equal(404);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Food item with id 123456789 not found on the menu');
+            done();
+          });
+      });
+      it('catches error in invalid price parameter', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/abc`)
+          .set({ 'x-access-token': adminToken })
+          .send({ name: 'ChickenPie', price: 300 })
+          .end((err, res) => {
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('invalid input syntax for integer: "abc"');
+            done();
+          });
+      });
+      it('rejects genre parameter of invalid value', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .set({ 'x-access-token': adminToken })
+          .send({ name: 'Meatpie', price: 300, genre: 'pie' })
+          .end((err, res) => {
+            res.status.should.equal(400);
+            res.body.should.have.property('status').eql('fail');
+            res.body.should.have.property('message').eql('Food genre must be either MEAL, SNACK, DRINK, COMBO or DESSERT');
+            done();
+          });
+      });
+      it('should allow an admin to successfully edit a menu item', (done) => {
+        chai.request(server(orderC, userC, menuC))
+          .put(`${path}/${foodId}`)
+          .set({ 'x-access-token': adminToken })
+          .field('Content-Type', 'multipart/form-data')
+          .field('name', 'ChickenPie')
+          .field('price', 400)
+          .attach('img', './UI/imgs/snacks/meatpie.jpg')
+          .field('description', 'Hot tasty pie filled with tender slices of chicken breasts')
+          .end((err, res) => {
+            res.status.should.equal(200);
+            res.body.should.have.property('status').eql('success');
+            res.body.should.have.property('message').eql('Food item edited successfully!');
+            res.body.should.have.property('food');
+            res.body.food.should.have.property('name').eql('CHICKENPIE');
+            res.body.food.should.have.property('genre').eql('snack');
+            res.body.food.should.have.property('price').eql(400);
+            res.body.food.should.have.property('img');
+            res.body.food.should.have.property('description').eql('Hot tasty pie filled with tender slices of chicken breasts');
+            res.body.food.should.have.property('isavailable').eql(true);
             done();
           });
       });
