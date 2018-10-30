@@ -65,9 +65,17 @@ export default (orderC, userC, menuC) => {
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read()
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
+
   server.post(`${prefix}/menu`, AuthC.verifyAdminToken, upload.single('img'), (req, res) => menuC.create(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500).json(err)));
+
+  server.put(`${prefix}/menu/:foodId`, AuthC.verifyAdminToken, upload.single('img'), (req, res) => {
+    menuC.update(req)
+      .then(result => res.status(result.statusCode).json(result))
+      .catch(err => res.status(err.statusCode || 500)
+        .json({ status: 'fail', message: err.error || err.message }));
+  });
 
   server.get('/api/v1', (req, res) => res.status(200).json({ message: 'Welcome to API version 1 of FastFoodFast' }));
 
