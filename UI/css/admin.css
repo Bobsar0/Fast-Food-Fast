@@ -114,6 +114,11 @@ div#searchMenu i{
     height: 100%;
     margin-bottom: 20px;
 }
+
+#allOrders, #allFood{
+    display: none;
+}
+
 form table td {
     padding: 18px 0;
     text-align: left;
