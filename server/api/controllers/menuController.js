@@ -29,7 +29,7 @@ export default class {
       return { status: 'fail', statusCode: 400, message: 'Please enter the genre of your food item' };
     }
     genre = genre.trim().toLowerCase();
-    if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo' !== 'dessert') {
+    if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo' && genre !== 'dessert') {
       return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK, COMBO or DESSERT' };
     }
     if (description) {
@@ -38,7 +38,7 @@ export default class {
 
     try {
       img = img || req.file.path;
-      const query = `INSERT INTO menu(name, price, genre, img, description, isAvailable, created_date, modified_date)
+      const query = `INSERT INTO menu(name, price, genre, img, description, isavailable, created_date, modified_date)
       VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       returning *`;
 
@@ -77,7 +77,7 @@ export default class {
     try {
       const { rows, rowCount } = await this.db.query(getAllQuery);
       return {
-        status: 'success', statusCode: 200, message: 'Menu items retrieved successfully', products: rows, productCount: rowCount,
+        status: 'success', statusCode: 200, message: `${rowCount} Menu items retrieved successfully`, products: rows,
       };
     } catch (error) {
       return { status: 'fail', statusCode: 500, message: error.message };
@@ -101,12 +101,12 @@ export default class {
       } = req.body;
       let { name, img, description } = req.body;
 
-      if (!name && !price && !genre && !img && !description && !isAvailable) {
+      if (!name && !price && !genre && !img && !description && Boolean(isAvailable) !== true && Boolean(isAvailable) !== false) {
         return ({ status: 'fail', statusCode: 400, message: 'No change detected. Please enter a valid field to be updated' });
       }
       if (name) { name = name.trim().toUpperCase(); }
       if (genre) {
-        if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo' !== 'dessert') {
+        if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo' && genre !== 'dessert') {
           return { status: 'fail', statusCode: 400, message: 'Food genre must be either MEAL, SNACK, DRINK, COMBO or DESSERT' };
         }
       }
@@ -129,6 +129,7 @@ export default class {
         req.params.foodId,
       ];
       const response = await this.db.query(updateQuery, values);
+      console.log('res:', response.rows[0])
       return {
         status: 'success', statusCode: 200, message: 'Food item edited successfully!', food: response.rows[0],
       };
