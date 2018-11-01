@@ -47,13 +47,13 @@ export default (orderC, userC, menuC) => {
   server.post(`${prefix}/auth/signup`, (req, res) => userC.create(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500)
-      .json({ status: err.statusCode, error: err.message || err.error })));
+      .json({ status: 'fail', error: err.message || err.error })));
 
   // LOGIN /user
   server.post(`${prefix}/auth/login`, (req, res) => userC.login(req)
     .then(result => res.status(result.statusCode).json(result))
     .catch(err => res.status(err.statusCode || 500)
-      .json({ status: err.statusCode, error: err.message || err.error })));
+      .json({ status: 'fail', error: err.message || err.error })));
 
   // GET all order-history by userId
   server.get(`${prefix}/users/:userId/orders`, AuthC.verifyToken, (req, res) => userC.findOrdersByUserId(req)
@@ -90,16 +90,16 @@ export default (orderC, userC, menuC) => {
   server.get('/index', (_req, res) => {
     res.sendFile(`${uiPath}/templates/index.html`);
   });
-  // server.get('/userIndex', (_req, res) => {
-  //   res.sendFile(`${uiPath}/templates/userIndex.html`);
-  // });
+  server.get('/userIndex', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/userIndex.html`);
+  });
 
   server.get('/menu', (_req, res) => {
     res.sendFile(`${uiPath}/templates/menu.html`);
   });
-  // server.get('/userMenu', (_req, res) => {
-  //   res.sendFile(`${uiPath}/templates/userMenu.html`);
-  // });
+  server.get('/userMenu', (_req, res) => {
+    res.sendFile(`${uiPath}/templates/userMenu.html`);
+  });
 
   server.get('/signup', (_req, res) => {
     res.sendFile(`${uiPath}/templates/signup.html`);
