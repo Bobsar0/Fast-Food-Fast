@@ -77,6 +77,11 @@ export default (orderC, userC, menuC) => {
         .json({ status: 'fail', message: err.error || err.message }));
   });
 
+  server.delete(`${prefix}/menu/:foodId`, AuthC.verifyAdminToken, (req, res) => menuC.delete(req)
+    .then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(err.statusCode || 500).json(err)));
+
+
   server.get('/api/v1', (req, res) => res.status(200).json({ message: 'Welcome to API version 1 of FastFoodFast' }));
 
   // ==========POWER FRONT-END PAGES===============//
