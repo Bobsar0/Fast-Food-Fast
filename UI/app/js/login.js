@@ -54,10 +54,15 @@ loginBtn.onclick = () => {
         localStorage.setItem('id', res.user.userid);
 
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}...redirecting</span>`;
-
+        if (res.user.role === 'admin') {
+          setTimeout(() => {
+            window.location.href = 'admin';
+          }, 100);
+          return;
+        }
         setTimeout(() => {
-          window.location.href = '../../templates/userMenu.html';
-        }, 500);
+          window.location.href = 'userMenu';
+        }, 100);
       }
     }).catch((err) => {
       password2Err.innerHTML = err.message;
