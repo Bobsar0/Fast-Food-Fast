@@ -71,24 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================================================================================ //
   /** ************************************ MANAGE ORDERS ************************************* */
   // ============================================================================================ //
-  let req = new Request(`${host}/orders`, {
-    method: 'GET',
-    headers: {
-      'x-access-token': localStorage.token,
-    },
-  });
+  let req = {};
 
-  const msg = document.getElementById('msg');
+  const ordersMsg = document.getElementById('manageOrdersMsg');
+  const manageMenuMsg = document.getElementById('manageMenuMsg');
+
   const getOrdersBtn = document.getElementById('getOrders');
-
   getOrdersBtn.onclick = () => {
+    req = new Request(`${host}/orders`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': localStorage.token,
+      },
+    });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
-        msg.className = 'err';
-        msg.innerHTML = res.message;
-        const { message, status, data } = res;
-        if (status === 'success' && message === 'Orders retrieved successfully') {
-          msg.className = 'success';
+        ordersMsg.className = 'err';
+        ordersMsg.innerHTML = res.message;
+        const { status, data } = res;
+        if (status === 'success') {
+          ordersMsg.className = 'success';
           data.orders.forEach((order) => {
             const {
               orderid, userid, food, quantity, price,
@@ -189,15 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
                   fetch(updateReq).then((upResp) => {
                     upResp.json().then((upRes) => {
                       if (upRes.status === 'success') {
-                        msg.className = 'success';
-                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        ordersMsg.className = 'success';
+                        ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                         odrStatus = upRes.order.status;
                         statusCell.textContent = odrStatus;
                         date2Cell.textContent = upRes.order.modified_date;
                         styleProcessing();
                       } else {
-                        msg.className = 'err';
-                        msg.innerHTML = upRes.message;
+                        ordersMsg.className = 'err';
+                        ordersMsg.innerHTML = upRes.message;
                       }
                     }).catch(resErr => console.log('res err:', resErr));
                   }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -210,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             declineBtn.onclick = () => {
               if (odrStatus === 'NEW' || odrStatus === 'PROCESSING') {
                 modalTxt.innerHTML = `Are you sure you want to CANCEL Order ${orderId}?
-                <p>This action cannot be undone</p>`;
+                <p>This action is irreversible!</p>`;
                 displayModal(generalAdminModal, span0);
                 yes.onclick = () => {
                   const updateReq = new Request(`${host}/orders/${orderid}`, {
@@ -224,15 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
                   fetch(updateReq).then((upResp) => {
                     upResp.json().then((upRes) => {
                       if (upRes.status === 'success') {
-                        msg.className = 'success';
-                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        ordersMsg.className = 'success';
+                        ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                         odrStatus = upRes.order.status;
                         statusCell.textContent = odrStatus;
                         date2Cell.textContent = upRes.order.modified_date;
                         styleCancelled();
                       } else {
-                        msg.className = 'err';
-                        msg.innerHTML = upRes.message;
+                        ordersMsg.className = 'err';
+                        ordersMsg.innerHTML = upRes.message;
                       }
                     }).catch(resErr => console.log('res err:', resErr));
                   }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -260,15 +262,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetch(updateReq).then((upResp) => {
                   upResp.json().then((upRes) => {
                     if (upRes.status === 'success') {
-                      msg.className = 'success';
-                      msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                      ordersMsg.className = 'success';
+                      ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                       odrStatus = upRes.order.status;
                       statusCell.textContent = odrStatus;
                       date2Cell.textContent = upRes.order.modified_date;
                       styleComplete();
                     } else {
-                      msg.className = 'err';
-                      msg.innerHTML = upRes.message;
+                      ordersMsg.className = 'err';
+                      ordersMsg.innerHTML = upRes.message;
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -278,12 +280,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // NEXT
           });
         } else if (status === 'fail') {
-          msg.className = 'err';
-          msg.innerHTML = res.message;
+          ordersMsg.className = 'err';
+          ordersMsg.innerHTML = res.message;
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
     document.getElementById('manageOrdersDiv').style.display = 'block';
+    // SHOW ORDERS TABLE/HIDE FOOD TABLE
+    manageMenuMsg.innerHTML = '';
+    document.getElementById('allFood').style.display = 'none';
+    document.getElementById('allOrders').style.display = 'block';
   };
 
   // ============================================================================================ //
@@ -302,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   addBtnInput.onclick = () => {
-    console.log('imgfile:', document.getElementById('img').files);
     const formData = new FormData(addForm);
 
     req = new Request(`${host}/menu`, {
@@ -317,20 +322,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.status === 'success') {
           menuMsg.className = 'success';
         } else {
-          msg.className = 'err';
+          menuMsg.className = 'err';
         }
         if (res.error && res.error.includes('Cannot read property \'path\'')) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Please upload an image of your food item';
           return;
         }
         if (res.error && res.error.includes('duplicate')) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Food item already exists on the menu!';
           return;
         }
         if (res.error) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Server Error. Please try again in a few minutes';
           return;
         }
@@ -361,20 +366,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  req = new Request(`${host}/menu`, {
-    method: 'GET',
-    headers: {
-      'x-access-token': localStorage.token,
-    },
-  });
-
-  const manageMenuMsg = document.getElementById('manageMenuMsg');
   const getMenuBtn = document.getElementById('getMenu');
 
   getMenuBtn.onclick = () => {
     toggleSideNav('0', 'white');
+    req = new Request(`${host}/menu`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': localStorage.token,
+      },
+    });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
+        console.log('get menu res:', res)
         manageMenuMsg.className = 'success';
         manageMenuMsg.innerHTML = res.message;
         const { status, products } = res;
@@ -537,10 +541,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // NEXT
           });
         } else if (status === 'fail') {
-          msg.className = 'err';
-          msg.innerHTML = res.message;
+          manageMenuMsg.className = 'err';
+          manageMenuMsg.innerHTML = res.message;
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
+    // SHOW TABLE
+    ordersMsg.innerHTML = '';
+    document.getElementById('allOrders').style.display = 'none';
+    document.getElementById('allFood').style.display = 'block';
   };
 });
