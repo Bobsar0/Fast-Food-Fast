@@ -46,7 +46,7 @@
 			<section class="main">
 			<div class="container">
 					<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
-				<div id="manageOrdersDiv" style="display:none;">
+				<div id="manageOrdersDiv">
 					<div id="msg"></div>
 					<h2>MANAGE ALL ORDERS</h2>
 					<div id="search">
@@ -74,9 +74,9 @@
 					</section>
 				</div>
 
-					<div id="generalModal" class="modal">
+					<div id="generalAdminModal" class="modal">
 							<!-- Modal content -->
-							<div class="modalContent" style="width: 80%; height: auto">
+							<div class="modalContent general">
 								<span class="close">&times;</span>
 								<h1>FastFoodFast Admin</h1>
 								<h3 id="generalInfo"></h3>
@@ -187,7 +187,7 @@
 												<td>
 													<input type="text" name="img" id="imgURL" placeholder="Paste new image link/url">
 													<br>
-													<div>OR upload a new picture</div><br>
+													<input type="text" id="imgInfo" value="OR upload a new image file:" disabled>
 													<input type="file" name="img" id="img">
 												</td>
 											</tr>
