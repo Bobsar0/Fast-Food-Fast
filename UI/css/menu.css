@@ -163,12 +163,11 @@ th, td {
 }
 
 .cancelOdr, .reorder, .approveBtn, .declineBtn{
-    background-color : green;
-    color : white;
-    cursor : pointer;
+    background-color: green;
+    color: white;
+    cursor: pointer;
     border: 1px solid black;
     border-radius: 5px;
-    opacity: 0.8;
 }
 
 .cancelOdr, .declineBtn{
@@ -217,6 +216,7 @@ th, td {
 }
 .modalContent.general {
     width: 80%;
+    z-index: 2;
 }
 
 #cartInfo{

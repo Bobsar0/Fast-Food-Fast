@@ -68,9 +68,6 @@ textarea {
     resize: none;
 }
 
-.approveBtn:hover, .declineBtn:hover {
-    opacity: 1;
-}
 #yes, #no{
     margin-left: -30px;
     padding: 12px 14px;
@@ -113,7 +110,10 @@ div#searchMenu i{
 #createMenuModal .modalContent h1{
     font-size: 25px;
 }
-
+#editMenuModal .modalContent{
+    height: 100%;
+    margin-bottom: 20px;
+}
 form table td {
     padding: 18px 0;
     text-align: left;
@@ -136,10 +136,20 @@ form input, textarea, select {
 td.available input{
     width: 20px;
 }
-input#img{
+input#imgInfo, input#img{
+    width: 255px;
+    margin-left: 5px;
     border: none;
     outline: none;
-    padding: 0
+    background-color: white;
+    padding-right: 0;
+}
+input#imgInfo{
+    margin-right: 0;
+}
+input#img{
+    padding: 0;
+    margin-left: 0;
 }
 
 textarea {
@@ -170,6 +180,11 @@ textarea {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 15px;}
 }
+@media screen and (max-width: 800px) {
+    input#imgInfo, input#img{
+        padding-left: 20px;
+    }
+}
 @media screen and (max-width: 750px) {
     h1#openBtn{font-size: 25px;}
     #orderSearch, #menuSearchInp{
@@ -184,7 +199,7 @@ textarea {
        width: 35%
     }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 540px) {
     h1#openBtn{font-size: 20px;}
     #orderSearch, #menuSearchInp{
         font-size: 12px;
@@ -204,6 +219,11 @@ textarea {
         width: 80%;
         font-size: 12px;
         padding: 6px;
+        margin-left: 15px;
+    }
+    input#imgInfo, input#img{
+        width: 200px;
+        padding-left: 15px;
     }
     #addBtn, #resetBtn{
         margin-top: 10px;
