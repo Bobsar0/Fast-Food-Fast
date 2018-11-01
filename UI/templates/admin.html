@@ -16,29 +16,29 @@
 		<div class="container">
 			<header> 
 				<div id="title">
-					<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+					<h1><a href="userIndex"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 				</div>
 				<nav class="topNav">
-					<a href="./userIndex.html" class="current">Home</a>
+					<a href="userIndex" class="current">Home</a>
 					<div class="dropdown">
-							<button class="dropbtn"><a href="./userMenu.html">Menu <i class="fa fa-caret-down"></i></a></button>
+							<button class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></button>
 							<div class="dropdown-content">
-									<a href="./userMenu#meal">Meal</a>
-									<a href="./userMenu#snacks">Snacks</a>
-									<a href="./userMenu#drinks">Drinks</a>
-									<a href="./userMenu#combo">Combo</a>
+									<a href="userMenu#meal">Meal</a>
+									<a href="userMenu#snacks">Snacks</a>
+									<a href="userMenu#drinks">Drinks</a>
+									<a href="userMenu#combo">Combo</a>
 							</div>
 					</div>
 					<a href="#">Admin<div class="me"></div></a>
-					<a href="#">Logout</a>
+					<a href="#" id="logout">Logout</a>
 					<a href="javascript:void(0);" class="icon" id="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 				<!-- The sidebar -->
 			<div id="mySidenav" class="sidenav">
 					<a href="javascript:void(0)" id="closeBtn">&times;</a>
 					<a href="#" id="getOrders">Manage Orders</a>
-					<a href="#" id="createMenu">Add meal to menu</a>
-					<a href="#">Edit Menu</a>
+					<a href="#" id="createMenu">Add Food to Menu</a>
+					<a href="#" id="getMenu">Manage Menu</a>
 				</div>
 			</header>
 			 <br>
@@ -46,14 +46,15 @@
 			<section class="main">
 			<div class="container">
 					<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
-				<div id="msg"></div>
-				<h2>MANAGE ALL ORDERS</h2>
-				<div id="search">
-				<i class="fa fa-search"></i>
-				<input type="text" id="orderSearch" placeholder="Search for order(s) by any column value...">
-				</div>	
-				
-				<section class="admin" id="allOrders">
+				<div id="manageOrdersDiv" style="display:none;">
+					<div id="msg"></div>
+					<h2>MANAGE ALL ORDERS</h2>
+					<div id="search">
+					<i class="fa fa-search"></i>
+					<input type="text" id="orderSearch" placeholder="Search for order(s) by any column value...">
+					</div>	
+					
+					<section class="admin" id="allOrders">
 						<table id="adminOrdersTable">
 							<thead>
 								<tr>
@@ -71,10 +72,11 @@
 							<tbody id="adminOrdersTableBody"></tbody>
 						</table>
 					</section>
+				</div>
 
 					<div id="generalModal" class="modal">
 							<!-- Modal content -->
-							<div class="modalContent" style="width: 80%">
+							<div class="modalContent" style="width: 80%; height: auto">
 								<span class="close">&times;</span>
 								<h1>FastFoodFast Admin</h1>
 								<h3 id="generalInfo"></h3>
@@ -103,7 +105,7 @@
 												<td>
 													<select id="genre" name="genre">
 														<option value="meal">Meal</option>
-														<option value="snack">Snack</option>
+														<option value="snack">Side/Snack</option>
 														<option value="drink">Drink</option>
 														<option value="combo">Combo</option>
 													</select>
@@ -125,39 +127,91 @@
 							</div>
 						</section>
 
-					<h2>EDIT MENU ITEMS</h2>
-					<section class="admin">
-						<table>
-							<thead>
-								<tr>
-									<th>Product</th>
-									<th>Price (Old | New)</th>
-									<th>Qty (Old | New)</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Chicken</td>
-									<td>#1000 | <input type="number" name="editPrice" id="editPrice" class="editInputPrice"></td>
-									<td>11 | <input type="number" name="editQty" id="editQty" class="editInputQty"></td>
-									<td><button id="approveBtn">Approve Change</button></td>
-								</tr>
-								<tr>
-									<td>Rice and Dodo</td>
-									<td>#1200 | <input type="number" name="editPrice" class="editInputPrice" id="editPrice" style="width: 100px"></td>
-									<td>16 | <input type="number" name="editQty" class="editInputQty" id="editQty" style="width: 50px"></td>
-									<td><button id="approveBtn">Approve Change</button></td>
-								</tr>
-								<tr>
-									<td>Whole Chicken Paella</td>
-									<td>#5000 | <input type="number" name="editPrice" class="editInputPrice" id="editPrice" style="width: 100px"></td>
-									<td>5 | <input type="number" name="editQty" class="editInputQty" id="editQty" style="width: 50px"></td>
-									<td><button id="approveBtn">Approve Change</button></td>
-								</tr>
-							</tbody>
-						</table>
-					</section>
+					<h2>MANAGE MENU ITEMS</h2>
+					<div id="manageMenuMsg" class="err"></div>
+					<div id="searchMenu">
+						<i class="fa fa-search"></i>
+						<input type="text" id="menuSearchInp" placeholder="Search for food item...">
+						</div>	
+						<section class="admin" id="allFood">
+								<table id="adminMenuTable">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Price(NGN)</th>
+											<th>Genre</th>
+											<th>Available?</th>
+											<th>Created At</th>
+											<th>Last Modified</th>
+											<th colspan="2">Action</th>
+										</tr>
+									</thead>
+									<tbody id="adminMenuTableBody"></tbody>
+								</table>
+							</section>
+
+							<!-- EDIT FORM -->
+						<section id="editMenuModal" class="modal">
+								<!-- Modal content -->
+								<div class="modalContent">
+									<span class="close">&times;</span>
+									<div id="editModalContent">
+										<h1 id="editModalTitle"></h1>
+										<p id="origImg"></p>
+									<div>
+										<form method="post" enctype="multipart/form-data" id="editForm">
+											<table>
+												<tr>
+													<td id="label"><label for="name">Name:</label></td>
+													<td><input type="text" id="name" name="name"></td>
+												</tr>
+											<tr>
+												<td id="label"><label for="price">Price:</label></td>
+												<td><input type="number" id="price" name="price"></td>
+											</tr>
+											<tr>
+												<td id="label"><label for="genre">Genre:</label></td>
+												<td>
+													<select id="genre" name="genre">
+														<option value="meal">Meal</option>
+														<option value="snack">Side/Snack</option>
+														<option value="drink">Drink</option>
+														<option value="combo">Combo</option>
+														<option value="dessert">Dessert</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td id="label"><label for="img">Image:</label></td>
+												<td>
+													<input type="text" name="img" id="imgURL" placeholder="Paste new image link/url">
+													<br>
+													<div>OR upload a new picture</div><br>
+													<input type="file" name="img" id="img">
+												</td>
+											</tr>
+											<tr>
+													<td id="label"><label for="isAvailable">Available?</label></td>
+													<td class="available">
+														<select name="isAvailable" id="isAvailable">
+															<option value="true">YES</option>
+															<option value="false">NO</option>
+														</select>
+													</td>
+											</tr>
+											<tr>
+												<td id="label"><label for="description">Description:</label></td>
+												<td><textarea name="description" id="desc" placeholder="Add a description of your food here"></textarea></td>
+											</tr>
+											</table>
+											<h3 id="editMenuMsg" class="err"></h3>
+											<button type="button" id="saveBtn">Save</button>
+											<button type="reset" id="resetBtn" class="reset">Reset</button>
+										</form>
+										
+								</div>
+							</section>
 			</div>
 			</section>
 		</div>
@@ -170,7 +224,6 @@
 		<script src="../app/js/username.js"></script>
 		<script src="../app/js/admin.js"></script>
 		<script src="upload.js"></script>
-		<script src="../app/js/createmenu.js"></script>
 		<script>
 		const icon = document.getElementsByClassName('icon');
 		icon[0].onclick = () => {
