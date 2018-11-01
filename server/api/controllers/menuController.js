@@ -129,10 +129,29 @@ export default class {
         req.params.foodId,
       ];
       const response = await this.db.query(updateQuery, values);
-      console.log('res:', response.rows[0])
       return {
         status: 'success', statusCode: 200, message: 'Food item edited successfully!', food: response.rows[0],
       };
+    } catch (error) {
+      return { status: 'fail', statusCode: 400, message: error.message };
+    }
+  }
+
+  async delete(req) {
+    const findOneQuery = 'SELECT * FROM menu WHERE foodid=$1';
+    const { foodId } = req.params;
+    let result = {};
+    try {
+      const { rows } = await this.db.query(findOneQuery, [foodId]);
+      if (!rows[0]) {
+        return { status: 'fail', statusCode: 404, message: `Food item with id ${foodId} not found on the menu` };
+      }
+      const deleteQuery = 'DELETE FROM menu WHERE foodid=$1';
+      const response = await this.db.query(deleteQuery, [foodId]);
+      if (response.rows.length === 0 && response.rowCount === 1) {
+        result = { status: 'success', statusCode: 200, message: `${rows[0].name} ID ${foodId} deleted successfully` };
+      }
+      return result;
     } catch (error) {
       return { status: 'fail', statusCode: 400, message: error.message };
     }
