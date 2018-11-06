@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // import multer from 'multer';
 
 // const upload = multer({ dest: '/uploads' });
@@ -96,14 +97,14 @@ export default class {
       if (!rows[0]) {
         return ({ status: 'fail', statusCode: 404, message: `Food item with id ${req.params.foodId} not found on the menu` });
       }
+      if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+        return ({ status: 'fail', statusCode: 400, message: 'Sorry, body content cannot be empty' });
+      }
       const {
         price, genre, isAvailable,
       } = req.body;
       let { name, img, description } = req.body;
 
-      if (!name && !price && !genre && !img && !description && Boolean(isAvailable) !== true && Boolean(isAvailable) !== false) {
-        return ({ status: 'fail', statusCode: 400, message: 'No change detected. Please enter a valid field to be updated' });
-      }
       if (name) { name = name.trim().toUpperCase(); }
       if (genre) {
         if (genre !== 'meal' && genre !== 'snack' && genre !== 'drink' && genre !== 'combo' && genre !== 'dessert') {
