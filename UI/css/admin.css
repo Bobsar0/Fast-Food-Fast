@@ -68,9 +68,6 @@ textarea {
     resize: none;
 }
 
-.approveBtn:hover, .declineBtn:hover {
-    opacity: 1;
-}
 #yes, #no{
     margin-left: -30px;
     padding: 12px 14px;
@@ -81,14 +78,16 @@ textarea {
     margin-left: 30px;
 }
 
-div#search{
+div#search, div#searchMenu{
     width: 100%;
-    border: 1px solid #ddd;
     margin: 10px 0;
+    padding: 1px;
     background: white;
+    border: 1px solid #ddd;
 }
 
-div#search i{
+div#search i,
+div#searchMenu i{
     margin-left: 10px;
     color: goldenrod;
     text-shadow: 1px 1px 2px black;
@@ -96,19 +95,28 @@ div#search i{
     outline: none;
 }
 
-#orderSearch {
+#orderSearch, #menuSearchInp {
     width: 95%;
     font-size: 16px;
-    padding: 12px 20px 12px 15px;
+    padding: 8px 20px;
     border: none;
     outline: none;
 }
 
-#createMenuModal .modalContent{
-    width: 70%;
+#createMenuModal .modalContent,
+#editMenuModal .modalContent{
+    width: 85%;
 }
 #createMenuModal .modalContent h1{
     font-size: 25px;
+}
+#editMenuModal .modalContent{
+    height: 100%;
+    margin-bottom: 20px;
+}
+
+#allOrders, #allFood{
+    display: none;
 }
 
 form table td {
@@ -130,17 +138,30 @@ form input, textarea, select {
     padding: 10px 15px;
     border: 1px solid #ccc;
 }
-input#img{
+td.available input{
+    width: 20px;
+}
+input#imgInfo, input#img{
+    width: 255px;
+    margin-left: 5px;
     border: none;
     outline: none;
-    padding: 0
+    background-color: white;
+    padding-right: 0;
+}
+input#imgInfo{
+    margin-right: 0;
+}
+input#img{
+    padding: 0;
+    margin-left: 0;
 }
 
 textarea {
     height: 150px;
 }
 
-#addBtn, #resetBtn{
+#addBtn, #saveBtn, #resetBtn{
     width: 45%;
     height: 40px;
     color: white;
@@ -155,20 +176,23 @@ textarea {
 #resetBtn{
     background-color: red;
 }
-#addBtn:hover, #resetBtn:hover {
+#addBtn:hover, #saveBtn, #resetBtn:hover {
     cursor: pointer;
     opacity: 0.8;
 }
-.editInputPrice{width: 100px;}
-.editInputQty{width: 50px;}
 
 @media screen and (max-height: 500px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 15px;}
 }
+@media screen and (max-width: 800px) {
+    input#imgInfo, input#img{
+        padding-left: 20px;
+    }
+}
 @media screen and (max-width: 750px) {
     h1#openBtn{font-size: 25px;}
-    #orderSearch{
+    #orderSearch, #menuSearchInp{
         width: 90%;
         font-size: 14px;
         margin-top: 1px;
@@ -180,9 +204,12 @@ textarea {
        width: 35%
     }
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 540px) {
     h1#openBtn{font-size: 20px;}
-    #orderSearch{font-size: 12px;}
+    #orderSearch, #menuSearchInp{
+        font-size: 12px;
+        padding: 8px 10px;
+    }
 
     form table td {
         padding: 12px 0;
@@ -197,6 +224,11 @@ textarea {
         width: 80%;
         font-size: 12px;
         padding: 6px;
+        margin-left: 15px;
+    }
+    input#imgInfo, input#img{
+        width: 200px;
+        padding-left: 15px;
     }
     #addBtn, #resetBtn{
         margin-top: 10px;

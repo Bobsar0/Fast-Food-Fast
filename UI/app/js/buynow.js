@@ -32,11 +32,13 @@ setTimeout(() => {
         displayModal(genModal, close);
         return;
       }
+
       const btnID = buyBtn.id;
-      // the last 2-digits in the id corresponds to the last digit in btnID
-      const name = document.getElementById(`item${btnID.slice(-2)}`).innerHTML;
-      const quantity = Number(document.querySelector(`select#selectQty${btnID.slice(-2)}`).value);
-      let price = document.getElementById(`price${btnID.slice(-2)}`).innerHTML;
+      const uniqueId = btnID.slice(3);
+
+      const name = document.getElementById(`item${uniqueId}`).innerHTML;
+      const quantity = Number(document.querySelector(`select#selectQty${uniqueId}`).value);
+      let price = document.getElementById(`price${uniqueId}`).innerHTML;
       price = quantity * Number(price.slice(4));
 
       // Open a modal

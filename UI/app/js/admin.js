@@ -23,7 +23,7 @@ window.onclick = (event) => {
 };
 
 // Modal display
-const generalModal = document.getElementById('generalModal');
+const generalAdminModal = document.getElementById('generalAdminModal');
 const modalTxt = document.getElementById('generalInfo');
 const span0 = document.getElementsByClassName('close')[0];
 const yes = document.getElementById('yes');
@@ -68,23 +68,29 @@ const host = 'http://localhost:9999/api/v1';
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
 document.addEventListener('DOMContentLoaded', () => {
-  /* * MANAGE ORDERS * */
-  let req = new Request(`${host}/orders`, {
-    method: 'GET',
-    headers: {
-      'x-access-token': localStorage.token,
-    },
-  });
+  // ============================================================================================ //
+  /** ************************************ MANAGE ORDERS ************************************* */
+  // ============================================================================================ //
+  let req = {};
 
-  const msg = document.getElementById('msg');
+  const ordersMsg = document.getElementById('manageOrdersMsg');
+  const manageMenuMsg = document.getElementById('manageMenuMsg');
+
   const getOrdersBtn = document.getElementById('getOrders');
   getOrdersBtn.onclick = () => {
+    req = new Request(`${host}/orders`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': localStorage.token,
+      },
+    });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
-        msg.className = 'success';
-        msg.innerHTML = res.message;
-        const { message, status, data } = res;
-        if (status === 'success' && message === 'Orders retrieved successfully') {
+        ordersMsg.className = 'err';
+        ordersMsg.innerHTML = res.message;
+        const { status, data } = res;
+        if (status === 'success') {
+          ordersMsg.className = 'success';
           data.orders.forEach((order) => {
             const {
               orderid, userid, food, quantity, price,
@@ -172,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             approveBtn.onclick = () => {
               if (odrStatus === 'NEW') {
                 modalTxt.innerHTML = `Are you sure you want to APPROVE the processing of ORDER ${orderId}?`;
-                displayModal(generalModal, span0);
+                displayModal(generalAdminModal, span0);
                 yes.onclick = () => {
                   const updateReq = new Request(`${host}/orders/${orderid}`, {
                     method: 'PUT',
@@ -185,16 +191,19 @@ document.addEventListener('DOMContentLoaded', () => {
                   fetch(updateReq).then((upResp) => {
                     upResp.json().then((upRes) => {
                       if (upRes.status === 'success') {
-                        msg.className = 'success';
-                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        ordersMsg.className = 'success';
+                        ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                         odrStatus = upRes.order.status;
                         statusCell.textContent = odrStatus;
                         date2Cell.textContent = upRes.order.modified_date;
                         styleProcessing();
+                      } else {
+                        ordersMsg.className = 'err';
+                        ordersMsg.innerHTML = upRes.message;
                       }
                     }).catch(resErr => console.log('res err:', resErr));
                   }).catch(fetchErr => console.log('fetch err:', fetchErr));
-                  generalModal.style.display = 'none';
+                  generalAdminModal.style.display = 'none';
                 };
               }
             };
@@ -203,8 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
             declineBtn.onclick = () => {
               if (odrStatus === 'NEW' || odrStatus === 'PROCESSING') {
                 modalTxt.innerHTML = `Are you sure you want to CANCEL Order ${orderId}?
-                <p>This action cannot be undone</p>`;
-                displayModal(generalModal, span0);
+                <p>This action is irreversible!</p>`;
+                displayModal(generalAdminModal, span0);
                 yes.onclick = () => {
                   const updateReq = new Request(`${host}/orders/${orderid}`, {
                     method: 'PUT',
@@ -217,16 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
                   fetch(updateReq).then((upResp) => {
                     upResp.json().then((upRes) => {
                       if (upRes.status === 'success') {
-                        msg.className = 'success';
-                        msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                        ordersMsg.className = 'success';
+                        ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                         odrStatus = upRes.order.status;
                         statusCell.textContent = odrStatus;
                         date2Cell.textContent = upRes.order.modified_date;
                         styleCancelled();
+                      } else {
+                        ordersMsg.className = 'err';
+                        ordersMsg.innerHTML = upRes.message;
                       }
                     }).catch(resErr => console.log('res err:', resErr));
                   }).catch(fetchErr => console.log('fetch err:', fetchErr));
-                  generalModal.style.display = 'none';
+                  generalAdminModal.style.display = 'none';
                 };
               }
             };
@@ -236,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
               input.checked = false;
               modalTxt.innerHTML = `Are you sure ORDER ${orderId} has been COMPLETED?
               <p>This order cannot be unmarked if marked as completed</p>`;
-              displayModal(generalModal, span0);
+              displayModal(generalAdminModal, span0);
               yes.onclick = () => {
                 const updateReq = new Request(`${host}/orders/${orderid}`, {
                   method: 'PUT',
@@ -250,26 +262,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetch(updateReq).then((upResp) => {
                   upResp.json().then((upRes) => {
                     if (upRes.status === 'success') {
-                      msg.className = 'success';
-                      msg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
+                      ordersMsg.className = 'success';
+                      ordersMsg.innerHTML = `${orderIdCell.textContent} ${upRes.message}`;
                       odrStatus = upRes.order.status;
                       statusCell.textContent = odrStatus;
                       date2Cell.textContent = upRes.order.modified_date;
                       styleComplete();
+                    } else {
+                      ordersMsg.className = 'err';
+                      ordersMsg.innerHTML = upRes.message;
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
-                generalModal.style.display = 'none';
+                generalAdminModal.style.display = 'none';
               };
             };
             // NEXT
           });
         } else if (status === 'fail') {
-          msg.className = 'err';
-          msg.innerHTML = res.message;
+          ordersMsg.className = 'err';
+          ordersMsg.innerHTML = res.message;
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
+    document.getElementById('manageOrdersDiv').style.display = 'block';
+    // SHOW ORDERS TABLE/HIDE FOOD TABLE
+    manageMenuMsg.innerHTML = '';
+    document.getElementById('allFood').style.display = 'none';
+    document.getElementById('allOrders').style.display = 'block';
   };
 
   // ============================================================================================ //
@@ -299,23 +319,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
+        if (res.status === 'success') {
+          menuMsg.className = 'success';
+        } else {
+          menuMsg.className = 'err';
+        }
         if (res.error && res.error.includes('Cannot read property \'path\'')) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Please upload an image of your food item';
           return;
         }
         if (res.error && res.error.includes('duplicate')) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Food item already exists on the menu!';
           return;
         }
         if (res.error) {
-          msg.className = 'err';
+          menuMsg.className = 'err';
           menuMsg.innerHTML = 'Server Error. Please try again in a few minutes';
           return;
-        }
-        if (res.status === 'success') {
-          menuMsg.className = 'success';
         }
         menuMsg.innerHTML = res.message;
       }).catch((err) => {
@@ -323,5 +345,210 @@ document.addEventListener('DOMContentLoaded', () => {
         menuMsg.className = 'err';
       });
     }).catch(fetchErr => `Server Error: ${fetchErr}. Please try again in a few mins`);
+  };
+
+  // ============================================================================================ //
+  /** ************************************ MANAGE MENU ITEMS ************************************ */
+  // ============================================================================================ //
+  // Filter table according to order column value
+  const searchMenu = document.getElementById('menuSearchInp');
+
+  searchMenu.onkeyup = () => {
+    const table = document.getElementById('adminMenuTable');
+    const tRows = table.getElementsByTagName('tr');
+
+    [...tRows].slice(1).forEach((tr) => {
+      if (tr.textContent.toUpperCase().includes(searchMenu.value.toUpperCase())) {
+        tr.style.display = '';
+      } else {
+        tr.style.display = 'none';
+      }
+    });
+  };
+
+  const getMenuBtn = document.getElementById('getMenu');
+
+  getMenuBtn.onclick = () => {
+    toggleSideNav('0', 'white');
+    req = new Request(`${host}/menu`, {
+      method: 'GET',
+      headers: {
+        'x-access-token': localStorage.token,
+      },
+    });
+    fetch(req).then((resp) => {
+      resp.json().then((res) => {
+        console.log('get menu res:', res)
+        manageMenuMsg.className = 'success';
+        manageMenuMsg.innerHTML = res.message;
+        const { status, products } = res;
+        if (status === 'success') {
+          manageMenuMsg.className = 'success';
+          products.forEach((food) => {
+            const { foodid } = food;
+            let {
+              name, price, genre, img, isavailable, description,
+            } = food;
+
+            const foodIdCell = document.createTextNode(`#${foodid}`);
+            const nameCell = document.createTextNode(name);
+            const priceCell = document.createTextNode(price);
+            const genreCell = document.createTextNode(genre);
+            const availableCell = document.createTextNode(isavailable);
+            const date1Cell = document.createTextNode(food.created_date.slice(0, 19));
+            const date2Cell = document.createTextNode(food.modified_date.slice(0, 19));
+
+            const editBtn = document.createElement('BUTTON');
+            editBtn.className = 'approveBtn';
+            editBtn.id = `editBtn${foodid}`;
+            const editTxt = document.createTextNode('Edit Item');
+            editBtn.appendChild(editTxt);
+
+            const deleteBtn = document.createElement('BUTTON');
+            deleteBtn.className = 'declineBtn';
+            deleteBtn.id = `deleteBtn${foodid}`;
+            const delTxt = document.createTextNode('Delete Item');
+            deleteBtn.appendChild(delTxt);
+
+            const cellArr = [
+              foodIdCell, nameCell, priceCell, genreCell,
+              availableCell, date1Cell, date2Cell, editBtn, deleteBtn,
+            ];
+            const tr = document.createElement('TR');
+            tr.className = 'menuRow';
+
+            const tbody = document.getElementById('adminMenuTableBody');
+            cellArr.forEach((cell) => {
+              const td = document.createElement('TD');
+              td.appendChild(cell);
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+
+            const editModal = document.getElementById('editMenuModal');
+            const span2 = document.getElementsByClassName('close')[2];
+
+            /** EDIT BTN */
+            editBtn.onclick = () => {
+              const imgDiv = document.querySelector('#origImg');
+              imgDiv.innerHTML = `<a href="${img}" target="_blank"><img src="${img}" alt="${name}" style="height: 100px; width:100px;"></a>`;
+
+              document.querySelector('#editForm #name').value = name;
+              document.querySelector('#editForm #price').value = price;
+              document.querySelector('#editForm #genre').value = genre;
+              document.querySelector('#editForm #isAvailable').value = isavailable;
+              document.querySelector('#editForm #desc').value = description;
+
+              document.getElementById('editModalTitle').innerHTML = `<h1>Edit Food #${foodid}</h1>`;
+              displayModal(editModal, span2);
+
+              const saveBtn = document.getElementById('saveBtn');
+              saveBtn.onclick = () => {
+                name = document.querySelector('#editForm #name').value;
+                price = document.querySelector('#editForm #price').value;
+                genre = document.querySelector('#editForm #genre').value;
+                isavailable = document.querySelector('#editForm #isAvailable').value;
+                description = document.querySelector('#editForm #desc').value;
+
+                const editForm = document.getElementById('editForm');
+                const imgURL = document.querySelector('#editForm #imgURL');
+                const imgUpload = document.querySelector('#editForm #img');
+                const editMenuMsg = document.getElementById('editMenuMsg');
+
+                if (imgURL.value && imgUpload.files[0]) {
+                  editMenuMsg.className = 'err';
+                  editMenuMsg.innerHTML = 'Sorry, you can either enter an image URL or use the upload functionality, not both';
+                  return;
+                }
+
+                if (imgURL.value) {
+                  img = imgURL.value;
+                }
+                let headers = {
+                  'Content-Type': 'application/json',
+                  'x-access-token': localStorage.token,
+                };
+                let body = JSON.stringify({
+                  name, price, genre, isAvailable: isavailable, img, description,
+                });
+
+                if (imgUpload.files[0]) {
+                  headers = {
+                    'x-access-token': localStorage.token,
+                  };
+                  body = new FormData(editForm);
+                }
+                req = new Request(`${host}/menu/${foodid}`, {
+                  method: 'PUT',
+                  headers,
+                  body,
+                });
+                fetch(req).then((editResp) => {
+                  editResp.json().then((editRes) => {
+                    editMenuMsg.innerHTML = '';
+                    if (editRes.status === 'success') {
+                      editMenuMsg.className = 'success';
+                      imgDiv.innerHTML = `<a href="${editRes.food.img}" target="_blank"><img src="${editRes.food.img}" alt="${editRes.food.name}" style="height: 100px; width:100px;"></a>`;
+                      nameCell.textContent = editRes.food.name;
+                      priceCell.textContent = editRes.food.price;
+                      genreCell.textContent = editRes.food.genre;
+                      availableCell.textContent = editRes.food.isavailable;
+                      date2Cell.textContent = editRes.food.modified_date;
+                    } else {
+                      editMenuMsg.className = 'err';
+                    }
+                    editMenuMsg.innerHTML = editRes.message;
+                  }).catch((resErr) => {
+                    editMenuMsg.innerHTML = `Server error: ${resErr}. Please try again in a bit`;
+                  });
+                }).catch((fetchErr) => {
+                  editMenuMsg.innerHTML = `Error: ${fetchErr}. Are you offline? Please try again in a bit`;
+                });
+              };
+            };
+
+            /** DELETE BTN */
+            deleteBtn.onclick = () => {
+              modalTxt.innerHTML = `Are you sure you want to DELETE ${name} (ID #${foodid})?
+                <p>This action is irreversible!</p>`;
+              displayModal(generalAdminModal, span0);
+              yes.onclick = () => {
+                req = new Request(`${host}/menu/${foodid}`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': localStorage.token,
+                  },
+                });
+                fetch(req).then((delResp) => {
+                  delResp.json().then((delRes) => {
+                    if (delRes.status === 'success') {
+                      tbody.removeChild(tr);
+                      manageMenuMsg.className = 'success';
+                    } else {
+                      manageMenuMsg.className = 'err';
+                    }
+                    manageMenuMsg.innerHTML = delRes.message;
+                  }).catch((resErr) => {
+                    manageMenuMsg.innerHTML = `Server error: ${resErr}. Please try again in a bit`;
+                  });
+                }).catch((fetchErr) => {
+                  manageMenuMsg.innerHTML = `Error: ${fetchErr}. Are you offline? Please try again in a bit`;
+                });
+                generalAdminModal.style.display = 'none';
+              };
+            };
+            // NEXT
+          });
+        } else if (status === 'fail') {
+          manageMenuMsg.className = 'err';
+          manageMenuMsg.innerHTML = res.message;
+        }
+      }).catch(err => console.error('resp json error:', err));
+    }).catch(fetchErr => console.error('fetch err:', fetchErr));
+    // SHOW TABLE
+    ordersMsg.innerHTML = '';
+    document.getElementById('allOrders').style.display = 'none';
+    document.getElementById('allFood').style.display = 'block';
   };
 });

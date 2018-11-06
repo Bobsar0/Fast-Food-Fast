@@ -121,7 +121,7 @@ export default class OrderDBController {
       const getAllQuery = 'SELECT * FROM orders';
       const { rows, rowCount } = await this.db.query(getAllQuery);
       data = { orders: rows, totalOrders: rowCount };
-      message = 'Orders retrieved successfully';
+      message = `${rowCount} Orders retrieved successfully`;
     } else {
       const getQuery = 'SELECT * FROM orders WHERE orderid = $1';
       const { rows } = await this.db.query(getQuery, [req.params.orderId]);
