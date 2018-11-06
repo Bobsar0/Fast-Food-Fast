@@ -30,42 +30,49 @@
       <a href='#' id="logout">Logout</a>
       <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
       <a class="search">
-        <form action="#">
-          <input type="text" placeholder="Search for food.." name="search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+          <input type="text" placeholder="Search for food.." name="search" id="menuSearch">
+          <button type="button" id="menuSearchBtn"><i class="fa fa-search"></i></button>
       </a>
       <a href="javascript:void(0);" class="icon">&#9776;</a>
     </nav>
   </header> 
-	<!--Image Gallery-->
+  <!--Image Gallery-->
+  <div class="err" id="menuErr"></div>
   <div class="menu">
     <h1 id="menuWelcome">Welcome <span class="me" id="me"></span></h1>
     <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
     <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
-  </div>		
-  <section class="menu" id="meals">
-    <h2>MEALS</h2>
-  </section>
-  <div class="clearfix"></div>
+  </div>
+  <div id="food">		
+    <section class="menu" id="meals">
+      <h2>MEALS</h2>
+    </section>
+    <div class="clearfix"></div>
 
-  <!-- SNACKS -->
-  <section class="menu" id="snacks">
-    <h2>SNACKS</h2>
-  </section>
-  <div class="clearfix"></div>
+    <!-- SNACKS -->
+    <section class="menu" id="snacks">
+      <h2>SNACKS</h2>
+    </section>
+    <div class="clearfix"></div>
 
-  <!--DRINKS-->
-  <section class="menu" id="drinks">
-    <h2>DRINKS</h2>  
-  </section>
-  <div class="clearfix"></div>
+    <!--DRINKS-->
+    <section class="menu" id="drinks">
+      <h2>DRINKS</h2>  
+    </section>
+    <div class="clearfix"></div>
 
-<!--COMBO/SPECIALS-->
-  <section class="menu last" id="combos">
-    <h2>COMBO/SPECIALS</h2>
-  </section> 
-  <div class="clearfix"></div>
+  <!--COMBO/SPECIALS-->
+    <section class="menu" id="combos">
+      <h2>COMBO/SPECIALS</h2>
+    </section> 
+    <div class="clearfix"></div>
+
+  <!--DESSERT-->
+    <section class="menu last" id="dessert">
+      <h2>DESSERTS</h2>
+    </section>
+    <div class="clearfix"></div>
+  </div>
 
   <div class="center">
       <div class="pagination">

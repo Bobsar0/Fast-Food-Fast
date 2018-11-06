@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const menuhost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ IN PRODUCTION
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
@@ -9,9 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
 
+  const menuErr = document.getElementById('menuErr');
+  const divsArr = [];
   fetch(req).then((resp) => {
     resp.json().then((res) => {
-      console.log('res:', res);
       if (res.status === 'success') {
         res.products.forEach((food) => {
           if (food.isavailable) {
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const div = document.createElement('DIV');
             div.className = 'responsive';
+            div.id = `${name}_${genre}`;
             div.innerHTML = `
             <div class="gallery">
               <div class="flip-box">
@@ -63,10 +66,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="cartBtn" id="btn${foodid}">Add to Cart</button>
               </div>
             </div>`;
-            document.getElementById(`${genre}s`).appendChild(div);
+            const section = document.getElementById(`${genre}s`);
+            section.appendChild(div);
+            divsArr.push(div);
           }
         });
+
+        const searchFood = document.getElementById('menuSearch');
+        searchFood.onkeyup = () => {
+          // hide all sections
+          [...document.querySelectorAll('section.menu')].forEach((section) => {
+            section.style.display = 'none';
+          });
+          divsArr.forEach((div) => {
+            const input = searchFood.value.toUpperCase();
+            // show only relevant sections and divs
+            if (div.id.includes(input)) {
+              const index = div.id.indexOf('_');
+              document.getElementById(`${div.id.slice(index + 1)}s`).style.display = 'block';
+              div.style.display = 'block';
+            } else {
+              div.style.display = 'none';
+            }
+          });
+        };
       }
-    }).catch(err => console.error('resp json error:', err));
-  }).catch(fetchErr => console.error('fetch err:', fetchErr));
+    }).catch((err) => {
+      menuErr.innerHTML = err;
+    });
+  }).catch((fetchErr) => {
+    menuErr.innerHTML = `${fetchErr}... ARE YOU OFFLINE? Please try again in a few minutes`;
+  });
 });
