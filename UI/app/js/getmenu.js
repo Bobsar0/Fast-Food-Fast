@@ -20,7 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'desserts', foodDivs: [], count: 0 },
   ];
 
-  function pagination(startIndex) {
+  const pg1 = document.getElementById('page1');
+  const pg2 = document.getElementById('page2');
+  const pg3 = document.getElementById('page3');
+  const pgs = [pg1, pg2, pg3];
+
+  function pagination(page, startIndex) {
     sectionArr.forEach((genreSect) => {
       genreSect.foodDivs.forEach((div) => {
         div.style.display = 'none';
@@ -30,6 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
         div.style.display = 'block';
       });
     });
+    pgs.forEach((pg) => {
+      pg.className = '';
+    });
+    page.className = 'current';
   }
 
   fetch(req).then((resp) => {
@@ -104,13 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         pg1.onclick = () => {
-          pagination(0);
+          pagination(pg1, 0);
         };
         pg2.onclick = () => {
-          pagination(4);
+          pagination(pg2, 4);
         };
         pg3.onclick = () => {
-          pagination(8);
+          pagination(pg3, 8);
         };
 
         let count = 0;
