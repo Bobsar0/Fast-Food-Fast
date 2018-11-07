@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const menuErr = document.getElementById('menuErr');
   const divsArr = [];
+  const sectionArr = [
+    { name: 'meals', foodDivs: [], count: 0 }, 
+    { name: 'snacks', foodDivs: [], count: 0 },
+    { name: 'drinks', foodDivs: [], count: 0 },
+    { name: 'combos', foodDivs: [], count: 0 },
+    { name: 'desserts', foodDivs: [], count: 0 },
+  ];
   fetch(req).then((resp) => {
     resp.json().then((res) => {
       if (res.status === 'success') {
@@ -66,11 +73,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="cartBtn" id="btn${foodid}">Add to Cart</button>
               </div>
             </div>`;
-            const section = document.getElementById(`${genre}s`);
-            section.appendChild(div);
+            // const section = document.getElementById(`${genre}s`);
+            
+            sectionArr.forEach((genreSect) => {
+              if (genreSect.name === `${genre}s`) {
+                if (genreSect.foodDivs.length >= 4) {
+                  div.style.display = 'none';
+                }
+                // genreSect.count += 1;
+                genreSect.foodDivs.push(div);
+              }
+            });
+            document.getElementById(`${genre}s`).appendChild(div);
             divsArr.push(div);
           }
+          console.log('SECTIONARR:', sectionArr)
         });
+
+        document.getElementById('page2').onclick = () => {
+          sectionArr.forEach((genreSect) => {
+            // if ()
+            genreSect.foodDivs.forEach((div) => {
+              div.style.display = 'none';
+            });
+            const div4To8 = genreSect.foodDivs.slice(4);
+            div4To8.forEach((div) => {
+              div.style.display = 'block';
+            });
+          });
+        };
 
         let count = 0;
         const totalFood = divsArr.length;
