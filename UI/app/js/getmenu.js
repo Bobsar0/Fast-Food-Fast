@@ -13,12 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuErr = document.getElementById('menuErr');
   const divsArr = [];
   const sectionArr = [
-    { name: 'meals', foodDivs: [], count: 0 }, 
+    { name: 'meals', foodDivs: [], count: 0 },
     { name: 'snacks', foodDivs: [], count: 0 },
     { name: 'drinks', foodDivs: [], count: 0 },
     { name: 'combos', foodDivs: [], count: 0 },
     { name: 'desserts', foodDivs: [], count: 0 },
   ];
+
+  function pagination(startIndex) {
+    sectionArr.forEach((genreSect) => {
+      genreSect.foodDivs.forEach((div) => {
+        div.style.display = 'none';
+      });
+      const divSlice = genreSect.foodDivs.slice(startIndex, startIndex + 4);
+      divSlice.forEach((div) => {
+        div.style.display = 'block';
+      });
+    });
+  }
+
   fetch(req).then((resp) => {
     resp.json().then((res) => {
       if (res.status === 'success') {
@@ -74,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>`;
             // const section = document.getElementById(`${genre}s`);
-            
+
             sectionArr.forEach((genreSect) => {
               if (genreSect.name === `${genre}s`) {
                 if (genreSect.foodDivs.length >= 4) {
@@ -87,20 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(`${genre}s`).appendChild(div);
             divsArr.push(div);
           }
-          console.log('SECTIONARR:', sectionArr)
+          console.log('SECTIONARR:', sectionArr);
         });
 
-        document.getElementById('page2').onclick = () => {
-          sectionArr.forEach((genreSect) => {
-            // if ()
-            genreSect.foodDivs.forEach((div) => {
-              div.style.display = 'none';
-            });
-            const div4To8 = genreSect.foodDivs.slice(4);
-            div4To8.forEach((div) => {
-              div.style.display = 'block';
-            });
-          });
+        pg1.onclick = () => {
+          pagination(0);
+        };
+        pg2.onclick = () => {
+          pagination(4);
+        };
+        pg3.onclick = () => {
+          pagination(8);
         };
 
         let count = 0;
