@@ -72,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
+        let count = 0;
+        const totalFood = divsArr.length;
+        const divFoundArr = [];
         const searchFood = document.getElementById('menuSearch');
         searchFood.onkeyup = () => {
           // hide all sections
@@ -85,10 +88,30 @@ document.addEventListener('DOMContentLoaded', () => {
               const index = div.id.indexOf('_');
               document.getElementById(`${div.id.slice(index + 1)}s`).style.display = 'block';
               div.style.display = 'block';
+              if (divFoundArr.indexOf(div) === -1) {
+                divFoundArr.push(div);
+              }
             } else {
               div.style.display = 'none';
+              if (divFoundArr.indexOf(div) !== -1) {
+                divFoundArr.splice(divFoundArr.indexOf(div), 1);
+              }
+            }
+            count = divFoundArr.length;
+            if (count === 0) {
+              menuErr.className = 'err';
+              menuErr.innerHTML = 'No matching food item found';
+            } else if (count === 1) {
+              menuErr.className = 'success';
+              menuErr.innerHTML = `${count} food item found`;
+            } else {
+              menuErr.className = 'success';
+              menuErr.innerHTML = `${count} food items found`;
             }
           });
+          if (count === totalFood) {
+            menuErr.innerHTML = '';
+          }
         };
       }
     }).catch((err) => {
