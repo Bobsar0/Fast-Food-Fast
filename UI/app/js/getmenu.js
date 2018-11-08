@@ -19,11 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'combos', foodDivs: [], count: 0 },
     { name: 'desserts', foodDivs: [], count: 0 },
   ];
+  const aArr = [];
 
   const pg1 = document.getElementById('page1');
   const pg2 = document.getElementById('page2');
   const pg3 = document.getElementById('page3');
   const pgs = [pg1, pg2, pg3];
+  // const pgsSpan = docum
 
   function pagination(page, startIndex) {
     sectionArr.forEach((genreSect) => {
@@ -34,12 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
       divSlice.forEach((div) => {
         div.style.display = 'block';
       });
+
+      // if (genreSect.foodDivs.length === 0) {
+      //   document.getElementById(genreSect.name).style.display = 'none';
+      // } else {
+      //   document.getElementById(genreSect.name).style.display = 'block';
+      // }
     });
     pgs.forEach((pg) => {
       pg.className = '';
     });
     page.className = 'current';
   }
+  const a = document.createElement('a');
 
   fetch(req).then((resp) => {
     resp.json().then((res) => {
@@ -95,21 +104,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="cartBtn" id="btn${foodid}">Add to Cart</button>
               </div>
             </div>`;
-            // const section = document.getElementById(`${genre}s`);
 
             sectionArr.forEach((genreSect) => {
               if (genreSect.name === `${genre}s`) {
-                if (genreSect.foodDivs.length >= 4) {
+                genreSect.foodDivs.push(div);
+                const { length } = genreSect.foodDivs;
+                if (length % 5 === 0) {
+                  a.id = `page${(length / 5) + 1}`;
+                  a.textContent = (length / 5) + 1;
+                  if (aArr.indexOf(a) === -1) {
+                    document.getElementById('pgs').appendChild(a);
+                    aArr.push(a);
+                  }
+                }
+                if (genreSect.foodDivs.length > 4) {
                   div.style.display = 'none';
                 }
-                // genreSect.count += 1;
-                genreSect.foodDivs.push(div);
               }
             });
             document.getElementById(`${genre}s`).appendChild(div);
             divsArr.push(div);
           }
-          console.log('SECTIONARR:', sectionArr);
         });
 
         pg1.onclick = () => {
