@@ -19,15 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'combos', foodDivs: [], count: 0 },
     { name: 'desserts', foodDivs: [], count: 0 },
   ];
-  const aArr = [];
 
   const pg1 = document.getElementById('page1');
-  const pg2 = document.getElementById('page2');
-  const pg3 = document.getElementById('page3');
-  const pgs = [pg1, pg2, pg3];
+  // const pg2 = document.getElementById('page2');
+  // const pg3 = document.getElementById('page3');
+  const pgsArr = [pg1];
   // const pgsSpan = docum
 
-  function pagination(page, startIndex) {
+  function pagination(pgId, startIndex) {
     sectionArr.forEach((genreSect) => {
       genreSect.foodDivs.forEach((div) => {
         div.style.display = 'none';
@@ -36,17 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
       divSlice.forEach((div) => {
         div.style.display = 'block';
       });
-
-      // if (genreSect.foodDivs.length === 0) {
-      //   document.getElementById(genreSect.name).style.display = 'none';
-      // } else {
-      //   document.getElementById(genreSect.name).style.display = 'block';
-      // }
     });
-    pgs.forEach((pg) => {
+    pgsArr.forEach((pg) => {
       pg.className = '';
     });
-    page.className = 'current';
+    document.getElementById(pgId).className = 'current';
   }
   const a = document.createElement('a');
 
@@ -109,12 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
               if (genreSect.name === `${genre}s`) {
                 genreSect.foodDivs.push(div);
                 const { length } = genreSect.foodDivs;
+                // 4 food items per section
                 if (length % 5 === 0) {
                   a.id = `page${(length / 5) + 1}`;
                   a.textContent = (length / 5) + 1;
-                  if (aArr.indexOf(a) === -1) {
+                  if (pgsArr.indexOf(a) === -1) {
                     document.getElementById('pgs').appendChild(a);
-                    aArr.push(a);
+                    pgsArr.push(a);
                   }
                 }
                 if (genreSect.foodDivs.length > 4) {
@@ -127,15 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        pg1.onclick = () => {
-          pagination(pg1, 0);
-        };
-        pg2.onclick = () => {
-          pagination(pg2, 4);
-        };
-        pg3.onclick = () => {
-          pagination(pg3, 8);
-        };
+        // Listen for a click event and display corresponding food items upon click
+        pgsArr.forEach((pg) => {
+          const { id } = pg;
+          document.getElementById(id).onclick = () => {
+            // Formula below displays 4 food items per section upon pg click
+            pagination(id, (id.slice(-1) ** 2) - ((id.slice(-1) - 2) ** 2));
+          };
+        });
 
         let count = 0;
         const totalFood = divsArr.length;
