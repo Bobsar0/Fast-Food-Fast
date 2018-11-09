@@ -21,18 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const pg1 = document.getElementById('page1');
-  // const pg2 = document.getElementById('page2');
-  // const pg3 = document.getElementById('page3');
   const pgsArr = [pg1];
-  // const pgsSpan = docum
+  const pgsId = ['page1'];
 
   function pagination(pgId, startIndex) {
     sectionArr.forEach((genreSect) => {
+      document.getElementById(genreSect.name).style.display = 'none';
       genreSect.foodDivs.forEach((div) => {
         div.style.display = 'none';
       });
+      // 4 food items per section
       const divSlice = genreSect.foodDivs.slice(startIndex, startIndex + 4);
       divSlice.forEach((div) => {
+        document.getElementById(genreSect.name).style.display = 'block';
         div.style.display = 'block';
       });
     });
@@ -41,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.getElementById(pgId).className = 'current';
   }
-  const a = document.createElement('a');
 
   fetch(req).then((resp) => {
     resp.json().then((res) => {
@@ -98,21 +98,22 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>`;
 
+            // Dynamically add pages based on no of food items per section
             sectionArr.forEach((genreSect) => {
               if (genreSect.name === `${genre}s`) {
                 genreSect.foodDivs.push(div);
                 const { length } = genreSect.foodDivs;
                 // 4 food items per section
-                if (length % 5 === 0) {
-                  a.id = `page${(length / 5) + 1}`;
-                  a.textContent = (length / 5) + 1;
-                  if (pgsArr.indexOf(a) === -1) {
+                if (length !== 1 && (length - 1) % 4 === 0) {
+                  const a = document.createElement('a');
+                  a.id = `page${((length - 1) / 4) + 1}`;
+                  a.textContent = ((length - 1) / 4) + 1;
+
+                  if (pgsId.indexOf(a.id) === -1) {
                     document.getElementById('pgs').appendChild(a);
                     pgsArr.push(a);
+                    pgsId.push(a.id);
                   }
-                }
-                if (genreSect.foodDivs.length > 4) {
-                  div.style.display = 'none';
                 }
               }
             });
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             divsArr.push(div);
           }
         });
+        pagination('page1', 0);
 
         // Listen for a click event and display corresponding food items upon click
         pgsArr.forEach((pg) => {
