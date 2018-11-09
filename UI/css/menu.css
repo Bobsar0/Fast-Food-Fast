@@ -211,12 +211,11 @@ th, td {
     margin-top: 20px;
 }
 .modalContent.cart{
-    height: 100%;
+    max-height: 100%;
     margin-top: 40px;
 }
 .modalContent.general {
     width: 80%;
-    z-index: 2;
 }
 
 #cartInfo{
@@ -275,7 +274,10 @@ th, td {
 }
 
 /* Add a grey background color on mouse-over */
-.pagination a:hover:not(.current) {background-color: #cccccc;}
+.pagination a:hover:not(.current) {
+    background-color: #cccccc;
+    cursor: pointer;
+}
 
 .err{
     color: red;
