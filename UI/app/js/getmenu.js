@@ -141,6 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
           [...document.querySelectorAll('section.menu')].forEach((section) => {
             section.style.display = 'none';
           });
+          // hide pagination
+          document.getElementById('pgsDiv').style.display = 'none';
           divsArr.forEach((div) => {
             const input = searchFood.value.toUpperCase();
             // show only relevant sections and divs
@@ -167,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
               menuErr.className = 'success';
               menuErr.innerHTML = `${count} food items found`;
+            }
+            if (!input) {
+              // show pagination
+              document.getElementById('pgsDiv').style.display = 'block';
+              pagination(pg1.id, 0);
             }
           });
           if (count === totalFood) {
