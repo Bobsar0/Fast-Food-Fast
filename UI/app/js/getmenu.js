@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const pg1 = document.getElementById('page1');
+  const prevPg = document.getElementById('prevPg');
+  const nextPg = document.getElementById('nextPg');
+
   const pgsArr = [pg1];
   const pgsId = ['page1'];
 
@@ -40,7 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     pgsArr.forEach((pg) => {
       pg.className = '';
     });
-    document.getElementById(pgId).className = 'current';
+    if (pgId === 'page1') {
+      document.getElementById(pgId).className = 'current';
+      prevPg.style.display = 'none';
+      nextPg.style.display = 'block';
+    } else if (pgId === `page${pgsArr.length}`) {
+      prevPg.style.display = 'block';
+      nextPg.style.display = 'none';
+    } else {
+      prevPg.style.display = 'block';
+      nextPg.style.display = 'block';
+    }
   }
 
   fetch(req).then((resp) => {
@@ -129,6 +142,25 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById(id).onclick = () => {
             // Formula below displays 4 food items per section upon pg click
             pagination(id, (id.slice(-1) ** 2) - ((id.slice(-1) - 2) ** 2));
+            pg.className = 'current';
+          };
+        });
+
+        [...document.getElementsByClassName('pgNav')].forEach((nav) => {
+          nav.onclick = () => {
+            let id = '';
+            pgsArr.forEach((pg) => {
+              if (pg.className.includes('current')) {
+                if (nav.id === 'prevPg') {
+                  id = `page${Number(pg.id.slice(-1)) - 1}`;
+                }
+                if (nav.id === 'nextPg') {
+                  id = `page${Number(pg.id.slice(-1)) + 1}`;
+                }
+                pagination(id, (id.slice(-1) ** 2) - ((id.slice(-1) - 2) ** 2));
+              }
+            });
+            document.getElementById(id).className = 'current';
           };
         });
 
