@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 // SIDE NAVIGATION BAR
 const open = document.getElementById('openBtn');
 const close = document.getElementById('closeBtn');
@@ -212,16 +213,23 @@ document.addEventListener('DOMContentLoaded', () => {
             declineBtn.onclick = () => {
               if (odrStatus === 'NEW' || odrStatus === 'PROCESSING') {
                 modalTxt.innerHTML = `Are you sure you want to CANCEL Order ${orderId}?
-                <p>This action is irreversible!</p>`;
+                <p><textarea id="cancelReason" placeholder="Please provide a reason for cancellation..."></textarea></p>
+                <p>This action is irreversible!</p>
+                <div class="err" id="cancelErr"></div>`;
                 displayModal(generalAdminModal, span0);
                 yes.onclick = () => {
+                  const reason = document.getElementById('cancelReason').value;
+                  if (!reason || !reason.trim()) {
+                    document.getElementById('cancelErr').textContent = 'Please provide a reason for order cancellation';
+                    return;
+                  }
                   const updateReq = new Request(`${host}/orders/${orderid}`, {
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
                       'x-access-token': localStorage.token,
                     },
-                    body: JSON.stringify({ status: 'CANCELLED' }),
+                    body: JSON.stringify({ status: 'CANCELLED', reason: reason.trim() }),
                   });
                   fetch(updateReq).then((upResp) => {
                     upResp.json().then((upRes) => {
@@ -378,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     fetch(req).then((resp) => {
       resp.json().then((res) => {
-        console.log('get menu res:', res)
         manageMenuMsg.className = 'success';
         manageMenuMsg.innerHTML = res.message;
         const { status, products } = res;

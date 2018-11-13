@@ -55,7 +55,7 @@ export default class {
       ];
       const { rows } = await this.db.query(query, values);
       return {
-        status: 'success', statusCode: 201, message: 'New food item added successfully!', product: rows[0],
+        status: 'success', statusCode: 201, message: `${rows[0].name} added successfully!`, product: rows[0],
       };
     } catch (error) {
       if (error.routine === 'pg_atoi') {

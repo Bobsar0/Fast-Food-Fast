@@ -37,8 +37,10 @@
     "jsonwebtoken": "^8.3.0",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
+    "nodemailer": "^4.6.8",
     "npm": "^6.4.1",
     "pg": "^7.4.3",
+    "twilio": "^3.23.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

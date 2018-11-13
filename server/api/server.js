@@ -27,8 +27,8 @@ export default (orderC, userC, menuC) => {
   // POST /orders
   server.post(`${prefix}/orders`, AuthC.verifyToken, (req, res) => orderC.create(req)
     .then(result => res.status(result.statusCode).json(result))
-    .catch(err => res.json({ err })));
-
+    .catch(err => res.status(err.statusCode || 500)
+      .json({ status: 'fail', error: err.message || err.error })));
   // PUT /orders/:orderId
   server.put(`${prefix}/orders/:orderId`, AuthC.verifyAdminToken, (req, res) => {
     orderC.updateStatus(req)

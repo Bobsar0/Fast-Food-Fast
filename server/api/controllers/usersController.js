@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /**
    * User Controller
    * @param {object} db
@@ -58,7 +59,9 @@ export default class {
     try {
       const { rows } = await this.db.query(createQuery, values);
       this.user.userId = rows[0].userid;
-      const token = this.auth.generateToken(rows[0].userid, rows[0].role);
+      const token = this.auth.generateToken(
+        rows[0].userid, rows[0].username, rows[0].email, rows[0].role,
+      );
       this.user.password = undefined;
       return {
         status: 'success', statusCode: 201, message: 'Signup successful', user: this.user, token,
@@ -100,7 +103,8 @@ export default class {
       if (!rows[0] || !this.auth.comparePassword(password, rows[0].password)) {
         return { status: 'fail', statusCode: 400, message: 'The credentials you provided are incorrect' };
       }
-      const token = this.auth.generateToken(rows[0].userid, rows[0].role);
+      const { userid, username, email, role } = rows[0];
+      const token = this.auth.generateToken(userid, username, email, role);
       rows[0].password = undefined;
       return {
         status: 'success', statusCode: 200, message: 'Login successful', user: rows[0], token,
