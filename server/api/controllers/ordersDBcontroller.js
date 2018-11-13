@@ -1,6 +1,10 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-param-reassign */
+import dotenv from 'dotenv';
 import emailService from '../helpers/email';
+import smsClient from '../helpers/sms';
+
+dotenv.config();
 
 export default class OrderDBController {
   constructor(db) {
@@ -198,21 +202,25 @@ export default class OrderDBController {
     }
 
     const updateStatusQuery = `UPDATE orders
-      SET status=$1, modified_date= $2
-      WHERE orderid=$3 returning *`;
+      SET status=$1, reason=$2, modified_date= $3
+      WHERE orderid=$4 returning *`;
 
     let { status } = req.body;
+    const { reason } = req.body;
 
     if (!status || !status.trim()) {
       return ({ status: 'fail', statusCode: 400, message: 'Please update order status' });
     }
     status = status.trim().toUpperCase();
 
-    if (Object.keys(req.body).length > 1) {
+    if (Object.keys(req.body).length > 2 || (!status && !reason)) {
       return ({ status: 'fail', statusCode: 400, message: 'Please update only order status' });
     }
     if (status !== 'NEW' && status !== 'PROCESSING' && status !== 'CANCELLED' && status !== 'COMPLETE') {
       return ({ status: 'fail', statusCode: 400, message: 'Status can only be updated to NEW, PROCESSING, CANCELLED or COMPLETE' });
+    }
+    if (status === 'CANCELLED' && (!reason || !reason.trim())) {
+      return ({ status: 'fail', statusCode: 400, message: 'Please provide a reason for order cancellation' });
     }
     if (status === rows[0].status) {
       return ({
@@ -221,30 +229,35 @@ export default class OrderDBController {
     }
     const values = [
       status,
+      reason,
       new Date(),
       req.params.orderId,
     ];
     try {
       const { email, food, quantity, price, address, phone, userid, orderid, username } = rows[0];
       const response = await this.db.query(updateStatusQuery, values);
+      const id = `#${userid}FFF${orderid}`;
       // SEND EMAIL
       let msg = '';
+      let body = `Your order status has been updated to ${status}. Please contact us on 08146509343 for any queries`;
       if (status === 'CANCELLED') {
         status = '<span style="color:red">CANCELLED</span>';
-        msg = `We sincerely apologize for any inconvenience and will call you soon on ${phone} with further details.
+        msg = `Your order was cancelled due to ${reason}. We sincerely apologize for any inconvenience and will call you soon on ${phone} with further details.
         <p>Meanwhile you can continue to check out other food items at <a href="https://fast-food-fast.herokuapp.com">our website</a>.</p>`;
+        body = `Your order ${id} has been cancelled due to ${reason}. We apologize for any inconvenience. Please contact us on 08146509343 for any queries`;
       } else if (status === 'COMPLETE') {
         status = '<span style="color:green">COMPLETE</span>';
-        msg = `<p>Your order will be delivered to ${address} within 1hr. Please contact us on 08146509343 if you have any queries.</p>`;
+        msg = `<p>Your order ${id} will be delivered to ${address} within 1hr.</p>`;
+        body = `${msg}. Please keep a total of NGN${price}.00 ready for collection.`;
       }
       const mailOptions = {
         from: emailService.credentials.auth.user,
         to: email,
         subject: 'Your order status has been updated!',
         html: `<h1 style="font-size: 60px;  text-align: center;"><a href="https://fast-food-fast-bobsar0.herokuapp.com" style="color: #212121; text-decoration: none;">Fast<span style="color: goldenrod">-Food-</span>Fast!</a></h1>
-        Dear ${username}, <br><p>The status of your order #${userid}FFF${orderid} has been updated to <b>${status}</b>.</p>
-        <p>Order details:<p>
-        <ul><li>Food: ${food}</li><li>Quantity: ${quantity}</li><li>Price: ${price}</li></ul>
+        Dear ${username}, <br><p>The status of your order ${id} has been updated to <b>${status}</b>.</p>
+        <p>Order details:</p>
+        <ul><li>Food: <b>${food}</b></li><li>Quantity: <b>${quantity}</b></li><li>Price: <b>NGN${price}.00</b></li></ul>
         ${msg}
         <p>Thank you.</p>
         <p>Kind regards,<p>
@@ -257,6 +270,18 @@ export default class OrderDBController {
           console.log('Email sent:', info.response);
         }
       });
+
+      // SEND SMS
+      smsClient.messages
+        .create({
+          body: body.toUpperCase(),
+          from: process.env.PHONE,
+          to: `+234${phone.slice(1)}`,
+        })
+        .then(message => console.log('SMS sent successfully', message.sid))
+        .catch(err => console.log('err in sms delivery:', err))
+        .done();
+
       return {
         status: 'success', statusCode: 200, message: 'Status updated successfully', order: response.rows[0],
       };
