@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -31,8 +32,8 @@ export default class {
    * @param {string} id
    * @returns {string} token
    */
-  generateToken(id, role) {
-    this.token = jwt.sign({ userId: id, role }, 'fastFoodFast', { expiresIn: '2d' });
+  generateToken(id, username, email, role) {
+    this.token = jwt.sign({ userId: id, username, email, role }, 'fastFoodFast', { expiresIn: '2d' });
     return this.token;
   }
 }

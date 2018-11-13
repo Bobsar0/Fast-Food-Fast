@@ -36,11 +36,14 @@ export default class {
   //       quantity INTEGER,
   //       price INTEGER,
   //       address TEXT NOT NULL,
+  //       email TEXT,
   //       phone VARCHAR (20),
+  //       username VARCHAR (128),
   //       status VARCHAR(20),
   //       created_date TIMESTAMP default NOW(),
   //       modified_date TIMESTAMP default NOW(),
   //       FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
+
   //     )`;
   //     this.pool.query(queryText)
   //       .then((res) => {
@@ -127,6 +130,7 @@ export default class {
         console.log(`deleted all rows from ${tableName}`);
       })
       .catch((err) => {
+        console.log(`error in deleting rows from ${tableName}:`, err);
       });
   }
 }
