@@ -40,6 +40,7 @@ export default class {
   //       phone VARCHAR (20),
   //       username VARCHAR (128),
   //       status VARCHAR(20),
+  //       reason TEXT,
   //       created_date TIMESTAMP default NOW(),
   //       modified_date TIMESTAMP default NOW(),
   //       FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
