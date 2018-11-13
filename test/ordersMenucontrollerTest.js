@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { Pool } from 'pg';
@@ -59,7 +60,8 @@ describe('Order and Menu Endpoints', () => {
     db.query(createQuery, values)
       .then((res) => {
         console.log('admin created successfully');
-        adminToken = auth.generateToken(res.rows[0].userid, res.rows[0].role);
+        const { userid, username, email, role } = res.rows[0];
+        adminToken = auth.generateToken(userid, username, email, role);
       })
       .catch(err => console.log('err in creating admin', err));
 
@@ -243,7 +245,7 @@ describe('Order and Menu Endpoints', () => {
           .end((err, res) => {
             res.status.should.equal(201);
             res.body.should.have.property('status').eql('success');
-            res.body.should.have.property('message').eql('New food item added successfully!');
+            res.body.should.have.property('message').eql('MEATPIE added successfully!');
             res.body.should.have.property('product');
             res.body.product.should.have.property('foodid');
             res.body.product.should.have.property('name').eql('MEATPIE');
@@ -269,7 +271,7 @@ describe('Order and Menu Endpoints', () => {
             foodId = res.body.product.foodid;
             res.status.should.equal(201);
             res.body.should.have.property('status').eql('success');
-            res.body.should.have.property('message').eql('New food item added successfully!');
+            res.body.should.have.property('message').eql('MEATPIE2 added successfully!');
             res.body.should.have.property('product');
             res.body.product.should.have.property('foodid');
             res.body.product.should.have.property('name').eql('MEATPIE2');
@@ -853,15 +855,15 @@ describe('Order and Menu Endpoints', () => {
             done();
           });
       });
-      it('rejects request that contains any other order parameter', (done) => {
+      it('rejects request for order cancellation without reason', (done) => {
         chai.request(server(orderC, userC, menuC))
           .put(`/api/v1/orders/${orderId}`)
           .set({ 'x-access-token': adminToken })
-          .send({ status: 'PROCESSING', price: 100 })
+          .send({ status: 'CANCELLED' })
           .end((err, res) => {
             res.status.should.equal(400);
             res.body.should.have.property('status').eql('fail');
-            res.body.should.have.property('message').eql('Please update only order status');
+            res.body.should.have.property('message').eql('Please provide a reason for order cancellation');
             done();
           });
       });
