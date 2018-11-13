@@ -1,3 +1,6 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-param-reassign */
+import emailService from '../helpers/email';
 
 export default class OrderDBController {
   constructor(db) {
@@ -39,6 +42,7 @@ export default class OrderDBController {
           const err = { code: 404, message: `Sorry, ${foodName} is not available in stock. Contact us on 08146509343 if needed urgently` };
           throw err;
         }
+
         const totalPrice = Number(res.rows[0].price) * Number(quantity);
         values = [
           JSON.stringify(foodName),
@@ -47,7 +51,9 @@ export default class OrderDBController {
           'NEW',
           address,
           phone,
+          req.user.email,
           req.user.userId,
+          req.user.username,
           new Date(),
           new Date(),
         ];
@@ -88,19 +94,61 @@ export default class OrderDBController {
           'NEW',
           address,
           phone,
+          req.user.email,
           req.user.userId,
+          req.user.username,
           new Date(),
           new Date(),
         ];
       } else {
         return { status: 'fail', statusCode: 400, message: 'Please place your order in the correct format. Refer to the API docs for more info.' };
       }
-
-      const insertQuery = `INSERT INTO orders(food, quantity, price, status, address, phone, userid, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      const insertQuery = `INSERT INTO orders(food, quantity, price, status, address, phone, email, userid, username, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       returning *`;
       const { rows } = await this.db.query(insertQuery, values);
       rows[0].food = JSON.parse(rows[0].food);
+      const { orderid, userid, username, food, price, email } = rows[0];
+
+      let items = '';
+      if (typeof food === 'object') {
+        food.forEach((item) => {
+          let p = '';
+          if (food.indexOf(item) + 1 === food.length) {
+            p = `<b>${item.quantity}x ${item.name}</b>.`;
+          } else {
+            p = `<b>${item.quantity}x ${item.name}</b>;`;
+          }
+          items += p;
+        });
+      } else {
+        items = `<b>${food}</b>`;
+      }
+
+      const mailOptions = {
+        from: emailService.credentials.auth.user,
+        to: email,
+        subject: `Your order #${userid}FFF${orderid} has been confirmed!`,
+        html: `<h1 style="font-size: 60px;  text-align: center;"><a href="https://fast-food-fast-bobsar0.herokuapp.com" style="color: #212121; text-decoration: none;">Fast<span style="color: goldenrod">-Food-</span>Fast!</a></h1>
+        Dear ${username}, <br><p>Your order #${userid}FFF${orderid} has been successfully confirmed.<p>
+
+        <p>Order details:<p>
+        <ul><li>Food: ${items}</li><li>Total Quantity: <b>${rows[0].quantity}</b></li><li>Total Price: <b>NGN ${price}.00</b></li></ul>
+        <p>Your food will be packaged and shipped as soon as possible. Once the status changes, you will receive a notification email.</p>
+        <p>For any queries, please contact us on 08146509343.</p>
+        <p>Thank you.</p>
+        <p>Kind regards,<p>
+        <p><i>FastFoodFast Team</i><p>
+        `,
+      };
+      emailService.transporter.sendMail(mailOptions, (err, info) => {
+        console.log('sending mail...');
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Email sent:', info.response);
+        }
+      });
       return {
         status: 'success', statusCode: 201, message: 'Order created successfully', order: rows[0],
       };
@@ -148,6 +196,7 @@ export default class OrderDBController {
     if (!rows[0]) {
       return ({ status: 'fail', statusCode: 404, message: `Order with id ${req.params.orderId} not found` });
     }
+
     const updateStatusQuery = `UPDATE orders
       SET status=$1, modified_date= $2
       WHERE orderid=$3 returning *`;
@@ -176,7 +225,38 @@ export default class OrderDBController {
       req.params.orderId,
     ];
     try {
+      const { email, food, quantity, price, address, phone, userid, orderid, username } = rows[0];
       const response = await this.db.query(updateStatusQuery, values);
+      // SEND EMAIL
+      let msg = '';
+      if (status === 'CANCELLED') {
+        status = '<span style="color:red">CANCELLED</span>';
+        msg = `We sincerely apologize for any inconvenience and will call you soon on ${phone} with further details.
+        <p>Meanwhile you can continue to check out other food items at <a href="https://fast-food-fast.herokuapp.com">our website</a>.</p>`;
+      } else if (status === 'COMPLETE') {
+        status = '<span style="color:green">COMPLETE</span>';
+        msg = `<p>Your order will be delivered to ${address} within 1hr. Please contact us on 08146509343 if you have any queries.</p>`;
+      }
+      const mailOptions = {
+        from: emailService.credentials.auth.user,
+        to: email,
+        subject: 'Your order status has been updated!',
+        html: `<h1 style="font-size: 60px;  text-align: center;"><a href="https://fast-food-fast-bobsar0.herokuapp.com" style="color: #212121; text-decoration: none;">Fast<span style="color: goldenrod">-Food-</span>Fast!</a></h1>
+        Dear ${username}, <br><p>The status of your order #${userid}FFF${orderid} has been updated to <b>${status}</b>.</p>
+        <p>Order details:<p>
+        <ul><li>Food: ${food}</li><li>Quantity: ${quantity}</li><li>Price: ${price}</li></ul>
+        ${msg}
+        <p>Thank you.</p>
+        <p>Kind regards,<p>
+        <p><i>FastFoodFast Team</i><p>`,
+      };
+      emailService.transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Email sent:', info.response);
+        }
+      });
       return {
         status: 'success', statusCode: 200, message: 'Status updated successfully', order: response.rows[0],
       };
