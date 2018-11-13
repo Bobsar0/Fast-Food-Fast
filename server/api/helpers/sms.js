@@ -1,10 +1,10 @@
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-import client from 'twilio';
+// import client from 'twilio';
 
-dotenv.config();
+// dotenv.config();
 
-const accountSid = process.env.SID;
-const authToken = process.env.AUTH_TOKEN;
+// const accountSid = process.env.SID;
+// const authToken = process.env.AUTH_TOKEN;
 
-export default client(accountSid, authToken);
+// export default client(accountSid, authToken);
