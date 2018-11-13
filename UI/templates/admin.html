@@ -16,12 +16,12 @@
 		<div class="container">
 			<header> 
 				<div id="title">
-					<h1><a href="userIndex"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+					<h1><a href="userIndex"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast</span> Admin</a></h1>
 				</div>
 				<nav class="topNav">
 					<a href="userIndex" class="current">Home</a>
 					<div class="dropdown">
-							<button class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></button>
+							<a class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></a>
 							<div class="dropdown-content">
 									<a href="userMenu#meal">Meal</a>
 									<a href="userMenu#snacks">Snacks</a>
@@ -29,7 +29,11 @@
 									<a href="userMenu#combo">Combo</a>
 							</div>
 					</div>
-					<a href="#">Admin<div class="me"></div></a>
+					<div class="dropdown">
+            <a class="dropbtn"><a class="me"></a></a>
+            <div class="dropdown-content">
+            </div>
+					</div>
 					<a href="#" id="logout">Logout</a>
 					<a href="javascript:void(0);" class="icon" id="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
@@ -45,7 +49,9 @@
 			 <div id="main">
 			<section class="main">
 				<div class="container">
-						<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
+						<h1 id="openBtn">&#9776; Click to Manage Dashboard</h1>
+						<!-- <iframe src="userMenu">USER</iframe> -->
+						<h2>Please click on dashboad above to mn</h2> 
 					<div id="manageOrdersDiv">
 					<section class="admin" id="allOrders">
 						<h2>MANAGE ALL ORDERS</h2>
@@ -187,7 +193,7 @@
 														<input type="text" name="img" id="imgURL" placeholder="Paste new image link/url">
 														<br>
 														<input type="text" id="imgInfo" value="OR upload a new image file:" disabled>
-														<input type="file" name="img" id="img">
+														<input type="file" name="img" class="img" id="img">
 													</td>
 												</tr>
 												<tr>

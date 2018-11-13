@@ -55,6 +55,7 @@ loginBtn.onclick = () => {
 
         password2Err.innerHTML = `<span style='color: greenyellow'>${res.message}...redirecting</span>`;
         if (res.user.role === 'admin') {
+          localStorage.setItem(res.user.username, 'an');
           setTimeout(() => {
             window.location.href = 'admin';
           }, 100);

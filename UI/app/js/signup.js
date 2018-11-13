@@ -90,6 +90,7 @@ signupBtn.onclick = () => {
 
         if (res.user.role === 'admin') {
           setTimeout(() => {
+            localStorage.setItem(res.user.username, 'an');
             window.location.href = 'admin';
           }, 100);
           return;
