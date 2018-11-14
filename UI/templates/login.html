@@ -18,10 +18,19 @@
 					<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 				</div>
 				<nav class="topNav">
-					<a href="./index">Home</a>
-					<a href="./index#about">About</a>
-					<a href="./login" class="current">Login</a>
-					<a href="./signup">Signup</a>
+					<a href="index">Home</a>
+					<a href="index#about">About</a>
+					<div class="dropdown">
+						<a class="dropbtn"><a href="menu">Menu <i class="fa fa-caret-down"></i></a></a>
+						<div class="dropdown-content">
+							<a href=".menu#meal">Meal</a>
+							<a href="menu#snacks">Snacks</a>
+							<a href="menu#drinks">Drinks</a>
+							<a href="menu#combo">Combo</a>
+						</div>
+					</div>
+					<a href="#" class="current">Login</a>
+					<a href="signup">Signup</a>
 					<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 			</header>
