@@ -1,5 +1,7 @@
 // Load google charts
-google.charts.load('current', { packages: ['corechart'] });
+google.charts.load('current', { packages: ['corechart', 'bar'] });
+// google.charts.load('current', {'packages':['bar']});
+
 google.charts.setOnLoadCallback(drawChart);
 
 // Draw the chart and set the chart values
@@ -21,6 +23,14 @@ function drawChart() {
     ['Dessert', 2]
   ]);
 
+  const salesData = google.visualization.arrayToDataTable([
+    ['Year', 'TotalSales', 'Meal', 'Snacks', 'Drinks', 'Combo', 'Desserts' ],
+    ['2014', 1000, 400, 200, 3,4,5],
+    ['2015', 1170, 460, 250, 55,55,66],
+    ['2016', 660, 1120, 300,44,5,6],
+    ['2017', 1030, 540, 350, 44, 5,6]
+  ]);
+
   // Optional; add a title and set the width and height of the chart
   const ordersOptions = {
     title: 'Orders Statistics', is3D: true, width: 400, height: 250,
@@ -29,9 +39,18 @@ function drawChart() {
     title: 'Menu Statistics', is3D: true, width: 400, height: 250,
   };
 
+  const salesOptions = {
+    chart: {
+      title: 'Company Performance',
+      subtitle: 'Sales across all Food genres: 2014-2017',
+    },
+  };
   // Display the chart inside the <div> element with id="piechart"
   const ordersChart = new google.visualization.PieChart(document.getElementById('ordersChart'));
   const menuChart = new google.visualization.PieChart(document.getElementById('menuChart'));
+  const salesChart = new google.charts.Bar(document.getElementById('salesGraph'));
+
   ordersChart.draw(ordersData, ordersOptions);
   menuChart.draw(menuData, menuOptions);
+  salesChart.draw(salesData, google.charts.Bar.convertOptions(salesOptions));
 }
