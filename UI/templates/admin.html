@@ -51,30 +51,33 @@
 			 <div id="main">
 			<section class="main">
 				<div class="container">
-						<h1 id="openBtn">&#9776; Click to Manage Dashboard</h1>
-						<!-- <iframe src="userMenu">USER</iframe> -->
-						<h2>Please click on the dashboard link above to manage application</h2>
-						
+						<h2 id="openBtn">&#9776; Manage Application</h2>						
 						<div id="appStats">
+							<div class= "err" id="ordersStatsErr"></div>
+							<div class= "err" id="usersStatsErr"></div>
+							<div class= "err" id="menuStatsErr"></div>
+
 							<div class="statsCards last">
+									<div id="statsErr"></div>
+
 								<div class="statsCard">
-										<h4>Total Revenue</h4>
-										<h3>&#x20a6; <span id="revenue">10,000</span>.00</h3>
+										<h4>Total Sales</h4>
+										<h3>&#x20a6; <span id="sales">0</span>.00</h3>
 								</div>
 
 								<div class="statsCard ">
 										<h4>No of Orders</h4>
-										<h3>&#x20a6; <span id="orders">10,000</span></h3>
+										<h3 id="orders">0</h3>
 								</div>
 
 								<div class="statsCard ">
 										<h4>No of Users</h4>
-										<h3 id="users">10,000</h3>
+										<h3 id="users">0</h3>
 								</div>
 
 								<div class="statsCard">
-										<h4>No of Food Items</h4>
-										<h3>100</h3>
+										<h4>No of Menu Items</h4>
+										<h3 id="menu">0</h3>
 								</div>
 							</div>
 
@@ -84,11 +87,11 @@
 							<section class="pie">
 								<div id="menuChart"></div>
 							</section>
-							
+
 						<section class="admin">
-								<h1 id='initTitle' style='font-size: 20px; text-align:center; color:#212121; text-shadow: 2px 2px 4px goldenrod; margin-top: 0px'>Chart of REVENUE OVER TIME...</h1>
+								<!-- <h1 id='initTitle' style='font-size: 20px; text-align:center; color:#212121; text-shadow: 2px 2px 4px goldenrod; margin-top: 0px'>Chart of REVENUE OVER TIME...</h1> -->
 								<p id='graphTitle' style='text-align: center; text-shadow: 2px 2px 4px #000000; margin-top: -20px'></p>
-								<div class="chart" id="graph" style="margin: 0"></div>
+								<div class="chart" id="salesGraph" style="margin: 0"></div>
 						</section> 
 					</div>
 
@@ -269,9 +272,10 @@
 			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
 		</footer>
 		<script src="../app/js/username.js"></script>
+		<script src="../app/js/piechart.js"></script>
 		<script src="../app/js/admin.js"></script>
 		<script src="upload.js"></script>
-		<script src="../app/js/piechart.js"></script>
+
 		<script>
 		const icon = document.getElementsByClassName('icon');
 		icon[0].onclick = () => {

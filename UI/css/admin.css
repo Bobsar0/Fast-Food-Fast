@@ -1,10 +1,14 @@
 body {
-    font-family: "Lato", sans-serif;
-    transition: background-color .5s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+      transition: background-color .5s;
 }
 
-h1#openBtn{
-    font-size:30px;
+#openBtn{
+    font-size:25px;
     cursor: pointer;
     color: goldenrod;
     background: #212121;
@@ -45,6 +49,7 @@ h1#openBtn{
     font-size: 36px;
     margin-left: 50px;
 }
+
 
 #main {
     transition: margin-left .5s;
@@ -180,22 +185,58 @@ textarea {
     cursor: pointer;
     opacity: 0.8;
 }
-iframe{
-    height: 300%;
-    width: 100%
+
+.statsCards{
+    margin-bottom: 50px
+}
+.statsCard{
+    background: #cbd6d0;
+    padding: 5px;
+    float: left;
+    width: 23%;
+    height: 120px;
+    margin: 1%;
+    /* border: 1px solid goldenrod; */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+    transition: 0.3s;
+    border-radius: 5px;
 }
 
+.pie {
+    float: left;
+    border: goldenrod groove 5px;
+    width: 40%;
+    /* background: #818181; */
+    margin: 5%;
+    overflow: hidden;
+    padding: 0;
+}
+#ordersChart, #menuChart{
+    width: 50%;
+}
+#salesGraph{
+    width: 100%;
+    height: 400px;
+}
 @media screen and (max-height: 500px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 15px;}
+}
+@media screen and (max-width: 1100px) {
+    .pie{
+        overflow-x: auto;
+    }
 }
 @media screen and (max-width: 800px) {
     input#imgInfo, input.img{
         padding-left: 20px;
     }
+    .pie{
+        width: 35%;
+    }
 }
 @media screen and (max-width: 750px) {
-    h1#openBtn{font-size: 25px;}
+    #openBtn{font-size: 20px;}
     #orderSearch, #menuSearchInp{
         width: 90%;
         font-size: 14px;
@@ -207,9 +248,13 @@ iframe{
     #addBtn, #resetBtn{
        width: 35%
     }
+    .pie{
+        width: 90%;
+        overflow: none;
+    }
 }
 @media screen and (max-width: 540px) {
-    h1#openBtn{font-size: 20px;}
+    #openBtn{font-size: 18px;}
     #orderSearch, #menuSearchInp{
         font-size: 12px;
         padding: 8px 10px;
@@ -238,5 +283,13 @@ iframe{
         margin-top: 10px;
         margin-bottom: 5px;
         font-size: 14px;
+    }
+    .statsCard{
+        width: 48%
+    }
+    @media screen and (max-width: 540px) {
+        .pie{
+            overflow-x: auto;
+        }
     }
 }
