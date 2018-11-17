@@ -61,6 +61,10 @@ export default (orderC, userC, menuC) => {
     .catch(err => res.status(err.statusCode || 500)
       .json({ status: err.statusCode, error: err.error || err.message })));
 
+  server.get(`${prefix}/users`, AuthC.verifyAdminToken, (_req, res) => userC.read().then(result => res.status(result.statusCode).json(result))
+    .catch(err => res.status(500).json({ status: 'fail', message: err.error || err.message })));
+
+
   // ****** MENU ROUTES **** //
   server.get(`${prefix}/menu`, AuthC.verifyToken, (_req, res) => menuC.read()
     .then(result => res.status(result.statusCode).json(result))
