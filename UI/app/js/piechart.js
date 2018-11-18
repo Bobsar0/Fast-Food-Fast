@@ -204,6 +204,38 @@ function drawCalendarChart() {
   chart.draw(dataTable, options);
 }
 
+// DRAW BAR CHART
+function drawBarChart(dataArr, title) {
+  const data = google.visualization.arrayToDataTable(dataArr);
+
+  const view = new google.visualization.DataView(data);
+  view.setColumns([0, 1,
+    {
+      calc: 'stringify',
+      sourceColumn: 1,
+      type: 'string',
+      role: 'annotation',
+    }, 2]);
+
+  const options = {
+    title: title[0],
+    width: 600,
+    // height: 700,
+    bar: { groupWidth: '95%' },
+    legend: { position: 'none' },
+    hAxis: {
+      title: title[1],
+    },
+    vAxis: {
+      title: 'Sales',
+      // gridlines: { count: 5 },
+    },
+  };
+  const chart = new google.visualization.ColumnChart(document.getElementById('salesGraph'));
+  chart.draw(view, options);
+}
+
+// DRAW LINE CHART
 const chartErr = document.getElementById('chartErr');
 function drawLineChart() {
   const fromYr = document.getElementById('fromYr').value;
@@ -215,6 +247,8 @@ function drawLineChart() {
   const toDay = document.getElementById('toDay').value;
 
   const datesArr = [];
+  const yrsArr = [];
+  const mthsArr = [];
 
   if (Number(fromYr) > Number(toYr)) {
     chartErr.innerHTML = 'Invalid date range (check Year)';
@@ -229,16 +263,51 @@ function drawLineChart() {
     return;
   }
 
+  const freq = document.getElementById('freq').value;
+
+  const yrArr = [['Years', 'Sales', { role: 'style' }]];
+  const mthArr = [['Months', 'Sales', { role: 'style' }]];
+
   const salesArr = [['Date', 'Sales']];
   datesObjArr.forEach((dateObj) => {
     const { date, price } = dateObj;
     const dateYr = date.slice(0, 4);
     const dateMth = date.slice(5, 7);
+    const mth = new Date(date).toString().slice(4, 7);
     const dateDay = date.slice(8);
 
     // Concat yr, month and day and calculate (from 2017-10 to 2018-03) = (20171021 to 20180301)
     if (Number(`${dateYr}${dateMth}${dateDay}`) >= Number(`${fromYr}${fromMonth}${fromDay}`)
     && Number(`${dateYr}${dateMth}${dateDay}`) <= Number(`${toYr}${toMonth}${toDay}`)) {
+      if (freq === 'yearly') {
+        if (yrsArr.indexOf(dateYr) === -1) {
+          yrsArr.push(dateYr);
+          yrArr.push([dateYr, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+        } else {
+          // update the price
+          yrArr.forEach((sale) => {
+            if (sale[0] === dateYr) {
+              sale[1] += price;
+            }
+          });
+        }
+      }
+      if (freq === 'monthly') {
+        if (mthsArr.indexOf(mth) === -1) {
+          mthsArr.push(mth);
+          mthArr.push([mth, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+        } else {
+          // update the price
+          mthArr.forEach((sales) => {
+            if (sales[0] === mth) {
+              sales[1] += price;
+            }
+          });
+        }
+      }
+      if (freq === 'daily') {
+        chartErr.innerHTML = '<span style:"color: green">Please see daily sales performance chart above for a more detailed overview</span>';
+      }
       if (datesArr.indexOf(date) === -1) {
         datesArr.push(date);
         salesArr.push([date, price]);
@@ -252,15 +321,32 @@ function drawLineChart() {
       }
     }
   });
+  console.log('datearrs:', datesArr)
+  console.log('yarrs:', yrArr)
+  console.log('mtharrs:', mthArr);
+  console.log('salesArr:', salesArr);
 
-  if (salesArr.length === 1) {
+  if (yrArr.length === 1 && mthArr.length === 1 && salesArr.length === 1) {
     chartErr.innerHTML = 'Sorry no sales were found within the selected period';
     return;
   }
+
+  if (freq === 'yearly') {
+    chartErr.innerHTML = '';
+    drawBarChart(yrArr, ['Yearly Sales Comparison', 'Years']);
+    return;
+  }
+  if (freq === 'monthly') {
+    chartErr.innerHTML = '';
+    drawBarChart(mthArr, ['Monthly Sales Comparison', 'Months']);
+    return;
+  }
+
   chartErr.innerHTML = '';
   const options = {
     width: 950,
     title: 'Sales Performance Overview',
+    colors: ['goldenrod'],
     crosshair: { trigger: 'both', color: 'black', opacity: 0.3 },
     hAxis: {
       title: 'Dates',
@@ -279,11 +365,10 @@ function drawLineChart() {
   chart.draw(data, options);
 }
 
+google.charts.setOnLoadCallback(drawPieChart);
+google.charts.setOnLoadCallback(drawCalendarChart);
 google.charts.setOnLoadCallback(drawLineChart);
 
 document.getElementById('plotBtn').onclick = () => {
   google.charts.setOnLoadCallback(drawLineChart);
 };
-
-google.charts.setOnLoadCallback(drawCalendarChart);
-google.charts.setOnLoadCallback(drawPieChart);
