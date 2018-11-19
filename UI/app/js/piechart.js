@@ -235,6 +235,15 @@ function drawBarChart(dataArr, title) {
   chart.draw(view, options);
 }
 
+function getWkRange(date) {
+  const wkDay = new Date(date).getDay();
+  if (wkDay === 0) {
+    const range = `${date}-${date.slice(0, 8)}${Number(date.slice(-2)) + 6}`;
+    return range;
+  }
+  return getWkRange(`${date.slice(0, 8)}${Number(date.slice(-2)) - 1}`);
+}
+
 // DRAW LINE CHART
 const chartErr = document.getElementById('chartErr');
 function drawLineChart() {
@@ -249,6 +258,7 @@ function drawLineChart() {
   const datesArr = [];
   const yrsArr = [];
   const mthsArr = [];
+  const wkRangeArr = [];
 
   if (Number(fromYr) > Number(toYr)) {
     chartErr.innerHTML = 'Invalid date range (check Year)';
@@ -267,8 +277,12 @@ function drawLineChart() {
 
   const yrArr = [['Years', 'Sales', { role: 'style' }]];
   const mthArr = [['Months', 'Sales', { role: 'style' }]];
-
+  const wkArr = [['Weeks', 'Sales', { role: 'style' }]];
   const salesArr = [['Date', 'Sales']];
+
+  let wkErr = '';
+  const maxRangeMsg = document.getElementById('maxRange');
+
   datesObjArr.forEach((dateObj) => {
     const { date, price } = dateObj;
     const dateYr = date.slice(0, 4);
@@ -305,46 +319,73 @@ function drawLineChart() {
           });
         }
       }
-      if (freq === 'daily') {
-        chartErr.innerHTML = '<span style:"color: green">Please see daily sales performance chart above for a more detailed overview</span>';
+
+      const wkRange = getWkRange(`${dateYr}/${dateMth}/${dateDay}`);
+      if (freq === 'weekly') {
+        // Only 3 months range allowed
+        if (Number(`${toYr}${toMonth}${toDay}`) - Number(`${fromYr}${fromMonth}${fromDay}`) > 180) {
+          wkErr = 'Sorry max range of 180 days allowed';
+          return;
+        }
+        if (wkRangeArr.indexOf(wkRange) === -1) {
+          wkRangeArr.push(wkRange);
+          wkArr.push([wkRange, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+        } else {
+          // update price
+          wkArr.forEach((wk) => {
+            if (wk[0] === wkRange) {
+              wk[1] += price;
+            }
+          });
+        }
       }
-      if (datesArr.indexOf(date) === -1) {
-        datesArr.push(date);
-        salesArr.push([date, price]);
-      } else {
-        // update the price
-        salesArr.forEach((sales) => {
-          if (sales[0] === date) {
-            sales[1] += price;
-          }
-        });
+      if (freq === 'daily') {
+        if (datesArr.indexOf(date) === -1) {
+          datesArr.push(date);
+          salesArr.push([date, price]);
+        } else {
+          // update the price
+          salesArr.forEach((sales) => {
+            if (sales[0] === date) {
+              sales[1] += price;
+            }
+          });
+        }
       }
     }
   });
-  console.log('datearrs:', datesArr)
-  console.log('yarrs:', yrArr)
-  console.log('mtharrs:', mthArr);
-  console.log('salesArr:', salesArr);
 
-  if (yrArr.length === 1 && mthArr.length === 1 && salesArr.length === 1) {
+  if (wkArr.length === 1 && wkErr === 'Sorry max range of 180 days allowed') {
+    chartErr.innerHTML = wkErr;
+    return;
+  }
+  if (yrArr.length === 1 && mthArr.length === 1 && wkArr.length === 1 && salesArr.length === 1) {
     chartErr.innerHTML = 'Sorry no sales were found within the selected period';
     return;
   }
 
   if (freq === 'yearly') {
     chartErr.innerHTML = '';
+    maxRangeMsg.innerHTML = '';
     drawBarChart(yrArr, ['Yearly Sales Comparison', 'Years']);
     return;
   }
   if (freq === 'monthly') {
     chartErr.innerHTML = '';
+    maxRangeMsg.innerHTML = '';
     drawBarChart(mthArr, ['Monthly Sales Comparison', 'Months']);
     return;
   }
+  if (freq === 'weekly') {
+    chartErr.innerHTML = '';
+    drawBarChart(wkArr, ['Weekly Sales Comparison', 'Weeks']);
+    return;
+  }
 
-  chartErr.innerHTML = '';
+  maxRangeMsg.innerHTML = '';
+  chartErr.innerHTML = '<span style="color: green">Please see daily sales performance chart above for a more detailed overview</span>';
   const options = {
-    width: 950,
+    // width: 950,
     title: 'Sales Performance Overview',
     colors: ['goldenrod'],
     crosshair: { trigger: 'both', color: 'black', opacity: 0.3 },
@@ -372,3 +413,9 @@ google.charts.setOnLoadCallback(drawLineChart);
 document.getElementById('plotBtn').onclick = () => {
   google.charts.setOnLoadCallback(drawLineChart);
 };
+
+document.getElementById('freq').onchange = () => {
+  if (document.getElementById('freq').value === 'weekly') {
+    document.getElementById('maxRange').innerHTML = ' <i>180 days max.</i>';
+  }
+}
