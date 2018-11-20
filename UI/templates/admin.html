@@ -41,6 +41,7 @@
 				<!-- The sidebar -->
 				<div id="mySidenav" class="sidenav">
 					<a href="javascript:void(0)" id="closeBtn">&times;</a>
+					<a href="#" id="viewStats">View Statistics</a>
 					<a href="#" id="getOrders">Manage Orders</a>
 					<a href="#" id="createMenu">Add Food to Menu</a>
 					<a href="#" id="getMenu">Manage Menu</a>
@@ -50,13 +51,13 @@
 			 <div id="main">
 			<section class="main">
 				<div class="container">
-						<h2 id="openBtn">&#9776; Manage Application</h2>						
-						<div id="appStats">
+					<h2 id="openBtn">&#9776; Manage Application</h2>						
+					<div id="allStats">
 							<div class= "err" id="ordersStatsErr"></div>
 							<div class= "err" id="usersStatsErr"></div>
 							<div class= "err" id="menuStatsErr"></div>
 
-							<div class="statsCards last">
+							<div class="statsCards">
 									<div id="statsErr"></div>
 
 								<div class="statsCard card">
@@ -66,24 +67,24 @@
 
 								<div class="statsCard card">
 										<h4>No of Orders</h4>
-										<h3 id="orders">0</h3>
+										<h3 id="orders"><i>Loading...</i></h3>
 								</div>
 
 								<div class="statsCard card">
 										<h4>No of Users</h4>
-										<h3 id="users">0</h3>
+										<h3 id="users"><i>Loading...</i></h3>
 								</div>
 
 								<div class="statsCard card">
-										<h4>No of Menu Items</h4>
-										<h3 id="menu">0</h3>
+										<h4>No of Items</h4>
+										<h3 id="menu"><i>Loading...</i></h3>
 								</div>
 							</div>
 
-							<section class="pie">
+							<section class="pie left">
 								<div id="ordersChart"></div>
 							</section>
-							<section class="pie">
+							<section class="pie right">
 								<div id="menuChart"></div>
 							</section>
 
@@ -155,15 +156,15 @@
 										<tr>
 												<td class="label">To:</td>
 												<td class="day"><select id="toDay">
-													<option value="01">1</option>
-													<option value="02">2</option>
-													<option value="03">3</option>
-													<option value="04">4</option>
-													<option value="05">5</option>
-													<option value="06">6</option>
-													<option value="07">7</option>
-													<option value="08">8</option>
-													<option value="09">9</option>
+													<option value="01">01</option>
+													<option value="02">02</option>
+													<option value="03">03</option>
+													<option value="04">04</option>
+													<option value="05">05</option>
+													<option value="06">06</option>
+													<option value="07">07</option>
+													<option value="08">08</option>
+													<option value="09">09</option>
 													<option value="10">10</option>
 													<option value="11">11</option>
 													<option value="12">12</option>
@@ -210,18 +211,18 @@
 												</td>
 											</tr>
 											<tr>
+												<td class="label">Frequency:</td>
 												<td></td>
-												<td></td>
-												<td><button id="plotBtn">Plot</button></td>
-												<td></td>
+												<td><select id="freq">
+													<option value="daily">Daily</option>
+													<option value="weekly">Weekly</option>
+													<option value="monthly">Monthly</option>
+													<option value="yearly">Yearly</option>
+												</select></td>
+												<td id='maxRange' class="err"></td>
 											</tr>
 											<tr>
-												<td>Comparison Frequency</td>
-												<td><select id="freq">
-													<option value="none">Overview</option>
-													<option value="yearly">Yearly</option>
-													<option value="monthly">Monthly</option>
-												</select></td>
+												<td colspan="4"><button type="button" id="plotBtn">Plot</button></td>
 											</tr>
 									</table>
 								</div>
@@ -407,7 +408,7 @@
 			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
 		</footer>
 		<script src="../app/js/username.js"></script>
-		<script src="../app/js/piechart.js"></script>
+		<script src="../app/js/stats.js"></script>
 		<script src="../app/js/admin.js"></script>
 		<script src="upload.js"></script>
 
