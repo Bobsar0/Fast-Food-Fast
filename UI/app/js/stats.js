@@ -128,6 +128,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // POPULATE DATE FIELDS
+  const selFromYr = document.getElementById('fromYr');
+  const selFromMonth = document.getElementById('fromMonth');
+  const selFromDay = document.getElementById('fromDay');
+
+  const selToYr = document.getElementById('toYr');
+  const selToMonth = document.getElementById('toMonth');
+  const selToDay = document.getElementById('toDay');
+
+  const dateNow = new Date().toISOString();
+
+  selToYr.value = dateNow.slice(0, 4);
+  selFromYr.value = dateNow.slice(0, 4);
+  selToMonth.value = dateNow.slice(5, 7);
+
+  function populateDays(yr, valMonth, id) {
+    const select = document.getElementById(id);
+    if (select.childElementCount > 0) {
+      for (let i = select.childElementCount - 1; i >= 0; i -= 1) {
+        select.removeChild(select.children[i]);
+      }
+    }
+    let endDay = 31;
+    if (yr % 4 === 0 && valMonth === '02') {
+      endDay = 29;
+    } else if (valMonth === '02') {
+      endDay = 28;
+    } else if (valMonth === '04' || valMonth === '06' || valMonth === '09' || valMonth === '11') {
+      endDay = 30;
+    }
+    for (let i = 1; i <= endDay; i += 1) {
+      const option = document.createElement('option');
+      if (i < 10) {
+        option.value = `0${i}`;
+        option.innerHTML = `0${i}`;
+      } else {
+        option.value = `${i}`;
+        option.innerHTML = `${i}`;
+      }
+      select.appendChild(option);
+    }
+  }
+  populateDays(selFromYr.value, selFromMonth.value, 'fromDay');
+  populateDays(selToYr.value, selToMonth.value, 'toDay');
+
+  // load day
+  selToDay.value = dateNow.slice(8, 10);
+
+  selFromMonth.onchange = () => {
+    populateDays(selFromYr.value, selFromMonth.value, 'fromDay');
+  };
+  selToMonth.onchange = () => {
+    populateDays(selToYr.value, selToMonth.value, 'toDay');
+  };
+
   // DRAW CHARTS
   // Load google charts
   google.charts.load('current', { packages: ['corechart'] });
@@ -247,13 +302,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // DRAW LINE CHART
   const chartErr = document.getElementById('chartErr');
   function drawLineChart() {
-    const fromYr = document.getElementById('fromYr').value;
-    const fromMonth = document.getElementById('fromMonth').value;
-    const fromDay = document.getElementById('fromDay').value;
+    const fromYr = selFromYr.value;
+    const fromMonth = selFromMonth.value;
+    const fromDay = selFromDay.value;
 
-    const toYr = document.getElementById('toYr').value;
-    const toMonth = document.getElementById('toMonth').value;
-    const toDay = document.getElementById('toDay').value;
+    const toYr = selToYr.value;
+    const toMonth = selToMonth.value;
+    const toDay = selToDay.value;
 
     const datesArr = [];
     const yrsArr = [];
@@ -330,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           if (wkRangeArr.indexOf(wkRange) === -1) {
             wkRangeArr.push(wkRange);
-            wkArr.push([wkRange, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+            wkArr.push([wkRange, price, 'stroke-color: goldenrod; stroke-width: 2']);
           } else {
             // update price
             wkArr.forEach((wk) => {
