@@ -1,19 +1,24 @@
-body {
+body, html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-      transition: background-color .5s;
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color .5s;
+    background: whitesmoke;
+}
+
+header #title h1 a{
+    font-size: 25px;
 }
 
 #openBtn{
-    font-size:25px;
+    font-size: 25px;
     cursor: pointer;
     color: goldenrod;
     background: #212121;
     text-shadow: none;
     padding: 5px;
+    margin-top: 5%
 }
 
 .sidenav {
@@ -50,7 +55,6 @@ body {
     margin-left: 50px;
 }
 
-
 #main {
     transition: margin-left .5s;
     padding: 16px;
@@ -59,8 +63,10 @@ body {
 .admin{
     padding: 50px;
     border: goldenrod groove 5px;
-    margin-bottom: 200px;
+    margin: 3%;
     overflow: auto;
+    background: white;
+    float: none;
 }
 
 textarea {
@@ -128,8 +134,41 @@ form table td {
     text-align: left;
     border-bottom: none;
 }
-
-td#label{
+#graphTable{
+    table-layout: fixed;
+    width: 300px;
+    padding: 10px;
+    margin: auto;
+}
+#graphTable td{
+    border-bottom: none;
+    font-size: 12px;
+    padding: 3px;
+    text-align: center;
+}
+#graphTable td select{
+    font-size: 12px;
+    padding: 4px;
+}
+#graphTable td button{
+    padding: 3px;
+}
+#graphTable td.label{
+    text-align: right;
+    font: 14px/1.5 Arial, Helvetica, sans-serif;
+    width: 10%;
+    font-weight: 600;
+}
+#freq{
+    width: 100%
+}
+#fromDay, #toDay{
+    width: 60px
+}
+#fromMonth, #toMonth, #freq{
+    width: 75px
+}
+td.label{
     font: 25px/1.5 Arial, Helvetica, sans-serif;
     text-align: right;
 }
@@ -166,7 +205,7 @@ textarea {
     height: 150px;
 }
 
-#addBtn, #saveBtn, #resetBtn{
+#addBtn, #saveBtn, #resetBtn, #plotBtn{
     width: 45%;
     height: 40px;
     color: white;
@@ -178,26 +217,33 @@ textarea {
     border: none;
     outline: none;
 }
+#plotBtn{
+    margin: 10px auto;
+    font-size: 15px;
+    opacity: 0.5;
+    width: 100%;
+    border-radius: 5px;
+    /* background-color: goldenrod; */
+}
 #resetBtn{
     background-color: red;
 }
-#addBtn:hover, #saveBtn, #resetBtn:hover {
+#addBtn:hover, #saveBtn:hover, #resetBtn:hover, #plotBtn:hover{
     cursor: pointer;
     opacity: 0.8;
 }
 
 .statsCards{
-    margin-bottom: 50px
+    /* margin-top: 1px; */
+    margin-bottom: 30px
 }
 .statsCard{
-    background: #cbd6d0;
+    background: white;
     padding: 5px;
     float: left;
     width: 23%;
-    height: 120px;
+    /* height: 100px; */
     margin: 1%;
-    /* border: 1px solid goldenrod; */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);;
     transition: 0.3s;
     border-radius: 5px;
 }
@@ -206,33 +252,36 @@ textarea {
     float: left;
     border: goldenrod groove 5px;
     width: 40%;
-    /* background: #818181; */
-    margin: 5%;
-    overflow: hidden;
-    padding: 0;
+    margin: 3% 5%;
+    overflow: auto;
+    padding: 10px;
+    background: white
 }
-#ordersChart, #menuChart{
-    width: 50%;
-}
+
 #salesGraph{
-    width: 100%;
-    height: 400px;
+    /* width: 100%; */
+    /* height: 350px; */
+    /* position: relative; */
 }
+#calendarChart{
+    /* background-color: #212121; */
+    /* width: 100%; */
+    /* margin: 3px; */
+    /* overflow-x: auto; */
+}
+.card{
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+}
+
 @media screen and (max-height: 500px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 15px;}
 }
-@media screen and (max-width: 1100px) {
-    .pie{
-        overflow-x: auto;
-    }
-}
 @media screen and (max-width: 800px) {
     input#imgInfo, input.img{
         padding-left: 20px;
-    }
-    .pie{
-        width: 35%;
     }
 }
 @media screen and (max-width: 750px) {
@@ -242,15 +291,19 @@ textarea {
         font-size: 14px;
         margin-top: 1px;
     } 
-    td#label{
+    td.label{
         font: 20px/1.5 Arial, Helvetica, sans-serif;
     }
     #addBtn, #resetBtn{
        width: 35%
     }
+}
+@media screen and (max-width: 600px) {
+    .statsCard{
+        width: 48%
+    }
     .pie{
         width: 90%;
-        overflow: none;
     }
 }
 @media screen and (max-width: 540px) {
@@ -264,7 +317,7 @@ textarea {
         padding: 12px 0;
     }
     
-    td#label{
+    td.label{
         font: 12px/1.5 Arial, Helvetica, sans-serif;
         text-align: center;
     }
@@ -284,12 +337,5 @@ textarea {
         margin-bottom: 5px;
         font-size: 14px;
     }
-    .statsCard{
-        width: 48%
-    }
-    @media screen and (max-width: 540px) {
-        .pie{
-            overflow-x: auto;
-        }
-    }
 }
+
