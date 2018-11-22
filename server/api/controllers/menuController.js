@@ -78,7 +78,7 @@ export default class {
     try {
       const { rows, rowCount } = await this.db.query(getAllQuery);
       return {
-        status: 'success', statusCode: 200, message: `${rowCount} Menu items retrieved successfully`, products: rows,
+        status: 'success', statusCode: 200, message: `${rowCount} Menu items retrieved successfully`, products: rows, count: rowCount,
       };
     } catch (error) {
       return { status: 'fail', statusCode: 500, message: error.message };
