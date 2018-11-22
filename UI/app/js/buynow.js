@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const local = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
 // const heroku = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
@@ -43,7 +44,7 @@ setTimeout(() => {
 
       // Open a modal
       info.innerHTML = `Please fill in your contact details below and confirm order purchase of 
-      <b>${quantity}x ${name}</b> for <b>NGN ${price}.00</b>
+      <b>${quantity}x ${name}</b> for <b>&#x20a6; ${price}.00</b>
           <p><b>Address: <input type="text" placeholder="Please enter your delivery address" id="buyNowAddr"></b></p>
           <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number" id="buyNowPhone"></b></p>
 
@@ -96,7 +97,7 @@ setTimeout(() => {
               <p><span style="color: blue">Order ID</span>: <b>#${res.order.userid}FFF${res.order.orderid}</b></p>
               <span style="color: blue">Food</span>: <b>${res.order.food}</b>
               <p><span style="color: blue">Quantity</span>: <b>${res.order.quantity}</b></p>
-              <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
+              <p><span style="color: blue">Price</span>: <b>&#x20a6; ${res.order.price}.00</b></p>
               <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
               <h5 style="color: red"><i>For any queries, contact us on 08146509343 and quote your Order ID.</i></h5>`;
 
