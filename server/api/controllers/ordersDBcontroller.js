@@ -252,7 +252,7 @@ export default class OrderDBController {
       //   from: emailService.credentials.auth.user,
       //   to: email,
       //   subject: 'Your order status has been updated!',
-      //   html: `<h1 style="font-size: 60px;  text-align: center;"><a href="https://fast-food-fast-bobsar0.herokuapp.com" style="color: #212121; text-decoration: none;">Fast<span style="color: goldenrod">-Food-</span>Fast!</a></h1>
+      //   html: `<h1 style="font-size: 60px;  text-align: center;"><a href="https://fast-food-fast-bobsar0.herokuapp.com" style="color: goldenrod; text-decoration: none;">Fast<span style="color: #212121">-Food-</span>Fast!</a></h1>
       //   Dear ${username}, <br><p>The status of your order ${id} has been updated to <b>${status}</b>.</p>
       //   <p>Order details:</p>
       //   <ul><li>Food: <b>${food}</b></li><li>Quantity: <b>${quantity}</b></li><li>Price: <b>NGN${price}.00</b></li></ul>
