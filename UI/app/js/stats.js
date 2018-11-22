@@ -143,6 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
   selFromYr.value = dateNow.slice(0, 4);
   selToMonth.value = dateNow.slice(5, 7);
 
+  function getLastMthDay(yr, valMonth) {
+    let lastDay = 31;
+    if (Number(yr) % 4 === 0 && valMonth === '02') {
+      lastDay = 29;
+    } else if (valMonth === '02') {
+      lastDay = 28;
+    } else if (valMonth === '04' || valMonth === '06' || valMonth === '09' || valMonth === '11') {
+      lastDay = 30;
+    }
+    return lastDay;
+  }
+
   function populateDays(yr, valMonth, id) {
     const select = document.getElementById(id);
     if (select.childElementCount > 0) {
@@ -150,15 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
         select.removeChild(select.children[i]);
       }
     }
-    let endDay = 31;
-    if (yr % 4 === 0 && valMonth === '02') {
-      endDay = 29;
-    } else if (valMonth === '02') {
-      endDay = 28;
-    } else if (valMonth === '04' || valMonth === '06' || valMonth === '09' || valMonth === '11') {
-      endDay = 30;
-    }
-    for (let i = 1; i <= endDay; i += 1) {
+    const lastDay = getLastMthDay(yr, valMonth);
+
+    for (let i = 1; i <= lastDay; i += 1) {
       const option = document.createElement('option');
       if (i < 10) {
         option.value = `0${i}`;
@@ -176,6 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // load day
   selToDay.value = dateNow.slice(8, 10);
 
+  selFromYr.onchange = () => {
+    populateDays(selFromYr.value, selFromMonth.value, 'fromDay');
+  };
+  selToYr.onchange = () => {
+    populateDays(selFromYr.value, selFromMonth.value, 'fromDay');
+  };
   selFromMonth.onchange = () => {
     populateDays(selFromYr.value, selFromMonth.value, 'fromDay');
   };
@@ -272,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sourceColumn: 1,
         type: 'string',
         role: 'annotation',
-      }]);
+      }, 2]);
 
     const options = {
       title: title[0],
@@ -293,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getWkRange(date) {
     const wkDay = new Date(date).getDay();
     if (wkDay === 0) {
-      const range = `${date}-${date.slice(0, 8)}${Number(date.slice(-2)) + 6}`;
+      const range = `${Number(date.slice(-2)) + 6}/${date.slice(5)}-${date.slice(5, 7)}`;
       return range;
     }
     return getWkRange(`${date.slice(0, 8)}${Number(date.slice(-2)) - 1}`);
@@ -319,11 +331,11 @@ document.addEventListener('DOMContentLoaded', () => {
       chartErr.innerHTML = 'Invalid date range (check Year)';
       return;
     }
-    if ((Number(fromYr) <= Number(toYr)) && (Number(fromMonth) > Number(toMonth))) {
+    if ((Number(fromYr) === Number(toYr)) && (Number(fromMonth) > Number(toMonth))) {
       chartErr.innerHTML = 'Invalid date range (check Month)';
       return;
     }
-    if ((Number(fromMonth) <= Number(toMonth)) && (Number(fromDay) > Number(toDay))) {
+    if ((Number(fromMonth) === Number(toMonth)) && (Number(fromDay) > Number(toDay))) {
       chartErr.innerHTML = 'Invalid date range (check Day)';
       return;
     }
@@ -351,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (freq === 'yearly') {
           if (yrsArr.indexOf(dateYr) === -1) {
             yrsArr.push(dateYr);
-            yrArr.push([dateYr, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+            yrArr.push([dateYr, price, 'stroke-color: goldenrod; stroke-width: 2']);
           } else {
             // update the price
             yrArr.forEach((sale) => {
@@ -364,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (freq === 'monthly') {
           if (mthsArr.indexOf(mth) === -1) {
             mthsArr.push(mth);
-            mthArr.push([mth, price, 'stroke-color: #212121; stroke-width: 2; fill-color: goldenrod']);
+            mthArr.push([mth, price, 'stroke-color: goldenrod; stroke-width: 2']);
           } else {
             // update the price
             mthArr.forEach((sales) => {
@@ -377,12 +389,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const wkRange = getWkRange(`${dateYr}/${dateMth}/${dateDay}`);
         if (freq === 'weekly') {
+          chartErr.innerHTML = '';
           // Only 3 months range allowed
-          if (((Number(toYr.slice(-2)) - Number(fromYr.slice(-2))) * 365 + (Number(toMonth) - Number(fromMonth)) * 30 + Number(toDay) - Number(fromDay)) > 90) {
-            console.log('days:',(Number(toYr.slice(-2))-Number(fromYr.slice(-2))) * 365 + (Number(toMonth)-Number(fromMonth)) * 30 + Number(toDay) - Number(fromDay))
+          const lastMthDay = getLastMthDay(dateYr, fromMonth);
+          let numToMonth = (Number(toYr) - Number(fromYr)) * 12 + Number(toMonth);
+          let diffD = (Number(toDay) - Number(fromDay));
+          if (fromMonth !== toMonth || (fromMonth === toMonth && fromYr !== toYr)) {
+            diffD += Number(lastMthDay);
+          }
+
+          if (numToMonth - Number(fromMonth) > 1) {
+            for (let i = Number(fromMonth) + 1; i < numToMonth; i += 1) {
+              if (i > 12) {
+                i = 1;
+                numToMonth -= 12;
+              }
+              diffD += getLastMthDay(dateYr, `0${i}`);
+            }
+          }
+          if (diffD > 90) {
             wkErr = 'Sorry max range of 90 days allowed';
             return;
           }
+
+          // if (((Number(toYr) - Number(fromYr)) * 365 + (Number(toMonth) - Number(fromMonth)) * getLastMthDay(fromYr, fromMonth) + Number(toDay) - Number(fromDay)) > 90) {
+          // console.log('days:', ((Number(toYr) - Number(fromYr)) * 365 + (Number(toMonth) - Number(fromMonth)) * getLastMthDay(fromYr, fromMonth) + Number(toDay) - Number(fromDay)));
+          //   wkErr = 'Sorry max range of 90 days allowed';
+          //   return;
+          // }
           if (wkRangeArr.indexOf(wkRange) === -1) {
             wkRangeArr.push(wkRange);
             wkArr.push([wkRange, price, 'stroke-color: goldenrod; stroke-width: 2']);
