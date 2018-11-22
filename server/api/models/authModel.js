@@ -33,7 +33,7 @@ export default class {
    * @returns {string} token
    */
   generateToken(id, username, email, role) {
-    this.token = jwt.sign({ userId: id, username, email, role }, 'fastFoodFast', { expiresIn: '2d' });
+    this.token = jwt.sign({ userId: id, username, email, role }, 'fastFoodFast', { expiresIn: '7d' });
     return this.token;
   }
 }
