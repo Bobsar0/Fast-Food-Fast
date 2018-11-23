@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastFoodFast | Place Order</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/menu.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container">
+  <header> 
+    <div id="title">
+      <h1><i class="fa fa-cutlery"></i><a href="userIndex"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+    </div>
+    <nav class="topNav" id="menuNav">
+      <a href="userIndex">Home</a>
+      <div class="dropdown">
+        <a class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></a>
+        <div class="dropdown-content">
+            <a href="#meal">Meal</a>
+            <a href="#snacks">Snacks</a>
+            <a href="#drinks">Drinks</a>
+            <a href="#combo">Combo</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a class="dropbtn"><a class="me"></a></a>
+        <div class="dropdown-content">
+        </div>
+      </div>     
+      <a href='#' id="logout">Logout</a>
+      <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+      <a class="search">
+          <input type="text" placeholder="Search for food.." name="search" id="menuSearch">
+          <button type="button" id="menuSearchBtn"><i class="fa fa-search"></i></button>
+      </a>
+      <a href="javascript:void(0);" class="icon">&#9776;</a>
+    </nav>
+  </header> 
+  <!--Image Gallery-->
+  <div class="menu">
+    <h1 id="menuWelcome">Welcome <span class="me" id="me"></span></h1>
+    <div class="err" id="menuErr"></div>
+    <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
+    <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
+  </div>
+  <div id="food">		
+    <section class="menu" id="meals">
+      <h2>MEALS</h2>
+    </section>
+    <div class="clearfix"></div>
+
+    <!-- SNACKS -->
+    <section class="menu" id="snacks">
+      <h2>SIDE/SNACKS</h2>
+    </section>
+    <div class="clearfix"></div>
+
+    <!--DRINKS-->
+    <section class="menu" id="drinks">
+      <h2>DRINKS</h2>  
+    </section>
+    <div class="clearfix"></div>
+
+  <!--COMBO/SPECIALS-->
+    <section class="menu" id="combos">
+      <h2>COMBO/SPECIALS</h2>
+    </section> 
+    <div class="clearfix"></div>
+
+  <!--DESSERT-->
+    <section class="menu last" id="desserts">
+      <h2>DESSERTS</h2>
+    </section>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="center" id="pgsDiv">
+      <div class="pagination">
+        <a class="pgNav" id="prevPg">&laquo;</a>
+        <span id="pgs">
+        <a id="page1">1</a>
+        </span>
+        <a class="pgNav" id="nextPg">&raquo;</a>
+      </div>
+  </div>
+
+
+<!--ORDER HISTORY-->
+<div class="last">
+  <div class="menu" id="history" style="padding-bottom: 10px">
+    <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Recent Order History</i></h1>
+    <ul id="hist"></ul>
+  </div>
+  <div>
+    <table id="tableHistory">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Item</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  </div>
+    <!-- Modal -->
+    <div id="modalDiv" class="modal">
+      <!-- Modal content -->
+      <div class="modalContent cart">
+        <span class="close">&times;</span>
+        <h1>SHOPPING CART</h1>
+        <p><b>Username: </b><span class="me"></span></p>
+        <p><b>Address: <input type="text" placeholder="Please enter your delivery address" id="userAddr"></b></p>
+        <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number" id="userPhone"></b></p>
+        <table id="cartTable">
+          <thead>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+          </thead>
+          </table>
+        <h3>
+          TOTAL PRICE: NGN <span id="totalPrice">0.00</span>
+        </h3>
+        <div id="cartErr" class="err"></div>
+        <button type="submit" id="checkoutBtn">Submit Order</button>
+      </div>
+    </div>
+     <!-- Add To Cart Modal -->
+     <div id="generalModal" class="modal">
+      <!-- Modal content -->
+      <div class="modalContent general">
+        <span class="close">&times;</span>
+        <h1>Message From FastFoodFast</h1>
+        <h3 id="generalInfo"></h3>
+      </div>
+    </div>
+   <!-- End container div -->
+  </div>
+    <footer>
+        <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
+        <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
+        <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
+    </footer>
+  <script src="../app/js/getmenu.js"></script>
+  <script src="../app/js/username.js"></script>
+  <script src="../js/scripts.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../app/js/buynow.js"></script>
+</body>
+</html>

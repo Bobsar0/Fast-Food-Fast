@@ -16,18 +16,22 @@
           <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
         </div>
         <nav class="topNav" id="menuNav">
-          <a href="./index">Home</a>
+          <a href="userIndex">Home</a>
           <div class="dropdown">
-            <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
+            <a class="dropbtn"><a href="userMenu" class="current">Menu <i class="fa fa-caret-down"></i></a></a>
             <div class="dropdown-content">
-                <a href="#meal">Meal</a>
-                <a href="#snacks">Snacks</a>
-                <a href="#drinks">Drinks</a>
-                <a href="#combo">Combo</a>
+                <a href="userMenu">Meal</a>
+                <a href="userMenu#snacks">Snacks</a>
+                <a href="userMenu#drinks">Drinks</a>
+                <a href="userMenu#combo">Combo</a>
             </div>
           </div>
-          <a href="#">Logout</a>
-          <i class="fa fa-shopping-cart fa-1x" id="cartInfo"> Cart</i>
+					<div class="dropdown">
+            <a class="dropbtn"><a class="me"></a></a>
+            <div class="dropdown-content">
+            </div>
+          </div>
+          <a href="#" id='logout'>Logout</a>
           <a href="javascript:void(0);" class="icon">&#9776;</a>
         </nav>
     </header> 
@@ -35,45 +39,19 @@
       <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
     </div>
     <div class = "last">
+      <p id="msg"></p>
       <table id="tableHistory">
         <thead>
         <tr>
-          <th>Date</th>
-          <th>Item</th>
+          <th>Order ID</th>
+          <th>Food</th>
           <th>Quantity</th>
           <th>Price</th>
-          <th>Action</th>
+          <th>Status</th>
+          <th>Date</th>
         </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Wed Sep 26 2018 13:37:42 GMT+0100 (West Africa Standard Time)</td>
-            <td>Peppered Fried Snail</td>
-            <td>4</td>
-            <td>NGN 400.00</td>
-            <td><button type="submit" class="cancelOdr">Erase item</button></td>
-          </tr>
-          <tr>
-            <td>Wed Sep 27 2018 14:37:42 GMT+0100 (West Africa Standard Time)</td>
-            <td>Combo-licious Burger</td>
-            <td>1</td>
-            <td>NGN 2000.00</td>
-            <td><button type="submit" class="cancelOdr">Erase item</button></td>
-          </tr>
-          <tr>
-            <td>Wed Sep 27 2018 14:37:42 GMT+0100 (West Africa Standard Time)</td>
-            <td>Choco Mousse</td>
-            <td>1</td>
-            <td>NGN 1000.00</td>
-            <td><button type="submit" class="cancelOdr">Erase item</button></td>
-          </tr>
-          <tr>
-            <td>Wed Sep 30 2018 13:00:42 GMT+0100 (West Africa Standard Time)</td>
-            <td>Moin-moin deli</td>
-            <td>4</td>
-            <td>NGN 1600.00</td>
-            <td><button type="submit" class="cancelOdr">Erase item</button></td>
-          </tr>
+        <tbody id="histTableBody">
         </tbody>
       </table>
     </div>
@@ -83,6 +61,8 @@
       <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
       <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
   </footer>
+  <script src="../app/js/username.js"></script>
+  <script src="../app/js/history.js"></script>
   <script src="../js/scripts.js"></script>
   <script src="../js/cart.js"></script>
 </body>

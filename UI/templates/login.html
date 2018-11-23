@@ -18,26 +18,38 @@
 					<h1><a href="./index"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
 				</div>
 				<nav class="topNav">
-					<a href="./index">Home</a>
-					<a href="./index#about">About</a>
-					<a href="./login" class="current">Login</a>
-					<a href="./signup">Signup</a>
+					<a href="index">Home</a>
+					<a href="index#about">About</a>
+					<div class="dropdown">
+						<a class="dropbtn"><a href="menu">Menu <i class="fa fa-caret-down"></i></a></a>
+						<div class="dropdown-content">
+							<a href=".menu#meal">Meal</a>
+							<a href="menu#snacks">Snacks</a>
+							<a href="menu#drinks">Drinks</a>
+							<a href="menu#combo">Combo</a>
+						</div>
+					</div>
+					<a href="#" class="current">Login</a>
+					<a href="signup">Signup</a>
 					<a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 			</header>
-		<br><br>
-			<h1>Login</h1>
+			<h1 class="formTitle">Login</h1>
 			<h4>Have an account with us? Log in below. Otherwise, <a href="./signup">Sign Up</a> to register.</h4>
-
+			<br>
 			<div id="loginForm">
 				<form>
 					<i class="fa fa-user fa-2x" aria-hidden="true"></i>
-					<label for="email">Email</label>
-					<input class="userForm" id="email" name="email" type="email" placeholder="Enter your email address">
+					<div id="usernameErr"></div>
+					<label for="usernameEmail">Username/Email</label>
+					<input class="userForm" id="usernameEmail" name="usernameEmail" placeholder="Enter your username or email" required>
+					<div id="emailErr"></div>
 					<label for="password">Password</label>
-					<input class="userForm" id="password" name="password" type="password" placeholder="Enter your password">
+					<input class="userForm" id="password" name="password" type="password" placeholder="Enter your password" required>
+					<div id="passwordErr"></div>
 					<div><input type="checkbox" id="checkbox" onclick="togglePassword()">Show Password</div>
-					<button id="loginBtn">Login</button>
+					<div id="password2Err"></div>
+					<button id="loginBtn" type="button">Login</button>
 					<a href="#" class="white">Forgot Password?</a>
 				</form>
 			</div>
@@ -59,5 +71,7 @@
             }
 		</script>
 		<script src="../js/scripts.js"></script>
+		<script src="../app/js/login.js"></script>
+		<script src="../app/js/username.js"></script>
 	</body>
 </html>

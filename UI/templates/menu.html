@@ -13,12 +13,12 @@
   <div class="container">
   <header> 
       <div id="title">
-        <h1><i class="fa fa-cutlery"></i><a href="./index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+        <h1><i class="fa fa-cutlery"></i><a href="index"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
       </div>
       <nav class="topNav" id="menuNav">
-        <a href="./index">Home</a>
+        <a href="index">Home</a>
         <div class="dropdown">
-          <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
+          <a class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></a>
           <div class="dropdown-content">
               <a href="#meal">Meal</a>
               <a href="#snacks">Snacks</a>
@@ -26,9 +26,8 @@
               <a href="#combo">Combo</a>
           </div>
         </div>
-        <a href="./login">Login</a>
-        <a href="./signup">Signup</a>
-        <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
+        <a href="login">Login</a>
+        <a href="signup">Signup</a>
         <a class="search">
           <form action="#">
             <input type="text" placeholder="Search for food.." name="search">
@@ -40,7 +39,7 @@
     </header> 
 	<!--Image Gallery-->
     <div class="menu">
-      <h1><i>What's on the Menu?</i></h1>
+      <h1 id="menuWelcome"><i>What's on the Menu?</i></h1>
       <h3>Please select from our variety of meals, snacks and drinks and add your choices to cart.</h3>
       <p><i>Click the shopping cart <i class="fa fa-shopping-cart" aria-hidden="true"></i> above to view cart</i></p>
     </div>		
@@ -52,18 +51,18 @@
           <div class="flip-box">
               <div class="flip-box-inner">
                 <div class="flip-box-front">
-                  <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain">
+                  <img src="../imgs/meals/ofada.jpg" alt="ofada_plantain" id="img01">
                 </div>
                 <div class="flip-box-back">
                   <h2>Description:</h2>
                   <p>Rice and ofada stew garnished with dodo and assorted meat.
-                    <br> Chef Steve's special!</p>
+                    <br>Chef Steve's special!</p>
                 </div>
             </div>
           </div>
           <div class="desc">
             <h1 id="item01">Rice and Dodo</h1>
-            <p class="price" id="price01">NGN 600.00</p>
+            <p class="price" id="price01">&#x20a6; 600.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -89,7 +88,7 @@
           <div class="flip-box">
               <div class="flip-box-inner">
                 <div class="flip-box-front">
-                  <img src="../imgs/meals/chicken.jpg" alt="chicken">
+                  <img src="../imgs/meals/chicken.jpg" alt="chicken" id="img02">
                 </div>
                 <div class="flip-box-back">
                   <h2>Description:</h2>
@@ -99,7 +98,7 @@
           </div>
           <div class="desc">
             <h1 id="item02">Chicken</h1>
-            <p class="price" id="price02">NGN 1000.00</p>
+            <p class="price" id="price02">&#x20a6; 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -129,17 +128,17 @@
           <div class="flip-box">
               <div class="flip-box-inner">
                 <div class="flip-box-front">
-          <img src="../imgs/meals/steak2.jpg" alt="steak">
+          <img src="../imgs/meals/steak2.jpg" alt="steak" id="img03">
         </div>
         <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p></p>
+          <h2>Description: </h2>
+          <p>Delicious steak dish filled with tenderness and marinated with the best sauce</p>
         </div>
       </div>
     </div>
           <div class="desc">
             <h1 id="item03">Steak dish</h1>
-            <p class="price" id="price03">NGN 1000.00</p>
+            <p class="price" id="price03">&#x20a6; 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -167,17 +166,17 @@
           <div class="flip-box">
               <div class="flip-box-inner">
                 <div class="flip-box-front">
-          <img src="../imgs/meals/moinmoin.jpg" alt="moin-moin">
+          <img src="../imgs/meals/moinmoin.jpg" alt="moin-moin" id="img04">
         </div>
         <div class="flip-box-back">
-          <h2>Description:</h2>
-          <p></p>
+          <h2>Description: </h2>
+          <p>Deliciously prepared slices of moin-moin battered with egg & fish crumbs</p>
         </div>
       </div>
     </div>
           <div class="desc">
             <h1 id="item04">Moin-moin deli</h1>
-            <p class="price" id="price04">NGN 400.00</p>
+            <p class="price" id="price04">&#x20a6; 400.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -199,18 +198,6 @@
         </div>
       </div>
     </div>
-    <div class="center"> 
-      <div class="pagination">
-        <a href="#">&laquo;</a>
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a class="current" href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">&raquo;</a>
-      </div>
-    </div>
 		<div class="clearfix"></div>
 	</section>
   <!-- SNACKS -->
@@ -219,10 +206,20 @@
 
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/snacks/burger.jpg" alt="burger">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/snacks/burger.jpg" alt="burger" id="img05">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Delicious Double-Cheese Burger.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item05">CheeseBurger</h1>
-            <p class="price" id="price05">NGN 500.00</p>
+            <p class="price" id="price05">&#x20a6; 500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -247,10 +244,20 @@
      
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/snacks/meatpie.jpg" alt="meatpie">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/snacks/meatpie.jpg" alt="meatpie" id="img06">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Hot tasty meatpie.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item06">Meatpie</h1>
-            <p class="price" id="price06">NGN 350.00</p>
+            <p class="price" id="price06">&#x20a6; 350.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -275,10 +282,20 @@
     
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/snacks/dougnut1.jpg" alt="doughnut">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/snacks/dougnut1.jpg" alt="doughnut" id="img07">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Doughnut of different flavours. The best there is.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item07">Doughnut</h1>
-            <p class="price" id="price07">NGN 100.00</p>
+            <p class="price" id="price07">&#x20a6; 100.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -303,10 +320,20 @@
      
     <div class="responsive">
 			<div class="gallery">
-        <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+        <img src="../imgs/snacks/scotchegg1.jpg" alt="scotchegg" id="img08">
+      </div>
+      <div class="flip-box-back">
+        <h2>Description:</h2>
+        <p>Egg in dough. As yummy as it is simple.</p>
+      </div>
+      </div>
+    </div>
         <div class="desc">
           <h1 id="item08">Scotch Eggs</h1>
-          <p class="price" id="price08">NGN 150.00</p>
+          <p class="price" id="price08">&#x20a6; 150.00</p>
           <p><span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
             <span class="fa fa-star checked"></span>
@@ -328,18 +355,6 @@
         </div>			
       </div>
     </div>
-    <div class="center">
-      <div class="pagination">
-          <a href="#">&laquo;</a>
-          <a href="#">1</a>
-          <a class="current" href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a href="#">6</a>
-          <a href="#">&raquo;</a>
-      </div>
-    </div>
     <div class="clearfix"></div>
 
     
@@ -349,10 +364,20 @@
 
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/drinks/chocolate_mousse1.jpeg" alt="chocolatemousse" id="img09">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Chocolate munched drink. For the chocolate lovers</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item09">Choco Mousse</h1>
-            <p class="price" id="price09">NGN 1000.00</p>
+            <p class="price" id="price09">&#x20a6; 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -378,10 +403,20 @@
       
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/drinks/fruitjuice.jpg" alt="juice">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/drinks/fruitjuice.jpg" alt="juice" id="img10">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Chilled Fruit Juice.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item10">FruitJuice</h1>
-            <p class="price" id="price10">NGN 500.00</p>
+            <p class="price" id="price10">&#x20a6; 500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -406,10 +441,20 @@
     
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/drinks/cocktailspecial.jpg" alt="cocktailspecial">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/drinks/cocktailspecial.jpg" alt="cocktailspecial" id="img11">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Refreshing cocktails with different flavors - Sunset, Sunrise, Mojito and Sex-on-the-beach.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item11">Cocktails</h1>
-            <p class="price" id="price11">NGN 1200.00</p>
+            <p class="price" id="price11">&#x20a6; 1200.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -436,10 +481,21 @@
         
     <div class="responsive">
 			<div class="gallery">
-          <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks">
-          <div class="desc">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/drinks/softdrink.jpg" alt="softdrinks" id="img12">
+          
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Chilled soft drinks.</p>
+        </div>
+      </div>
+  </div>
+  <div class="desc">
             <h1 id="item12">Soft drinks</h1>
-            <p class="price" id="price12">NGN 150.00</p>
+            <p class="price" id="price12">&#x20a6; 150.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -480,12 +536,22 @@
   <section class="menu last" id="combo">
   <h2>COMBO/SPECIALS</h2>
 
-    <div class="responsive">
-      <div class="gallery">
-          <img src="../imgs/combo/delicacy.jpg" alt="special_rice">
+  <div class="responsive">
+    <div class="gallery">
+        <div class="flip-box">
+            <div class="flip-box-inner">
+              <div class="flip-box-front">
+          <img src="../imgs/combo/delicacy.jpg" alt="special_rice" id="img15">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Delicious rice made specially with vegetarians in mind.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item15">Special Veggie Rice</h1>
-            <p class="price" id="price15">NGN 1500.00</p>
+            <p class="price" id="price15">&#x20a6; 1500.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -509,11 +575,21 @@
     </div> 
       
     <div class="responsive">
-      <div class="gallery">
-          <img src="../imgs/combo/burger-fries-drink.png" alt="burgerfrieschickendrink">
+			<div class="gallery">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/combo/burger-fries-drink.png" alt="burgerfrieschickendrink" id="img16">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Delicious Burger immersed with chips and a drink.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item16">Combo-licious Burger</h1>
-            <p class="price" id="price16">NGN 2000.00</p>
+            <p class="price" id="price16">&#x20a6; 2000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -537,11 +613,21 @@
     </div>
     
     <div class="responsive">
-      <div class="gallery">
-          <img src="../imgs/combo/chicken3.jpg" alt="wholechicken_paella">
+			<div class="gallery">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/combo/chicken3.jpg" alt="wholechicken_paella" id="img17">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Roasted Spicy Chicken Paella garnished with rice, seafood, curry and herbs.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item17">Whole Chicken Paella</h1>
-            <p class="price" id="price17">NGN 5000.00</p>
+            <p class="price" id="price17">&#x20a6; 5000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -565,11 +651,21 @@
     </div> 
       
     <div class="responsive">
-      <div class="gallery">
-          <img src="../imgs/combo/snail.jpg" alt="peppered-snail">
+			<div class="gallery">
+          <div class="flip-box">
+              <div class="flip-box-inner">
+                <div class="flip-box-front">
+          <img src="../imgs/combo/snail.jpg" alt="peppered-snail" id="img18">
+        </div>
+        <div class="flip-box-back">
+          <h2>Description:</h2>
+          <p>Delicious Peppered Fried Snail garnished with spicy curry and royal tomato sauce.</p>
+        </div>
+      </div>
+  </div>
           <div class="desc">
             <h1 id="item18">Peppered Fried Snail</h1>
-            <p class="price" id="price18">NGN 1000.00</p>
+            <p class="price" id="price18">&#x20a6; 1000.00</p>
             <p><span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
               <span class="fa fa-star checked"></span>
@@ -606,26 +702,6 @@
     <div class="clearfix"></div>
   </section> 
 
-<!--ORDER HISTORY-->
-<div style="display: none" class="last">
-  <div class="menu" id="history" style="padding-bottom: 10px">
-    <br><h1 style="box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.2);"><i>View Order History</i></h1>
-    <ul id="hist"></ul>
-  </div>
-  <div>
-    <table id="tableHistory">
-      <thead>
-      <tr>
-        <th>Date</th>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-    </table>
-  </div>
-  </div>
     <!-- Modal -->
     <div id="modalDiv" class="modal">
       <!-- Modal content -->
@@ -637,18 +713,26 @@
         <p><b>PhoneNo: <input type="number" placeholder="Please enter your phone number" id="userPhone"></b></p>
         <table id="cartTable">
           <thead>
-          <!-- <tr> -->
-            <th>Item</th>
+            <th>Image</th>
+            <th>Name</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Action</th>
-          <!-- </tr> -->
           </thead>
           </table>
         <h3>
-          TOTAL PRICE: NGN <span id="totalPrice">0.00</span>
+          TOTAL PRICE: &#x20a6; <span id="totalPrice">0.00</span>
         </h3>
         <button type="submit" id="checkoutBtn">Submit Order</button>
+      </div>
+    </div>
+     <!-- Add To Cart Modal -->
+     <div id="generalModal" class="modal">
+      <!-- Modal content -->
+      <div class="modalContent">
+        <span class="close">&times;</span>
+        <h1>Message From FastFoodFast</h1>
+        <h3 id="generalInfo"></h3>
       </div>
     </div>
    <!-- End container div -->

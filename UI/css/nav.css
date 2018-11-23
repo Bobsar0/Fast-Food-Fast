@@ -1,4 +1,3 @@
-/* Add a black background color to the top navigation */
 .topNav {
   overflow: hidden;
   float: right;
@@ -11,7 +10,8 @@
   text-align: center;
   padding: 14px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 15px;
+  font-weight: 550;
 }
 
 .topNav .search{
@@ -36,9 +36,7 @@
 .topNav .search:hover{
   background: none;
 }
-.topNav .search button:hover {
-  background: goldenrod;
-}
+
 /* Hide the link that should open and close the topNav on small screens */
 .topNav .icon {
   display: none;
@@ -50,13 +48,11 @@
   font-weight: bold;
   text-decoration: underline;
 }
-/* Dropdown container - needed to position the dropdown content */
+
 .dropdown {
   float: left;
   overflow: hidden;
 }
-
-/* Style the dropdown button to fit inside the topNav */
 .dropdown .dropbtn {
   border: none;
   outline: none;
@@ -65,14 +61,14 @@
   font-family: inherit;
   text-decoration: none;
 }
-/* Style the dropdown content (hidden by default) */
 .dropdown-content {
   display: none;
-  position: absolute;
+  position: fixed;
   color: black;
   background-color: #cccccc;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  margin-top: 40px;
   z-index: 1;
 }
 
@@ -81,22 +77,22 @@
   float: none;
   color: black;
   background:rgb(0,0,0,0.1);
-  font-size: 16px;
+  font-size: 15px;
   text-transform: capitalize;
   padding: 12px 14px;
   text-decoration: none;
   display: block;
   text-align: left;
+  font-weight: 500;
 }
 
-/* Add a dark-ish background to dropdown links on hover */
 .topNav .dropdown-content a:hover {
   background-color: #2c2c2c;
 }
 
-/* Show the dropdown menu when the user moves the mouse over the dropdown button */
 .dropdown:hover .dropdown-content {
   display: block;
+  z-index: 1;
 }
 
 .welcome{
@@ -118,8 +114,12 @@
 
 .stickyNav a{
   color: white; 
-  padding-left: 20px; 
-  text-align: center
+  padding-left: 18px; 
+  text-align: center;
+}
+
+.stickyNav .dropdown-content {
+  margin-top: 55px
 }
 
 .stickyNav a.search input[type=text], 
@@ -148,7 +148,6 @@
   .topNav a, #cartInfo{
     display: none;
     font-size: 14px;
-    /* padding-right: 20px */
   }
   .dropdown .dropbtn{
     display: none;
@@ -194,6 +193,7 @@
   .responsiveNav .dropdown {float: none;}
   .responsiveNav .dropdown-content {
     position: relative;
+    margin-top: 0;
   }
 
   .responsiveNav .dropdown .dropbtn{
@@ -210,7 +210,6 @@
     position: fixed;
     background: #212121;
   }
-  /* .responsiveNav.stickyNav a:not(:first-child) {display: none;} */
 
   .responsiveNav.stickyNav a:hover{
     background: #cccccca6
@@ -221,6 +220,11 @@
 }
 
 @media screen and (max-width: 550px){
+  body, html{
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   header #title h1 a{
     font-size: 32px;
     margin-right: 300px;
@@ -235,7 +239,15 @@
   }
   .stickyNav{
     margin-top: 0;
-    /* left: 50%;
-    transform: translate(-50%, 0); */
+  }
+  .formTitle{
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  body, html{
+      font: 12px/20px "Helvetica neue", Helvetica, Arial, sans-serif;
+      font-weight: normal;
   }
 }

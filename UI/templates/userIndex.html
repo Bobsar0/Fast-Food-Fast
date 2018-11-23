@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A food delivery service app for a restaurant - Andela Developer Challenge">
+    <meta name="author" content="Steve Onyeneke">
+    <title>Welcome to Fast-Food-Fast</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="container">
+  	<header id="index"> 
+      <div id="title">
+        <h1><i class="fa fa-cutlery"></i><a href="#"><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+      </div>
+      <nav class="topNav">
+        <a href="#" class="current">Home</a>
+        <a href=#about>About</a>
+        <div class="dropdown">
+            <a class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></a>
+            <div class="dropdown-content">
+                <a href="userMenu#meal">Meal</a>
+                <a href="userMenu#snacks">Snacks</a>
+                <a href="userMenu#drinks">Drinks</a>
+                <a href="userMenu#combo">Combo</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropbtn"><a class="me"></a></a>
+            <div class="dropdown-content"></div>
+        </div>
+        <a href="#" id="logout">Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">&#9776;</a>
+      </nav>
+  	</header>
+    <h1 class="welcome">Welcome to FastFoodFast!</h1><br>
+    <h2><i>"We quench your yawns with mouth watering meals."</i></h2>
+    <p>A peek at our <a href="userMenu" class="current">MENU</a> will convince you</p>
+
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 6</div>
+            <img src="../imgs/restaurant3.jpg" style="width:100%">
+            <div class="text">Come on in<br>Our restaurant is always warm and open!</div>
+        </div>
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 6</div>
+            <img src="../imgs/smallchops.jpg" style="width:100%">
+            <div class="text">Feast yourself on our delightful small chops</div>
+        </div>
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 6</div>
+            <img src="../imgs/background.png" style="width:100%">
+            <div class="text">Our Burgers are deliciously awesome</div>
+        </div>          
+        <div class="mySlides fade">
+            <div class="numbertext">4 / 6</div>
+            <img src="../imgs/combo/burger-fries-drink.png" style="width:100%">
+            <div class="text">Did I hear you say OMG!</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">5 / 6</div>
+            <img src="../imgs/drinks/cocktailspecial.jpg" style="width:100%">
+            <div class="text">Tried one of our arousing cocktail flavours?</div>
+        </div>
+        <div class="mySlides fade">
+            <div class="numbertext">6 / 6</div>
+            <img src="../imgs/specials.jpg" style="width:100%">
+            <div class="text">Hmmm... a taste is all you need</div>
+        </div>
+    </div>
+    <br>
+    <div style="text-align:center">
+    <span class="dot"></span> 
+    <span class="dot"></span> 
+    <span class="dot"></span> 
+    <span class="dot"></span> 
+    <span class="dot"></span> 
+    <span class="dot"></span> 
+    </div>
+
+    <section id="boxes" class="last">
+        <div class="container">
+            <br><h1 id="about">ABOUT US</h1>
+            <div class="box">
+                <i class="fa fa-cutlery fa-4x"></i>
+                <h3>Yummy Meals</h3>
+                <p>We provide you with that sumptous meal, however and whenever you want it!</p>
+            </div>
+            <div class="box">
+                <i class="fa fa-glass fa-4x"></i>
+                <h3>Thirst-quenching chilled drinks</h3>
+                <p>Our drinks are as chilled and cheap as they can get.</p>
+            </div>
+            <div class="box">
+                <i class="fa fa-shopping-cart fa-4x"></i>
+                <h3>Speedy Lagos-wide Delivery</h3>
+                <p>We fast-forward your food to any location in Lagos at little or no cost to you.</p>
+            </div>
+            <div class="box" style="padding-bottom:10px">
+                <i class="fa fa-user-plus fa-4x"></i>
+                <h3>Spectacular Catering Services</h3>
+                <p>Should you need a skilled professional to cater for that occasion - wedding, birthday, parties... look no further.</p>
+            </div>
+        </div>
+		</section>
+		   <!-- End container div -->
+		</div>
+    <footer>
+        <p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
+        <p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
+        <p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
+    </footer>
+    <script>
+        /******SLIDESHOW***** */
+        let slideIndex = 0;
+        const showSlides = () => {
+            const slides = document.getElementsByClassName('mySlides');
+            const dots = document.getElementsByClassName('dot');
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            slideIndex += 1;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(' active', '');
+            }
+            slides[slideIndex - 1].style.display = 'block';
+            dots[slideIndex - 1].className += ' active';
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        };
+        showSlides()
+    </script>
+  <script src="../../js/scripts.js"></script>
+  <script src="../js/user.js"></script>
+  <script src="../app/js/username.js"></script>
+</body>
+</html>

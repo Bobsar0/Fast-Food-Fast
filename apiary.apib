@@ -1,0 +1,422 @@
+FORMAT: 1A
+HOST: https://fast-food-fast-bobsar0.herokuapp.com/
+
+# FastFoodFast
+
+FastFoodFast is a simple restaurant API that allows a customers to view food items on the menu and place an order for food. 
+The user must be signed up/logged in to use the app.
+
+## Create a User account [POST /auth/signup]
+
+You may create an account on the site using this action. It takes a JSON object containing credentials that may be used to login.
+A token is generated which can be used to access other endpoints.
+
++ username (required, string) - A unique username.
++ email (required, string) - A unique valid email address.
++ password (required, string) - A string of 6 characters or greater, that must contain a capital letter, a small letter, a number and a special character.
++ phone (optional, string) - A unique phone number.
++ address (optional, string) - A default address to which orders can be delivered.
+
++ Request (application/json)
+
+        {   
+            "username": "Mma",
+            "email": "chioma@gmail.com", 
+            "password": "Abc123!", 
+            "phone": "01234567890",
+            "address": "Andela Epic Tower"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 201,
+            "message": "Signup successful",
+            "user": {
+                "email": "chioma@gmail.com",
+                "username": "mma",
+                "phone": "01234567890",
+                "createdDate": "2018-10-14T17:16:16.512Z",
+                "modifiedDate": "2018-10-14T17:16:16.512Z",
+                "userId": 1
+            },
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNTM5NTM3Mzc2LCJleHAiOjE1Mzk3MTAxNzZ9.04sHL8COqvL19lM88WqvJcOESKRfepDgSBtjC5rVkKJ"
+        }
+
+## Login [POST /auth/login]
+
+You may log into the site using this action. It takes a JSON object containing username or email, and password used during signup.
+A token is generated which can be used to access other endpoints.
+
++ usernameEmail (required, string) - The username or email address that was used to signup.
++ password (required, string) - The password that was used to signup.
+
++ Request (application/json)
+
+        {   
+            "usernameEmail": "Mma",
+            "password": "Abc123!", 
+        }
+        
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 200,
+            "message": "Login successful",
+            "user": {
+                "user": {
+                "email": "chioma@gmail.com",
+                "username": "mma",
+                "phone": "01234567890",
+                "createdDate": "2018-10-14T17:16:16.512Z",
+                "modifiedDate": "2018-10-14T17:16:16.512Z",
+                "userId": 1
+            }
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJhZG1pbiIsImlhdCI6MTUzOTU0MDA2NywiZXhwIjoxNTM5NzEyODY3fQ.AvFWUAqjIk5Xfq5P7ux2Dkt2M1yAB9m0M8awXCzaH5x"
+        }
+        
+# Group Orders
+
+Resources related to orders in the API.
+
+## Orders Collection [/orders]
+
+An Order object has the following attributes:
+
++ name
++ quantity
++ price
++ status
++ created_date
++ modified_date
+
+### Create a New Order [POST]
+
+You may create your own order using this action. It takes a JSON
+payload containing food item parameters as part of the request which can be of two forms:
+
+For immediate purchase (buy-now) of a single food item
+
++ name (required, string) - The name of the food item.
++ quantity (required, number) - The quantity of the food item in the form of an integer.
++ address (required, string) - The address to which the order would be delivered.
++ phone (required, string) - The phone number via which the customer can be contacted.
+
+For add-to-cart purchase of one or more food items
+
++ foodArray (required array[object]) - A collection of food items as objects with name(string) and quantity(integer) pair.
++ address (required, string) - The address to which the order would be delivered.
++ phone (required, string) - The phone number via which the customer can be contacted.
+
++ Request (application/json)
+
+        {
+            "name": "Chicken Paella",
+            "quantity": 3,
+            "address": "Somewhere",
+            "phone": "08123456789
+        }
+        
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 201,
+            "message": "Order created successfully",
+            "order": {
+                "orderid": 10,
+                "userid": 4,
+                "food": "CHICKEN PAELLA",
+                "quantity": 3,
+                "price": 15000,
+                "status": "NEW",
+                "created_date": "2018-10-14T21:04:29.624Z",
+                "modified_date": "2018-10-14T21:04:29.624Z",
+                "address": "Somewhere",
+                "phone": "08123456789,
+            }
+        }
+        
++ Request (application/json)
+
+        {
+            "cartArray":
+                            [
+                                {
+                                    "name": "Steak dish", 
+                                    "quantity": 2
+                                },
+                                {   "name":"whole chicken paella",
+                                    "quantity": 2
+                                }
+                            ],
+            "address": "Andela", 
+            "phone": "08123456789"
+        }
+        
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 201,
+            "message": "Order created successfully",
+            "order": {
+                "orderid": 48,
+                "userid": 4,
+                "food": [
+                    {
+                        "name": "STEAK DISH",
+                        "quantity": 2
+                    },
+                    {
+                        "name": "WHOLE CHICKEN PAELLA",
+                        "quantity": 2
+                    }
+                ],
+                "quantity": 4,
+                "price": 12000,
+                "address": "Andela",
+                "phone": "08123456789",
+                "status": "NEW",
+                "created_date": "2018-10-22T13:22:33.042Z",
+                "modified_date": "2018-10-22T13:22:33.042Z"
+            }
+        }
+
+### List All Orders [GET]
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 200,
+            "message": "Orders retrieved successfully",
+            "data": {
+                "orders": [
+                    {
+                        "orderid": 10,
+                        "userid": 4,
+                        "name": "CHICKEN PAELLA",
+                        "quantity": 3,
+                        "price": 15000,
+                        "status": "NEW",
+                        "created_date": "2018-10-14T21:04:29.624Z",
+                        "modified_date": "2018-10-14T21:04:29.624Z"
+                    },
+                    {
+                        "orderid": 9,
+                        "userid": 4,
+                        "name": "BURGER",
+                        "quantity": 2,
+                        "price": 1600,
+                        "status": "PROCESSING",
+                        "created_date": "2018-10-14T20:52:24.962Z",
+                        "modified_date": "2018-10-14T20:52:24.962Z"
+                    },
+                    {
+                        "orderid": 8,
+                        "userid": 10,
+                        "name": "BURGER",
+                        "quantity": 2,
+                        "price": 1600,
+                        "status": "COMPLETED",
+                        "created_date": "2018-10-14T20:50:16.554Z",
+                        "modified_date": "2018-10-14T20:50:16.554Z"
+                    }
+                ],
+                "totalOrders": 3
+            }
+        }
+
+## Order [/orders/{orderId}]
+
++ Parameters
+    + orderId (number) - ID of the Order in the form of an integer
+
+### Get a specific Order [GET]
+
+This resource has an action to retrieve the details of a specific order.
+
++ Response 200 (application/json)
+
+            {
+                "status": "success",
+                "statusCode": 200,
+                "message": "Order retrieved successfully",
+                "data": {
+                    "orderid": 9,
+                    "userid": 4,
+                    "name": "BURGER",
+                    "quantity": 2,
+                    "price": 1600,
+                    "status": "PROCESSING",
+                    "created_date": "2018-10-14T20:52:24.962Z",
+                    "modified_date": "2018-10-14T20:52:24.962Z"
+                }
+            }
+
+
+### Update a specific Order [PUT]
+
+This resource has an action to update the status of an order. It can only be accessed by an admin.
+
++ status (required, string) - The new status of the order. It could be either 'NEW', 'PROCESSING', 'CANCELLED' or 'COMPLETED
+
+The JSON payload is as follows:
+
++ Request (application/json)
+
+        {
+            "status": "Cancelled",
+        }
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 200,
+            "message": "Status updated successfully",
+            "order": {
+                "orderid": 10,
+                "userid": 4,
+                "name": "CHICKEN PAELLA",
+                "quantity": 3,
+                "price": 15000,
+                "status": "CANCELLED",
+                "created_date": "2018-10-14T21:04:29.624Z",
+                "modified_date": "2018-10-14T22:16:10.503Z"
+            }
+        }
+        
+## User Order History [/users/{userId}/orders]
+
++ Parameters
+    + userId (number) - ID of the user in the form of an integer
+
+
+### Get Order History [GET]
+
+This resource has an action to get the order history for a particular user.
+
++ Response 200 (application/json)
+
+        {
+            "statusCode": 200,
+            "status": "success",
+            "message": "Orders retrieved successfully",
+            "orders": [
+                {
+                    "orderid": 8,
+                    "userid": 4,
+                    "name": "BURGER",
+                    "quantity": 2,
+                    "price": 1600,
+                    "status": "COMPLETE",
+                    "created_date": "2018-10-14T20:50:16.554Z",
+                    "modified_date": "2018-10-14T20:50:16.554Z"
+                },
+                {
+                    "orderid": 10,
+                    "userid": 4,
+                    "name": "CHICKEN PAELLA",
+                    "quantity": 3,
+                    "price": 15000,
+                    "status": "CANCELLED",
+                    "created_date": "2018-10-14T21:04:29.624Z",
+                    "modified_date": "2018-10-14T22:16:10.503Z"
+                }
+            ]
+        }
+        
+## Menu [/menu]
+
+This route can only be accessed by an admin.
+
+### Create a New Food Option [POST]
+
+An admin may add food option to the menu using this action. It takes a JSON
+payload containing food item parameters as part of the request.
+
++ name (required, string) - The name of the food item.
++ price (required, number) - The price of the food item in the form of an integer.
++ genre (required, string) - The genre to which the food item belongs to.
++ img (rqquired, string) - A url for an image that depicts the food item, isAvailable, created_date, modified_date
+
+A sample JSON payload request is shown below. The request returns a 201 status code, and a body containing the response.
+
+
++ Request (application/json)
+
+        {
+            "name": "Steak",
+            "price": 1000,
+            "genre": "snack",
+            "img": "https://images.unsplash.com/photo-1432139555190-58524dae6a55?ixlib=rb-0.3.5&s=5f4049825eacb1b9e58bb76188fba497&auto=format&fit=crop&w=755&q=80",
+        }
+        
++ Response 201 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 201,
+            "message": "New menu item added successfully",
+            "product": {
+                "productid": 3,
+                "name": "STEAK",
+                "price": 1000,
+                "genre": "snack",
+                "img": "https://images.unsplash.com/photo-1432139555190-58524dae6a55?ixlib=rb-0.3.5&s=5f4049825eacb1b9e58bb76188fba497&auto=format&fit=crop&w=755&q=80",
+                "isavailable": true,
+                "created_date": "2018-10-15T01:15:15.532Z",
+                "modified_date": "2018-10-15T01:15:15.532Z"
+            }
+        }
+
+### List All Menu Items [GET]
+
+This action allows to view all food items on the menu.
+
++ Response 200 (application/json)
+
+        {
+            "status": "success",
+            "statusCode": 200,
+            "message": "Orders retrieved successfully",
+            "data": {
+                "orders": [
+                    {
+                        "orderid": 10,
+                        "userid": 4,
+                        "name": "CHICKEN PAELLA",
+                        "quantity": 3,
+                        "price": 15000,
+                        "status": "NEW",
+                        "created_date": "2018-10-14T21:04:29.624Z",
+                        "modified_date": "2018-10-14T21:04:29.624Z"
+                    },
+                    {
+                        "orderid": 9,
+                        "userid": 4,
+                        "name": "BURGER",
+                        "quantity": 2,
+                        "price": 1600,
+                        "status": "PROCESSING",
+                        "created_date": "2018-10-14T20:52:24.962Z",
+                        "modified_date": "2018-10-14T20:52:24.962Z"
+                    },
+                    {
+                        "orderid": 8,
+                        "userid": 10,
+                        "name": "BURGER",
+                        "quantity": 2,
+                        "price": 1600,
+                        "status": "COMPLETED",
+                        "created_date": "2018-10-14T20:50:16.554Z",
+                        "modified_date": "2018-10-14T20:50:16.554Z"
+                    }
+                ],
+                "totalOrders": 3
+            }
+        }

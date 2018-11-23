@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint ./server --fix",
     "pretest": "eslint --ignore-path .gitignore",
-    "test": "cross-env NODE_ENV=test nyc mocha --timeout=3000 --compilers js:babel-core/register --require should",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout=10000 --compilers js:babel-core/register --require should",
     "start": "nodemon --exec babel-node ./server/api/index.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -36,8 +36,11 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "nodemailer": "^4.6.8",
     "npm": "^6.4.1",
     "pg": "^7.4.3",
+    "twilio": "^3.23.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {

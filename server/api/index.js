@@ -23,7 +23,7 @@ let ssl = false;
 if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   // Connect to db specific to environment
   if (process.env.NODE_ENV === 'test') {
-    connectionString = process.env.DB_URL_TEST;
+    connectionString = 'postgres://cfsezloo:oA41pLZTXNtBIR_vxJHO-ZXqwHM0lAzR@tantor.db.elephantsql.com:5432/cfsezloo';
   } else if (process.env.NODE_ENV === 'local') {
     connectionString = process.env.DB_URL_LOCAL;
   } else {
@@ -39,9 +39,9 @@ if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
   });
 
   const db = new DB(pool);
-  // db.dropMenuTable();
-  // db.dropOrdersTables();
-  // db.dropUsersTable();
+  // db.dropTable('menu');
+  // db.dropTable('orders');
+  // db.dropTable('users');
   // db.createUsersTable();
   // db.createOrdersTable();
   // db.createMenuTable();
@@ -75,5 +75,5 @@ if (process.env.CONTROLLER_TYPE !== 'dataStructures') {
 }
 
 const app = server(orderC, userC, menuC);
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 9999;
 app.listen(port, () => console.log('listening at port', port));

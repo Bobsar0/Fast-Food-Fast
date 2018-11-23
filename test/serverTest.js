@@ -9,7 +9,7 @@ describe('Server', () => {
   const request = supertest(server(orders, authC, user));
   // test data
   // const data = {
-  // orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower', 
+  // orderId: '234', user: 'Steve', userAddr: 'Andela Epic Tower',
   // name: 'Chicken', price: 'NGN 1000.00',
   // };
   // check that server returns success response when 'GET /orders' is performed

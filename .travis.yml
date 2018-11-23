@@ -1,9 +1,6 @@
 language: node_js
 node_js:
   - "lts/*"
-branches:
-  - master
-  - develop
 services:
   - postgresql
 addons:

@@ -27,8 +27,7 @@ export default class {
     return this.orders.save({
       body: order,
     }) // Merge the results obtained from save() which will be rendered by server
-      .then(res => (res))
-      .catch(id => ({ error: `Id ${id} already exists!` }));
+      .then(res => (res));
   }
 
   // PUT /orders/:orderId
