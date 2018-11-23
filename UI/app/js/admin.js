@@ -3,23 +3,22 @@
 const open = document.getElementById('openBtn');
 const close = document.getElementById('closeBtn');
 
-function toggleSideNav(width, color) {
+function toggleSideNav(width) {
   document.getElementById('mySidenav').style.width = width;
   document.getElementById('main').style.marginLeft = width;
-  document.body.style.backgroundColor = color;
 }
 
 open.onclick = () => {
-  toggleSideNav('250px', 'rgba(0,0,0,0.4)');
+  toggleSideNav('250px');// 0,0,0,0.4
 };
 
 close.onclick = () => {
-  toggleSideNav('0', 'white');
+  toggleSideNav('0');
 };
 
 window.onclick = (event) => {
   if (event.target !== open) {
-    toggleSideNav('0', 'white');
+    toggleSideNav('0');
   }
 };
 
@@ -201,6 +200,10 @@ document.addEventListener('DOMContentLoaded', () => {
                       } else {
                         ordersMsg.className = 'err';
                         ordersMsg.innerHTML = upRes.message;
+                        if (upRes.message === 'undefined' || upRes.message === 'jwt expired') {
+                          localStorage.clear();
+                          window.location.href = 'login';
+                        }
                       }
                     }).catch(resErr => console.log('res err:', resErr));
                   }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -279,6 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                       ordersMsg.className = 'err';
                       ordersMsg.innerHTML = upRes.message;
+                      if (upRes.message === 'undefined' || upRes.message === 'jwt expired') {
+                        localStorage.clear();
+                        window.location.href = 'login';
+                      }
                     }
                   }).catch(resErr => console.log('res err:', resErr));
                 }).catch(fetchErr => console.log('fetch err:', fetchErr));
@@ -290,12 +297,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (status === 'fail') {
           ordersMsg.className = 'err';
           ordersMsg.innerHTML = res.message;
+          if (res.message === 'undefined' || res.message === 'jwt expired') {
+            localStorage.clear();
+            window.location.href = 'login';
+          }
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
     document.getElementById('manageOrdersDiv').style.display = 'block';
-    // SHOW ORDERS TABLE/HIDE FOOD TABLE
+    // SHOW ONLY ORDER TABLE
     manageMenuMsg.innerHTML = '';
+    document.getElementById('allStats').style.display = 'none';
     document.getElementById('allFood').style.display = 'none';
     document.getElementById('allOrders').style.display = 'block';
   };
@@ -312,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   createMenuLink.onclick = () => {
     displayModal(createMenuModal, span1);
-    toggleSideNav('0', 'white');
+    toggleSideNav('0');
   };
 
   addBtnInput.onclick = () => {
@@ -341,6 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
           menuMsg.className = 'err';
           menuMsg.innerHTML = 'Food item already exists on the menu!';
           return;
+        }
+        if (res.error === 'undefined' || res.error === 'jwt expired') {
+          localStorage.clear();
+          window.location.href = 'login';
         }
         if (res.error) {
           menuMsg.className = 'err';
@@ -377,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const getMenuBtn = document.getElementById('getMenu');
 
   getMenuBtn.onclick = () => {
-    toggleSideNav('0', 'white');
+    toggleSideNav('0');
     req = new Request(`${host}/menu`, {
       method: 'GET',
       headers: {
@@ -550,12 +566,24 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (status === 'fail') {
           manageMenuMsg.className = 'err';
           manageMenuMsg.innerHTML = res.message;
+          if (res.message === 'undefined' || res.message === 'jwt expired') {
+            localStorage.clear();
+            window.location.href = 'login';
+          }
         }
       }).catch(err => console.error('resp json error:', err));
     }).catch(fetchErr => console.error('fetch err:', fetchErr));
     // SHOW TABLE
     ordersMsg.innerHTML = '';
+    document.getElementById('allStats').style.display = 'none';
     document.getElementById('allOrders').style.display = 'none';
     document.getElementById('allFood').style.display = 'block';
+  };
+
+  document.getElementById('viewStats').onclick = () => {
+    toggleSideNav('0');
+    document.getElementById('allOrders').style.display = 'none';
+    document.getElementById('allFood').style.display = 'none';
+    document.getElementById('allStats').style.display = 'block';
   };
 });

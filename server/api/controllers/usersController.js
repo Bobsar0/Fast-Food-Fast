@@ -136,4 +136,16 @@ export default class {
       return { statusCode: 500, status: 'fail', error: error.message };
     }
   }
+
+  async read() {
+    const getAllQuery = 'SELECT * FROM users';
+    try {
+      const { rows, rowCount } = await this.db.query(getAllQuery);
+      return {
+        status: 'success', statusCode: 200, message: `${rowCount} Users retrieved successfully`, users: rows, totalUsers: rowCount,
+      };
+    } catch (error) {
+      return { status: 'fail', statusCode: 500, message: error.message };
+    }
+  }
 }

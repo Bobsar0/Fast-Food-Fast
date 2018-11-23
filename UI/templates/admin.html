@@ -11,31 +11,37 @@
 		<link rel="stylesheet" href="../css/nav.css">
 		<link rel="stylesheet" href="../css/admin.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	</head>
 	<body>
 		<div class="container">
 			<header> 
 				<div id="title">
-					<h1><a href="userIndex"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast!</span></a></h1>
+					<h1><a href="userIndex"><i class="fa fa-cutlery"></i><span class="highlight"> Fast</span>-Food-<span class="highlight">Fast</span> Admin</a></h1>
 				</div>
 				<nav class="topNav">
 					<a href="userIndex" class="current">Home</a>
 					<div class="dropdown">
-							<button class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></button>
-							<div class="dropdown-content">
-									<a href="userMenu#meal">Meal</a>
-									<a href="userMenu#snacks">Snacks</a>
-									<a href="userMenu#drinks">Drinks</a>
-									<a href="userMenu#combo">Combo</a>
-							</div>
+						<a class="dropbtn"><a href="userMenu">Menu <i class="fa fa-caret-down"></i></a></a>
+						<div class="dropdown-content">
+								<a href="userMenu#meal">Meal</a>
+								<a href="userMenu#snacks">Snacks</a>
+								<a href="userMenu#drinks">Drinks</a>
+								<a href="userMenu#combo">Combo</a>
+						</div>
 					</div>
-					<a href="#">Admin<div class="me"></div></a>
+					<div class="dropdown">
+            <a class="dropbtn"><a class="me"></a></a>
+            <div class="dropdown-content">
+            </div>
+					</div>
 					<a href="#" id="logout">Logout</a>
 					<a href="javascript:void(0);" class="icon" id="icon" onclick="toggleNav()">&#9776;</a>
 				</nav>
 				<!-- The sidebar -->
-			<div id="mySidenav" class="sidenav">
+				<div id="mySidenav" class="sidenav">
 					<a href="javascript:void(0)" id="closeBtn">&times;</a>
+					<a href="#" id="viewStats">View Statistics</a>
 					<a href="#" id="getOrders">Manage Orders</a>
 					<a href="#" id="createMenu">Add Food to Menu</a>
 					<a href="#" id="getMenu">Manage Menu</a>
@@ -45,7 +51,128 @@
 			 <div id="main">
 			<section class="main">
 				<div class="container">
-						<h1 id="openBtn">&#9776; ADMINISTRATOR PANEL</h1>
+					<h2 id="openBtn">&#9776; Manage Application</h2>						
+					<div id="allStats">
+							<div class= "err" id="ordersStatsErr"></div>
+							<div class= "err" id="usersStatsErr"></div>
+							<div class= "err" id="menuStatsErr"></div>
+
+							<div class="statsCards">
+									<div id="statsErr"></div>
+
+								<div class="statsCard card">
+										<h4>Total Sales</h4>
+										<h3>&#x20a6; <span id="sales">0</span>.00</h3>
+								</div>
+
+								<div class="statsCard card">
+										<h4>No of Orders</h4>
+										<h3 id="orders"><i>Loading...</i></h3>
+								</div>
+
+								<div class="statsCard card">
+										<h4>No of Users</h4>
+										<h3 id="users"><i>Loading...</i></h3>
+								</div>
+
+								<div class="statsCard card">
+										<h4>No of Items</h4>
+										<h3 id="menu"><i>Loading...</i></h3>
+								</div>
+							</div>
+
+							<section class="pie left">
+								<div id="ordersChart"></div>
+							</section>
+							<section class="pie right">
+								<div id="menuChart"></div>
+							</section>
+
+						<section class="admin card">
+							<div id="calendarChart"></div>
+						</section>
+						<section class="admin card">
+								<!-- <h1 id='initTitle' style='font-size: 20px; text-align:center; color:#212121; text-shadow: 2px 2px 4px goldenrod; margin-top: 0px'>Chart of REVENUE OVER TIME...</h1> -->
+								<div class="err" id=chartErr></div>
+								<div>
+									<table id="graphTable">
+										<tr>
+											<td class="label">From:</td>
+											<td class="yr">
+													<select id="fromYr">
+														<option value="2016">2016</option>
+														<option value="2017">2017</option>
+														<option value="2018" selected>2018</option>
+														<option value="2019">2019</option>
+													</select>
+											</td>
+										<td class="month">
+											<select name="" id="fromMonth">
+												<option value="01">Jan</option>
+												<option value="02">Feb</option>
+												<option value="03">Mar</option>
+												<option value="04">Apr</option>
+												<option value="05">May</option>
+												<option value="06">Jun</option>
+												<option value="07">Jul</option>
+												<option value="08">Aug</option>
+												<option value="09">Sep</option>
+												<option value="10">Oct</option>
+												<option value="11">Nov</option>
+												<option value="12">Dec</option>
+											</select>
+										</td>
+											<td class="day"><select id="fromDay"></select></td>
+										</tr>
+										<tr>
+												<td class="label">To:</td>
+												<td class="yr">
+														<select id="toYr">
+															<option value="2016">2016</option>
+															<option value="2017">2017</option>
+															<option value="2018">2018</option>
+															<option value="2019">2019</option>
+														</select>
+												</td>
+												<td class="month">
+														<select id="toMonth">
+															<option value="01">Jan</option>
+															<option value="02">Feb</option>
+															<option value="03">Mar</option>
+															<option value="04">Apr</option>
+															<option value="05">May</option>
+															<option value="06">Jun</option>
+															<option value="07">Jul</option>
+															<option value="08">Aug</option>
+															<option value="09">Sep</option>
+															<option value="10">Oct</option>
+															<option value="11">Nov</option>
+															<option value="12">Dec</option>
+														</select>
+													</td>
+												<td class="day"><select id="toDay"></select></td>
+											</tr>
+											<tr>
+												<td class="label">Frequency:</td>
+												<td></td>
+												<td><select id="freq">
+													<option value="daily">Daily</option>
+													<option value="weekly">Weekly</option>
+													<option value="monthly">Monthly</option>
+													<option value="yearly">Yearly</option>
+												</select></td>
+												<td id='maxRange' class="err"></td>
+											</tr>
+											<tr>
+												<td colspan="4"><button type="button" id="plotBtn">Plot</button></td>
+											</tr>
+									</table>
+								</div>
+								<!-- <p id='graphTitle' style='text-align: center; text-shadow: 2px 2px 4px #000000; margin-top: -20px'></p> -->
+								<div id="salesGraph"></div>
+						</section> 
+					</div>
+
 					<div id="manageOrdersDiv">
 					<section class="admin" id="allOrders">
 						<h2>MANAGE ALL ORDERS</h2>
@@ -92,15 +219,15 @@
 										<form method="post" enctype="multipart/form-data" id="addForm">
 												<table>
 													<tr>
-														<td id="label"><label for="name">Name:</label></td>
+														<td class="label"><label for="name">Name:</label></td>
 														<td><input type="text" id="name" name="name"></td>
 													</tr>
 												<tr>
-													<td id="label"><label for="price">Price:</label></td>
+													<td class="label"><label for="price">Price:</label></td>
 													<td><input type="number" id="price" name="price"></td>
 												</tr>
 												<tr>
-													<td id="label"><label for="genre">Genre:</label></td>
+													<td class="label"><label for="genre">Genre:</label></td>
 													<td>
 														<select id="genre" name="genre">
 															<option value="meal">Meal</option>
@@ -111,18 +238,18 @@
 													</td>
 												</tr>
 												<tr>
-													<td id="label"><label for="img">Image:</label></td>
+													<td class="label"><label for="img">Image:</label></td>
 													<td><input type="file" name="img" id="img"></td>
 												</tr>
 												<tr>
-													<td id="label"><label for="description">Description:</label></td>
+													<td class="label"><label for="description">Description:</label></td>
 													<td><textarea name="description" id="desc" placeholder="Add a description of your food here"></textarea></td>
 												</tr>
 												</table>
 												<h3 id="createMenuMsg" class="err"></h3>
 												<button type="button" id="addBtn">Add Food</button>
 												<button type="reset" id="resetBtn" class="reset">Reset</button>
-											</form>
+										</form>
 								</div>
 							</section>
 
@@ -138,7 +265,7 @@
 											<tr>
 												<th>ID</th>
 												<th>Name</th>
-												<th>Price(NGN)</th>
+												<th>Price(&#x20a6;)</th>
 												<th>Genre</th>
 												<th>Available?</th>
 												<th>Created At</th>
@@ -162,15 +289,15 @@
 											<form method="post" enctype="multipart/form-data" id="editForm">
 												<table>
 													<tr>
-														<td id="label"><label for="name">Name:</label></td>
+														<td class="label"><label for="name">Name:</label></td>
 														<td><input type="text" id="name" name="name"></td>
 													</tr>
 												<tr>
-													<td id="label"><label for="price">Price:</label></td>
+													<td class="label"><label for="price">Price:</label></td>
 													<td><input type="number" id="price" name="price"></td>
 												</tr>
 												<tr>
-													<td id="label"><label for="genre">Genre:</label></td>
+													<td class="label"><label for="genre">Genre:</label></td>
 													<td>
 														<select id="genre" name="genre">
 															<option value="meal">Meal</option>
@@ -182,16 +309,16 @@
 													</td>
 												</tr>
 												<tr>
-													<td id="label"><label for="img">Image:</label></td>
+													<td class="label"><label for="img">Image:</label></td>
 													<td>
 														<input type="text" name="img" id="imgURL" placeholder="Paste new image link/url">
 														<br>
 														<input type="text" id="imgInfo" value="OR upload a new image file:" disabled>
-														<input type="file" name="img" id="img">
+														<input type="file" name="img" class="img" id="img">
 													</td>
 												</tr>
 												<tr>
-														<td id="label"><label for="isAvailable">Available?</label></td>
+														<td class="label"><label for="isAvailable">Available?</label></td>
 														<td class="available">
 															<select name="isAvailable" id="isAvailable">
 																<option value="true">YES</option>
@@ -200,7 +327,7 @@
 														</td>
 												</tr>
 												<tr>
-													<td id="label"><label for="description">Description:</label></td>
+													<td class="label"><label for="description">Description:</label></td>
 													<td><textarea name="description" id="desc" placeholder="Add a description of your food here"></textarea></td>
 												</tr>
 												</table>
@@ -215,14 +342,18 @@
 			</section>
 		</div>
 		</div>
+	<div class="last">
+		</div>
 		<footer>
 			<p>Contact us on <i class="fa fa-address-book fa-1x"> </i> +234 8146509343 | bobsarglobal@gmail.com</p>
 			<p>Subscribe to our <i class="fa fa-github fa-1x"> </i> <i class="fa fa-facebook fa-1x"> </i> <i class="fa fa-instagram fa-1x"></i></p>
 			<p><span class="highlight">Fast</span>-Food-<span class="highlight">Fast!</span>, Copyright &copy; 2018</p>
 		</footer>
 		<script src="../app/js/username.js"></script>
+		<script src="../app/js/stats.js"></script>
 		<script src="../app/js/admin.js"></script>
 		<script src="upload.js"></script>
+
 		<script>
 		const icon = document.getElementsByClassName('icon');
 		icon[0].onclick = () => {

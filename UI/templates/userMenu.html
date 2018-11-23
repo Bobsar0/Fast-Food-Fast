@@ -18,7 +18,7 @@
     <nav class="topNav" id="menuNav">
       <a href="userIndex">Home</a>
       <div class="dropdown">
-        <button class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></button>
+        <a class="dropbtn"><a href="#" class="current">Menu <i class="fa fa-caret-down"></i></a></a>
         <div class="dropdown-content">
             <a href="#meal">Meal</a>
             <a href="#snacks">Snacks</a>
@@ -26,7 +26,11 @@
             <a href="#combo">Combo</a>
         </div>
       </div>
-      <a href="history"><div class="me"></div></a>
+      <div class="dropdown">
+        <a class="dropbtn"><a class="me"></a></a>
+        <div class="dropdown-content">
+        </div>
+      </div>     
       <a href='#' id="logout">Logout</a>
       <i class="fa fa-shopping-cart fa-1x" id="cartInfo"><span id="totalItems">0</span> Cart</i>
       <a class="search">

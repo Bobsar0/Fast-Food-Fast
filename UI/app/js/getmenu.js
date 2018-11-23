@@ -58,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetch(req).then((resp) => {
     resp.json().then((res) => {
+      if (res.error.message === 'undefined' || res.error.message === 'jwt expired') {
+        localStorage.clear();
+        window.location.href = 'login';
+      }
       if (res.status === 'success') {
         res.products.forEach((food) => {
           if (food.isavailable) {
@@ -90,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <div class="desc">
                 <h1 id="item${foodid}">${name}</h1>
-                <p class="price" id="price${foodid}">NGN ${price}.00</p>
+                <p class="price" id="price${foodid}">&#x20a6; ${price}.00</p>
                 <p><span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>

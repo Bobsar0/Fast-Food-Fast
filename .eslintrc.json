@@ -12,6 +12,7 @@
 			"fetch": true,
 			"Request": true,
 			"localStorage": true,
-			"FormData": true
+			"FormData": true,
+			"google": true
     }
 }

@@ -1,6 +1,6 @@
 * {box-sizing: border-box;}
 
-body{
+body, html{
     height:100%;
     font: 15px/1.5 Verdana, sans-serif;
     padding: 0;
@@ -8,7 +8,6 @@ body{
     position:relative;
     background-color: white;
     text-align: center;
-    /* background: whitesmoke */
 }
 
 .container{
@@ -56,7 +55,10 @@ header a:hover{  /*Changes appearance of menu links when the mouse is moved over
 .highlight{
     color: goldenrod;
 }
-
+.card{
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 /******* Slideshow ********/
 .mySlides {display: none;}
 img {

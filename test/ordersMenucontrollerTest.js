@@ -907,4 +907,44 @@ describe('Order and Menu Endpoints', () => {
       });
     });
   });
+
+  // GET USERS
+  describe('GET ALL USERS /users', () => {
+    it('does not retrieve users with invalid token', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .get('/api/v1/users')
+        .end((err, res) => {
+          res.status.should.equal(401);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('message').eql('Please provide a token');
+          done();
+        });
+    });
+    it('does not grant access to non-admins', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .get('/api/v1/users')
+        .set({ 'x-access-token': userToken })
+        .end((err, res) => {
+          res.status.should.equal(403);
+          res.body.should.have.property('status').eql('fail');
+          res.body.should.have.property('statusCode').eql(403);
+          res.body.should.have.property('message').eql('Sorry, only admins are authorized');
+          done();
+        });
+    });
+    it('should allow an admin to  successfully GET all users', (done) => {
+      chai.request(server(orderC, userC, menuC))
+        .get('/api/v1/users')
+        .set({ 'x-access-token': adminToken })
+        .end((err, res) => {
+          const { users } = res.body;
+          res.status.should.equal(200);
+          res.body.should.have.property('status').eql('success');
+          res.body.should.have.property('message').eql(`${users.length} Users retrieved successfully`);
+          res.body.should.have.property('users');
+          res.body.should.have.property('totalUsers').eql(users.length);
+          done();
+        });
+    });
+  });
 });

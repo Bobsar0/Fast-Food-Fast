@@ -266,6 +266,7 @@ checkoutBtn.onclick = () => {
           msg.innerHTML = `<p style="color: red">Error: ${res.error.message || res.error}</p>`;
           displayModal(generalModal, span1);
         } else if (res.status === 'fail') {
+
           cartErr.innerHTML = `<p>${res.message}</p>`;
         } else if (res.status === 'success') {
           let i = 0;
@@ -285,7 +286,7 @@ checkoutBtn.onclick = () => {
           const div = document.createElement('DIV');
           div.innerHTML = `  
           <p><span style="color: blue">Total Quantity</span>: <b>${res.order.quantity}</b></p>
-          <p><span style="color: blue">Price</span>: <b>NGN ${res.order.price}.00</b></p>
+          <p><span style="color: blue">Price</span>: <b>&#x20a6; ${res.order.price}.00</b></p>
           <br>We will contact you shortly at <b>${phone.value}</b> or <b>${localStorage.email}</b> with further details.
           <h6 style="color: red"><i>Please note your Order ID for any correspondence related to this order.</i></h6>`;
 
@@ -314,6 +315,7 @@ checkoutBtn.onclick = () => {
           cartCellArr = [];
           orders = [];
           cartArray.length = 0;
+          totalQty = 0;
           totalItems.innerHTML = 0;
           localStorage.removeItem(orders);
           localStorage.removeItem(cartArray);
