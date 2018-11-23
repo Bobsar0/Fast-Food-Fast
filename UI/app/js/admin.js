@@ -63,9 +63,9 @@ search.onkeyup = () => {
   });
 };
 
-const host = 'http://localhost:9999/api/v1';
+// const adminHost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ IN PRODUCTION
-// const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+const adminHost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ============================================================================================ //
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getOrdersBtn = document.getElementById('getOrders');
   getOrdersBtn.onclick = () => {
-    req = new Request(`${host}/orders`, {
+    req = new Request(`${adminHost}/orders`, {
       method: 'GET',
       headers: {
         'x-access-token': localStorage.token,
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalTxt.innerHTML = `Are you sure you want to APPROVE the processing of ORDER ${orderId}?`;
                 displayModal(generalAdminModal, span0);
                 yes.onclick = () => {
-                  const updateReq = new Request(`${host}/orders/${orderid}`, {
+                  const updateReq = new Request(`${adminHost}/orders/${orderid}`, {
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('cancelErr').textContent = 'Please provide a reason for order cancellation';
                     return;
                   }
-                  const updateReq = new Request(`${host}/orders/${orderid}`, {
+                  const updateReq = new Request(`${adminHost}/orders/${orderid}`, {
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p>This order cannot be unmarked if marked as completed</p>`;
               displayModal(generalAdminModal, span0);
               yes.onclick = () => {
-                const updateReq = new Request(`${host}/orders/${orderid}`, {
+                const updateReq = new Request(`${adminHost}/orders/${orderid}`, {
                   method: 'PUT',
                   headers: {
                     'Content-Type': 'application/json',
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
   addBtnInput.onclick = () => {
     const formData = new FormData(addForm);
 
-    req = new Request(`${host}/menu`, {
+    req = new Request(`${adminHost}/menu`, {
       method: 'POST',
       headers: {
         'x-access-token': localStorage.token,
@@ -394,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   getMenuBtn.onclick = () => {
     toggleSideNav('0');
-    req = new Request(`${host}/menu`, {
+    req = new Request(`${adminHost}/menu`, {
       method: 'GET',
       headers: {
         'x-access-token': localStorage.token,
@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   };
                   body = new FormData(editForm);
                 }
-                req = new Request(`${host}/menu/${foodid}`, {
+                req = new Request(`${adminHost}/menu/${foodid}`, {
                   method: 'PUT',
                   headers,
                   body,
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>This action is irreversible!</p>`;
               displayModal(generalAdminModal, span0);
               yes.onclick = () => {
-                req = new Request(`${host}/menu/${foodid}`, {
+                req = new Request(`${adminHost}/menu/${foodid}`, {
                   method: 'DELETE',
                   headers: {
                     'Content-Type': 'application/json',

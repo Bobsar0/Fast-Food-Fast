@@ -1,12 +1,10 @@
-const host = 'http://localhost:9999/api/v1';
+// const historyHost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
-// const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
-
-// when document has loaded
+const historyHost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
 document.addEventListener('DOMContentLoaded', () => {
   const userId = localStorage.id;
-  const req = new Request(`${host}/users/${userId}/orders`, {
+  const req = new Request(`${historyHost}/users/${userId}/orders`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.token,

@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const usersStatsErr = document.getElementById('userStatsErr');
   const menuStatsErr = document.getElementById('menuStatsErr');
 
-  const host = 'http://localhost:9999/api/v1';
+  // const statsHost = 'http://localhost:9999/api/v1';
   // UNCOMMENT BELOW AND USE IN REQ IN PRODUCTION
-  // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+  const statsHost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
 
-  let req = new Request(`${host}/orders`, {
+  let req = new Request(`${statsHost}/orders`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.token,
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // USERS STATS
-  req = new Request(`${host}/users`, {
+  req = new Request(`${statsHost}/users`, {
     method: 'GET',
     headers: {
       'x-access-token': localStorage.token,
@@ -88,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const genresArr = [];
   const genresObjArr = [];
   const menuArr = [['Genre', 'Total']];
+  // eslint-disable-next-line no-unused-vars
   const getMenu = new Promise((resolve, reject) => {
-    req = new Request(`${host}/menu`, {
+    req = new Request(`${statsHost}/menu`, {
       method: 'GET',
       headers: {
         'x-access-token': localStorage.token,
@@ -305,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getWkRange(date) {
     const wkDay = new Date(date).getDay();
     if (wkDay === 0) {
-      const range = `${Number(date.slice(-2)) + 6}/${date.slice(5)}-${date.slice(5, 7)}`;
+      const range = `${Number(date.slice(-2)) + 6}/${date.slice(5, 7)}-${date.slice(-2)}/${date.slice(5, 7)}`;
       return range;
     }
     return getWkRange(`${date.slice(0, 8)}${Number(date.slice(-2)) - 1}`);
@@ -412,8 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
           }
 
-          // if (((Number(toYr) - Number(fromYr)) * 365 + (Number(toMonth) - Number(fromMonth)) * getLastMthDay(fromYr, fromMonth) + Number(toDay) - Number(fromDay)) > 90) {
-          // console.log('days:', ((Number(toYr) - Number(fromYr)) * 365 + (Number(toMonth) - Number(fromMonth)) * getLastMthDay(fromYr, fromMonth) + Number(toDay) - Number(fromDay)));
+          // if (((Number(toYr) - Number(fromYr)) * 365 + (Number(toMonth) - Number(fromMonth))
+          // * getLastMthDay(fromYr, fromMonth) + Number(toDay) - Number(fromDay)) > 90) {
           //   wkErr = 'Sorry max range of 90 days allowed';
           //   return;
           // }

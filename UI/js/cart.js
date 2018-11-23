@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const localhost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
 // const herokuhost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
@@ -266,7 +267,6 @@ checkoutBtn.onclick = () => {
           msg.innerHTML = `<p style="color: red">Error: ${res.error.message || res.error}</p>`;
           displayModal(generalModal, span1);
         } else if (res.status === 'fail') {
-
           cartErr.innerHTML = `<p>${res.message}</p>`;
         } else if (res.status === 'success') {
           let i = 0;

@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     meArr[0].innerHTML = `<i class="fa fa-user fa-1x" style="padding: 0;" aria-hidden="true"></i> ${name}`;
     if (meArr.length > 1) {
       [...meArr].slice(1).forEach((me) => {
+        // eslint-disable-next-line no-param-reassign
         me.textContent = name;
       });
     }
