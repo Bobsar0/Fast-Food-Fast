@@ -123,6 +123,8 @@ export default (orderC, userC, menuC) => {
     res.sendFile(`${uiPath}/templates/history.html`);
   });
 
+  server.get('/', (req, res) => res.status(200).json({ message: 'Welcome to Fast Food Fast' }));
+
   // CATCH ALL OTHER ROUTES
   server.get('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));
   server.post('*', (req, res) => res.status(404).json({ message: 'Welcome to Fast Food Fast', error: 'Sorry, this route is not available' }));

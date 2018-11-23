@@ -42,9 +42,8 @@ export default class {
   //       status VARCHAR(20),
   //       reason TEXT,
   //       created_date TIMESTAMP default NOW(),
-  //       modified_date TIMESTAMP default NOW(),
+  //       modified_date TIMTAMP default NOW(),
   //       FOREIGN KEY (userId) REFERENCES users (userId) ON DELETE CASCADE
-
   //     )`;
   //     this.pool.query(queryText)
   //       .then((res) => {
