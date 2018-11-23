@@ -142,11 +142,10 @@ export default class {
     try {
       const { rows, rowCount } = await this.db.query(getAllQuery);
       return {
-        status: 'success', statusCode: 200, message: `${rowCount} Users retrieved successfully`, products: rows, count: rowCount,
+        status: 'success', statusCode: 200, message: `${rowCount} Users retrieved successfully`, users: rows, totalUsers: rowCount,
       };
     } catch (error) {
       return { status: 'fail', statusCode: 500, message: error.message };
     }
   }
-
 }
