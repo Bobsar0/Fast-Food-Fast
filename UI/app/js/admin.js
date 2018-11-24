@@ -65,7 +65,7 @@ search.onkeyup = () => {
 
 // const adminHost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ IN PRODUCTION
-const adminHost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+const adminHost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ============================================================================================ //

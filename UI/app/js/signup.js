@@ -58,7 +58,7 @@ signupBtn.onmouseover = () => {
 
 // const signuphost = 'http://localhost:9999/api/v1';
 // UNCOMMENT BELOW AND USE IN REQ FOR PRODUCTION
-const signuphost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1/';
+const signuphost = 'https://fast-food-fast-bobsar0.herokuapp.com/api/v1';
 
 
 signupBtn.onclick = () => {
