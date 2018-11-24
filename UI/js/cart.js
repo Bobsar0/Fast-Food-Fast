@@ -73,7 +73,7 @@ setTimeout(() => {
       const img = document.getElementById(`img${uniqueId}`);
       let quantity = Number(document.querySelector(`select#selectQty${uniqueId}`).value);
       let price = document.getElementById(`price${uniqueId}`).innerHTML;
-      price = quantity * Number(price.slice(4));
+      price = quantity * Number(price.slice(2));
 
       totalQty += quantity;
       totalItems.innerHTML = totalQty;

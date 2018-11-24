@@ -40,7 +40,7 @@ setTimeout(() => {
       const name = document.getElementById(`item${uniqueId}`).innerHTML;
       const quantity = Number(document.querySelector(`select#selectQty${uniqueId}`).value);
       let price = document.getElementById(`price${uniqueId}`).innerHTML;
-      price = quantity * Number(price.slice(4));
+      price = quantity * Number(price.slice(2));
 
       // Open a modal
       info.innerHTML = `Please fill in your contact details below and confirm order purchase of 
