@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetch(req).then((resp) => {
     resp.json().then((res) => {
-      if (res.error.message === 'undefined' || res.error.message === 'jwt expired') {
+      if (res.error) {
         localStorage.clear();
         window.location.href = 'login';
       }
