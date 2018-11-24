@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch(req).then((resp) => {
     resp.json().then((res) => {
       if (res.status === 'success') {
-        document.getElementById('users').innerHTML = res.count;
+        document.getElementById('users').innerHTML = res.totalUsers;
       } else {
         usersStatsErr.innerHTML = res.message;
       }
