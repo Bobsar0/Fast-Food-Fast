@@ -132,7 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('TR');
             tr.className = 'orderRow';
 
-            const tbody = document.getElementById('adminOrdersTableBody');
+            let tbody = document.getElementById('adminOrdersTableBody');
+            const ordersTable = document.getElementById('adminOrdersTable');
+            ordersTable.removeChild(tbody);
+
+            tbody = document.createElement('tbody');
+            tbody.id = 'adminOrdersTableBody';
+
             cellArr.forEach((cell) => {
               const td = document.createElement('TD');
               td.appendChild(cell);
@@ -172,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
               styleComplete();
             }
             tbody.appendChild(tr);
+            ordersTable.appendChild(tbody);
 
             const orderId = `#${userid}FFF${orderid}`;
             /** APPROVE BTN */
@@ -440,13 +447,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('TR');
             tr.className = 'menuRow';
 
-            const tbody = document.getElementById('adminMenuTableBody');
+            let tbody = document.getElementById('adminMenuTableBody');
+            const menuTable = document.getElementById('adminMenuTable');
+            menuTable.removeChild(tbody);
+
+            tbody = document.createElement('tbody');
+            tbody.id = 'adminMenuTableBody';
             cellArr.forEach((cell) => {
               const td = document.createElement('TD');
               td.appendChild(cell);
               tr.appendChild(td);
             });
             tbody.appendChild(tr);
+            menuTable.appendChild(tbody);
 
             const editModal = document.getElementById('editMenuModal');
             const span2 = document.getElementsByClassName('close')[2];
