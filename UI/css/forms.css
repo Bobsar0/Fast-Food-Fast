@@ -64,6 +64,10 @@ button {
     width: 250px;
 }
 
+button :hover{
+    cursor: pointer;
+}
+
 #checkbox{
     height: 15px;
     width: 15px;
