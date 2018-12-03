@@ -46,7 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (pgId === 'page1') {
       document.getElementById(pgId).className = 'current';
       prevPg.style.display = 'none';
-      nextPg.style.display = 'block';
+      if (pgId === `page${pgsArr.length}`) {
+        nextPg.style.display = 'none';
+      } else {
+        nextPg.style.display = 'block';
+      }
     } else if (pgId === `page${pgsArr.length}`) {
       prevPg.style.display = 'block';
       nextPg.style.display = 'none';
